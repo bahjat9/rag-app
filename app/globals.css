@@ -1,0 +1,58 @@
+* { box-sizing: border-box; }
+body { margin: 0; background: #f4f6fa; color: #182235; font-family: Arial, sans-serif; }
+.app { max-width: 1200px; margin: 20px auto; padding: 0 16px 48px; }
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.topbar h1 { margin: 0; }
+.muted { color: #66708a; }
+.small { font-size: 0.85em; }
+.warn { color: #9a5b00; }
+.layout { display: grid; grid-template-columns: 340px 1fr; gap: 16px; margin-top: 12px; }
+@media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
+.panel { background: white; border: 1px solid #ccd3df; border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; }
+.panel h2 { margin-top: 0; font-size: 1.15em; }
+.tabs { display: flex; gap: 4px; }
+.tab { background: white; color: #182235; }
+.tab.active { background: #245dcc; color: white; }
+button { padding: 8px 12px; border: 1px solid #ccd3df; border-radius: 8px; font: inherit; background: #245dcc; color: white; cursor: pointer; }
+button:disabled { opacity: 0.55; cursor: not-allowed; }
+button.link { background: none; border: none; color: #245dcc; padding: 0 4px; }
+button.link.danger { color: #a51d25; }
+textarea, input[type="number"] { padding: 8px 10px; border: 1px solid #ccd3df; border-radius: 8px; font: inherit; }
+textarea { width: 100%; resize: vertical; }
+input[type="number"] { width: 110px; }
+form { display: grid; gap: 8px; }
+.row { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.notice { background: #e3f5e5; border: 1px solid #b7dfbd; padding: 8px 12px; border-radius: 8px; }
+.notice.error { background: #fde2e2; border-color: #f2b8b8; }
+.notice.busy { background: #fff1d6; border-color: #f1d79c; }
+[role="alert"] { color: #a51d25; }
+.upload { display: inline-block; padding: 8px 12px; border: 1px dashed #245dcc; border-radius: 8px; color: #245dcc; cursor: pointer; margin-bottom: 8px; }
+.upload input { display: none; }
+.doclist { list-style: none; padding: 0; margin: 0 0 10px; }
+.doclist li { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; padding: 6px 0; border-bottom: 1px solid #eef0f4; }
+.doclist label { display: flex; gap: 6px; align-items: center; min-width: 0; }
+.docname { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.status.ready { color: #1d7a35; } .status.missing, .status.stale { color: #9a5b00; }
+.settings { display: grid; gap: 8px; }
+.settings label { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 0.9em; }
+.result { margin-top: 14px; }
+.answer { background: #f0f5ff; border-left: 4px solid #245dcc; padding: 8px 14px; border-radius: 6px; }
+.answer.notfound { background: #fff6e5; border-left-color: #d89b00; }
+.answer p { margin: 6px 0; white-space: pre-wrap; }
+.refs { list-style: none; padding: 0; }
+.refs li { margin-bottom: 10px; }
+.ref { background: #e2edff; color: #182235; padding: 3px 8px; }
+.preview { margin: 4px 0 0; color: #445; font-size: 0.85em; white-space: pre-wrap; }
+.retrieved li { margin: 4px 0; }
+.meta { color: #66708a; border-top: 1px dashed #ccd3df; padding-top: 8px; }
+.modal { position: fixed; inset: 0; background: rgba(10, 20, 40, 0.45); display: flex; align-items: center; justify-content: center; padding: 16px; }
+.modalbox { background: white; border-radius: 12px; padding: 16px; max-width: 760px; width: 100%; max-height: 85vh; overflow: auto; }
+pre.chunk { white-space: pre-wrap; background: #f6f7fa; padding: 12px; border-radius: 8px; font-family: inherit; }
+table { border-collapse: collapse; width: 100%; font-size: 0.88em; margin-top: 10px; }
+th, td { border-bottom: 1px solid #e3e7ee; padding: 6px 8px; text-align: left; vertical-align: top; }
+thead th { background: #f0f2f6; }
+td.good { color: #1d7a35; font-weight: bold; } td.bad { color: #a51d25; font-weight: bold; } td.warn { color: #9a5b00; font-weight: bold; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+.stat { background: #f6f7fa; border-radius: 8px; padding: 10px; }
+.statvalue { font-weight: bold; font-size: 1.2em; }
+code { background: #f0f2f6; padding: 1px 4px; border-radius: 4px; }
