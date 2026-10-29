@@ -1,0 +1,10 @@
+node_modules/
+.next/
+*.tsbuildinfo
+.env*
+!.env.example
+AGENTS.md
+# generated index (rebuilt from data/docs + settings)
+data/index/
+# local model cache
+.cache/
