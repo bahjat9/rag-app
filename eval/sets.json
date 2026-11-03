@@ -1,0 +1,14 @@
+[
+  {
+    "id": "kestrel",
+    "name": "Kestrel KB (provided)",
+    "file": "kestrel.questions.jsonl",
+    "docs": ["product-guide.md", "billing-policy-2025.md", "billing-policy-2026.md", "support-runbook-errors.md", "service-catalog.md"]
+  },
+  {
+    "id": "vellora",
+    "name": "Vellora manual + Crime and Punishment (ours)",
+    "file": "vellora.questions.jsonl",
+    "docs": ["vellora-duo-espresso-machine.txt", "crime-and-punishment.txt"]
+  }
+]

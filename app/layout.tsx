@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Ask the docs – RAG V1",
+  title: "Ask the docs – RAG V2",
   description: "Retrieval-augmented question answering with references.",
 };
 

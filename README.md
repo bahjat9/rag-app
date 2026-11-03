@@ -1,8 +1,22 @@
-# Ask the docs – RAG V1
+# Ask the docs – RAG V2
 
 A web application where a user asks a question about a document corpus and receives a **grounded** answer,
-with **references** to the passages it was built from. Built for *AI Systems Integration and Operations* (BCS S5 2026),
-RAG project **V1 – naive RAG app** (due 29 Oct 2026). Design choices and known failures: [`REPORT.md`](./REPORT.md).
+with **references** to the passages it was built from. Built for *AI Systems Integration and Operations* (BCS S5 2026):
+RAG project **V1 – naive RAG app** (tag `v1`) and **V2 – two corpora, a first evaluation, words analytics** (tag `v2`).
+Design choices, results and known failures: [`REPORT.md`](./REPORT.md).
+
+## V2 at a glance
+
+| V2 requirement | Where |
+|---|---|
+| Two corpora: the Kestrel KB (provided) and our own (Vellora espresso manual + *Crime and Punishment*) | `data/docs/`, `eval/sets.json`; *Select a corpus* buttons in the Documents panel |
+| Both question sets in JSONL (Kestrel format) | `eval/kestrel.questions.jsonl` (the 10 starter questions, unchanged), `eval/vellora.questions.jsonl` (our 27 V1 questions converted, same ids) |
+| No-context test (LLM without retrieval), on both sets | *Evaluation* tab → *No-context test*, or `cli nocontext`; results in `eval/no-context/` |
+| Retrieval evaluation, repeatable, from the terminal (one command) **and** from the front-end, saved to a file | *Evaluation* tab, or `cli eval`; results in `eval/runs/*.json` + `eval/runs.jsonl` |
+| Hit rate and recall for k = 1, 3, 5, 10, overall and per question type; unanswerable questions left out | `lib/evaluate.ts` |
+| At least two configurations compared | runs A / B / C, table in `eval/RESULTS.md` (`cli results`) |
+| On demand, generate the answers and save them next to their chunks; grade them by hand | *also generate the answers* checkbox / `--answers`; grading form in the opened run; grades saved in the run file; rules in `eval/GRADING.md` |
+| *Words* tab: vocabulary, word → chunks, question → words | *Words* tab, `lib/words.ts`, `app/api/words` |
 
 ## What it does
 
@@ -14,7 +28,7 @@ RAG project **V1 – naive RAG app** (due 29 Oct 2026). Design choices and known
 | Chunk size, overlap and top-k changed from the UI, without editing code | *Retrieval settings* panel, `data/settings.json` |
 | Question box, answer, references; opening a reference shows the chunk it points to | *Ask* tab, `app/api/chunks` |
 | Controlled failures: every anticipated failure has a defined behaviour | table below, `lib/errors.ts` |
-| Retrieval baseline: question set + repeatable measurement | `eval/questions.json`, *Evaluation* tab, `npm run eval` |
+| Retrieval baseline: question set + repeatable measurement | V1: `eval/questions.json`; V2: see above |
 
 ## Pipeline
 
@@ -39,13 +53,57 @@ cp .env.example .env.local     # put your Gemini key in LLM_API_KEY
 npm run dev                     # http://localhost:3044
 ```
 
-1. Tick the documents, click **Index selected documents**. The first time, the embedding model (~25 MB) is downloaded
-   into `.cache/`; indexing *Crime and Punishment* (1.2 MB, ~1,600 chunks) takes about a minute on a laptop CPU.
+1. Click a corpus (*Kestrel KB* or *Vellora manual + Crime and Punishment*) or tick documents, then **Index selected documents**.
+   The first time, the embedding model (~25 MB) is downloaded into `.cache/`; indexing *Crime and Punishment*
+   (1.2 MB, ~1,600 chunks) takes about a minute on a laptop CPU.
 2. Ask a question in the **Ask** tab. Click a reference to see the exact chunk.
-3. **Evaluation** tab → *Run the baseline* (no LLM call, free). Or `npm run eval` while the app runs.
+3. **Evaluation** tab: choose a question set and a configuration, *Run the evaluation*. Open a run to see every question.
+4. **Words** tab (top right, next to *Evaluation*): choose a corpus, then *Corpus mode* (vocabulary, word → chunks) or
+   *Question mode* (pick a question from a set or type one).
+
+> Windows: if the project folder name contains `&` (e.g. `AI Systems Integration & Operations`), `npm run …` fails.
+> Run the commands directly: `node node_modules/next/dist/bin/next dev --port 3044`, and for the CLI the `node …` command below.
+
+## Run the evaluation from the terminal
+
+One command, no server needed (it uses the same code as the front-end and reads `.env.local`):
+
+```sh
+# retrieval only (free, no LLM call): set + configuration; builds the missing indexes
+node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts eval --set kestrel --chunk 800 --overlap 10 --k 5 --label A
+node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts eval --set vellora --chunk 400 --overlap 25 --label B
+
+# also generate the answers (one LLM call per question) for hand grading, with top-k = --k
+node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts eval --set kestrel --chunk 1200 --overlap 10 --k 5 --answers --label "C answers"
+
+# no-context test (two LLM calls per question)
+node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts nocontext --set kestrel
+
+# results table of every run (Markdown) -> eval/RESULTS.md
+node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts results
+```
+
+`npm run cli -- <command> …` is the same command (when the folder name has no `&`).
+
+### How retrieval is measured
+
+Each answerable question lists evidence `{source, quote}` pairs copied from the documents. A retrieved chunk is
+**relevant** to a quote if it comes from that source **and** contains the quote (case and whitespace normalised).
+Retrieval is run once with k = 10 and read at k = 1, 3, 5, 10:
+
+- **hit@k**: at least one evidence quote is in the top k (HitRate@k);
+- **recall@k**: share of the question's quotes in the top k (Recall@k) – shows whether *all* the parts of a
+  split or two-hop answer were found. Our questions q16 and q19 list two alternative quotes (`"evidence_match": "any"`);
+- **partial**: a chunk holds only one half of a quote (cut by a chunk boundary);
+- **MRR**: 1 / rank of the first relevant chunk.
+
+Unanswerable questions (`answerable: false`) are left out of these numbers; their best similarity score is kept to compare
+with answerable questions. Defined on text, not on chunk ids, so runs with different chunk sizes stay comparable.
 
 Offline test without any key: `node scripts/mock-llm.mjs` and in `.env.local` set `LLM_BASE_URL=http://localhost:4011/v1`,
 `LLM_API_KEY=mock`, `LLM_MODEL=mock-llm`, `EMBEDDINGS=mock` (numbers are meaningless in mock mode).
+`EMBEDDINGS_MODEL_DIR=<folder>` loads the embedding model from a local folder (`<folder>/Xenova/all-MiniLM-L6-v2/…`)
+instead of downloading it.
 
 ## API
 
@@ -57,8 +115,17 @@ Offline test without any key: `node scripts/mock-llm.mjs` and in `.env.local` se
 | `GET/PUT /api/settings` | `{chunkSize, overlapPercent, topK, minParagraphLength}` | settings |
 | `POST /api/index` | `{docs: [...]}` | chunks per document, time |
 | `POST /api/ask` | `{question, docs: [...]}` | `{found, answer, citations, retrieved, warnings, usage, latency, …}` |
-| `GET /api/chunks?id=doc#0012` | – | chunk text and position |
-| `GET/POST /api/eval` | – | list runs / run the retrieval baseline |
+| `GET /api/chunks?id=doc#0012[&cfg=800_10_20]` | – | chunk text and position (current settings, or another configuration) |
+| `POST /api/search` | `{question, docs, topK?}` | retrieval only: top-k chunks and scores |
+| `GET /api/sets` | – | question sets, their documents and questions |
+| `GET /api/eval` | – | every run summary + results table (Markdown) |
+| `POST /api/eval` | `{set, chunkSize?, overlapPercent?, minParagraphLength?, topK?, answers?, label?}` | run the evaluation |
+| `GET /api/eval/run?file=` | – | one run with its rows, answers and grades |
+| `POST /api/eval/grade` | `{file, id, grade: correct\|partial\|wrong\|unsupported\|null, note}` | save a hand grade |
+| `GET/POST/PATCH /api/nocontext` | `{set}` / `{file, id, flag}` | list / run the no-context test / correct a flag by hand |
+| `GET /api/words?docs=a,b[&filter&stop=hide&sort]` | – | vocabulary (words, occurrences, chunks) |
+| `GET /api/words?docs=a,b&word=x` | – | chunks containing the word, with counts |
+| `POST /api/words` | `{docs, question, evidence?}` | question mode: each word in the corpus? where? in the answer chunks? in the retrieved chunks? |
 
 ## Controlled failures
 

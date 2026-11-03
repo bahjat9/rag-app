@@ -12,7 +12,14 @@ http
       const ids = [...user.matchAll(/<excerpt id="([^"]+)">\n([\s\S]*?)\n<\/excerpt>/g)];
       const q = (user.split("Question:").pop() || "").toLowerCase();
       const found = !/cost|price|watts|smartphone|tea/.test(q);
-      let content = JSON.stringify({
+      const schemaName = body.response_format?.json_schema?.name;
+      let content;
+      if (schemaName === "no_context_answer") {
+        // pretend the model "knows" generic questions only
+        content = JSON.stringify({ knows: /dishwasher|warranty|marmeladov/.test(q), answer: "(mock) a guess from general knowledge" });
+      } else if (schemaName === "judge") {
+        content = JSON.stringify({ verdict: /does not know|guess/.test(user) ? "wrong" : "abstained", reason: "(mock judge)" });
+      } else content = JSON.stringify({
         found,
         answer: found ? `(mock) ${ids[0]?.[2].slice(0, 160).replace(/\s+/g, " ")}` : "(mock) The documents do not contain this information.",
         citations: found ? [ids[0]?.[1], "invented.txt#9999"].filter(Boolean) : [],

@@ -92,6 +92,34 @@ export async function buildIndex(doc: string, s: Settings): Promise<{ chunks: nu
   return { chunks: data.chunks.length, ms: Date.now() - started };
 }
 
+/** Make sure every document is indexed with these settings (build the missing or stale ones). */
+export async function ensureIndexes(docs: string[], s: Settings): Promise<{ doc: string; built: boolean; chunks: number }[]> {
+  const out = [];
+  for (const d of docs) {
+    if ((await indexStatus(d, s)) === "ready") out.push({ doc: d, built: false, chunks: (await chunkCount(d, s)) ?? 0 });
+    else out.push({ doc: d, built: true, chunks: (await buildIndex(d, s)).chunks });
+  }
+  return out;
+}
+
+/** All the chunks (without vectors) of documents indexed with these settings. */
+export async function allChunks(docs: string[], s: Settings): Promise<Omit<StoredChunk, "vector">[]> {
+  const out: Omit<StoredChunk, "vector">[] = [];
+  const missing: string[] = [];
+  for (const d of docs) {
+    if ((await indexStatus(d, s)) !== "ready") {
+      missing.push(d);
+      continue;
+    }
+    for (const c of (await loadIndex(d, s))!.chunks) {
+      const { vector, ...rest } = c; // eslint-disable-line @typescript-eslint/no-unused-vars
+      out.push(rest);
+    }
+  }
+  if (missing.length) throw new AppError("index_missing", `Not indexed with the current settings: ${missing.join(", ")}. Click "Index selected documents".`);
+  return out;
+}
+
 /** Remove every index built for a document (all settings), e.g. when it is deleted. */
 export async function dropIndexes(doc: string): Promise<void> {
   try {

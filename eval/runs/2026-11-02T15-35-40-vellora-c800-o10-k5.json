@@ -1,0 +1,2090 @@
+{
+  "summary": {
+    "ts": "2026-11-02T15:35:40.562Z",
+    "file": "2026-11-02T15-35-40-vellora-c800-o10-k5.json",
+    "set": "vellora",
+    "set_name": "Vellora manual + Crime and Punishment (ours)",
+    "label": "A",
+    "embedding_model": "all-MiniLM-L6-v2",
+    "settings": {
+      "chunkSize": 800,
+      "overlapPercent": 10,
+      "topK": 5,
+      "minParagraphLength": 20
+    },
+    "docs": [
+      "vellora-duo-espresso-machine.txt",
+      "crime-and-punishment.txt"
+    ],
+    "questions": 27,
+    "answerable": 23,
+    "at": {
+      "1": {
+        "hit": 0.5217391304347826,
+        "recall": 0.5217391304347826,
+        "partial": 0.5652173913043478
+      },
+      "3": {
+        "hit": 0.6521739130434783,
+        "recall": 0.6304347826086957,
+        "partial": 0.6956521739130435
+      },
+      "5": {
+        "hit": 0.782608695652174,
+        "recall": 0.7391304347826086,
+        "partial": 0.8260869565217391
+      },
+      "10": {
+        "hit": 0.8695652173913043,
+        "recall": 0.8478260869565217,
+        "partial": 0.8695652173913043
+      }
+    },
+    "mrr": 0.6279503105590062,
+    "by_type": {
+      "other": {
+        "n": 12,
+        "at": {
+          "1": {
+            "hit": 0.6666666666666666,
+            "recall": 0.6666666666666666
+          },
+          "3": {
+            "hit": 0.75,
+            "recall": 0.75
+          },
+          "5": {
+            "hit": 0.8333333333333334,
+            "recall": 0.8333333333333334
+          },
+          "10": {
+            "hit": 0.8333333333333334,
+            "recall": 0.8333333333333334
+          }
+        }
+      },
+      "exact_identifier": {
+        "n": 2,
+        "at": {
+          "1": {
+            "hit": 0,
+            "recall": 0
+          },
+          "3": {
+            "hit": 0.5,
+            "recall": 0.5
+          },
+          "5": {
+            "hit": 0.5,
+            "recall": 0.5
+          },
+          "10": {
+            "hit": 1,
+            "recall": 1
+          }
+        }
+      },
+      "vocabulary": {
+        "n": 6,
+        "at": {
+          "1": {
+            "hit": 0.6666666666666666,
+            "recall": 0.6666666666666666
+          },
+          "3": {
+            "hit": 0.6666666666666666,
+            "recall": 0.6666666666666666
+          },
+          "5": {
+            "hit": 0.8333333333333334,
+            "recall": 0.8333333333333334
+          },
+          "10": {
+            "hit": 0.8333333333333334,
+            "recall": 0.8333333333333334
+          }
+        }
+      },
+      "split_answer": {
+        "n": 1,
+        "at": {
+          "1": {
+            "hit": 0,
+            "recall": 0
+          },
+          "3": {
+            "hit": 0,
+            "recall": 0
+          },
+          "5": {
+            "hit": 0,
+            "recall": 0
+          },
+          "10": {
+            "hit": 1,
+            "recall": 1
+          }
+        }
+      },
+      "two_hop": {
+        "n": 2,
+        "at": {
+          "1": {
+            "hit": 0,
+            "recall": 0
+          },
+          "3": {
+            "hit": 0.5,
+            "recall": 0.25
+          },
+          "5": {
+            "hit": 1,
+            "recall": 0.5
+          },
+          "10": {
+            "hit": 1,
+            "recall": 0.75
+          }
+        }
+      }
+    },
+    "unanswerable": 4,
+    "answerable_avg_top_score": 0.5019565217391303,
+    "unanswerable_avg_top_score": 0.400575,
+    "answers": false,
+    "llm_model": null,
+    "duration_ms": 1122
+  },
+  "rows": [
+    {
+      "id": "q01",
+      "type": "other",
+      "question": "How large is the water tank?",
+      "answerable": true,
+      "quote_ranks": [
+        null
+      ],
+      "quote_partial_ranks": [
+        null
+      ],
+      "first_rank": null,
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "recall": {
+        "1": 0,
+        "3": 0,
+        "5": 0,
+        "10": 0
+      },
+      "partial": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "top_score": 0.381,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0010",
+          "score": 0.381
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0042",
+          "score": 0.3774
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0013",
+          "score": 0.338
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.3208
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0012",
+          "score": 0.3161
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.229
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0032",
+          "score": 0.2202
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0019",
+          "score": 0.2128
+        },
+        {
+          "id": "crime-and-punishment.txt#0503",
+          "score": 0.2076
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0021",
+          "score": 0.2051
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "type": "other",
+      "question": "How long does the descaling programme take?",
+      "answerable": true,
+      "quote_ranks": [
+        4
+      ],
+      "quote_partial_ranks": [
+        4
+      ],
+      "first_rank": 4,
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 0,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": false,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.3911,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.3911
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.3368
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0030",
+          "score": 0.3213
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0010",
+          "score": 0.3146
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.2578
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0017",
+          "score": 0.241
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0018",
+          "score": 0.1894
+        },
+        {
+          "id": "crime-and-punishment.txt#1585",
+          "score": 0.1837
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0032",
+          "score": 0.1831
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0042",
+          "score": 0.1795
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "type": "other",
+      "question": "How long does a water filter last?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.4878,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.4878
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0031",
+          "score": 0.3852
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0010",
+          "score": 0.3575
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0042",
+          "score": 0.3466
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.3254
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0004",
+          "score": 0.3013
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.2688
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0008",
+          "score": 0.2397
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.2343
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0002",
+          "score": 0.2216
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "type": "other",
+      "question": "Which coffee beans should not be used in the machine?",
+      "answerable": true,
+      "quote_ranks": [
+        2
+      ],
+      "quote_partial_ranks": [
+        2
+      ],
+      "first_rank": 2,
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.5107,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0005",
+          "score": 0.5107
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.4985
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0006",
+          "score": 0.4825
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.4825
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0004",
+          "score": 0.4721
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0002",
+          "score": 0.464
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.4632
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0026",
+          "score": 0.4459
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0040",
+          "score": 0.4304
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0008",
+          "score": 0.3858
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "type": "other",
+      "question": "How do I make two cups of coffee at once?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.5947,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0004",
+          "score": 0.5947
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0006",
+          "score": 0.5507
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0010",
+          "score": 0.4749
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0005",
+          "score": 0.4679
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0008",
+          "score": 0.4669
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0007",
+          "score": 0.4439
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.4039
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.3766
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0002",
+          "score": 0.3764
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0040",
+          "score": 0.3723
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "type": "other",
+      "question": "How long is the warranty on the Vellora Duo?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.5791,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.5791
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.3862
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0012",
+          "score": 0.3219
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0035",
+          "score": 0.3126
+        },
+        {
+          "id": "crime-and-punishment.txt#1591",
+          "score": 0.2853
+        },
+        {
+          "id": "crime-and-punishment.txt#1590",
+          "score": 0.2793
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0042",
+          "score": 0.2758
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.2755
+        },
+        {
+          "id": "crime-and-punishment.txt#1589",
+          "score": 0.2496
+        },
+        {
+          "id": "crime-and-punishment.txt#0706",
+          "score": 0.2385
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "type": "other",
+      "question": "When is Vellora customer service available?",
+      "answerable": true,
+      "quote_ranks": [
+        null
+      ],
+      "quote_partial_ranks": [
+        null
+      ],
+      "first_rank": null,
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "recall": {
+        "1": 0,
+        "3": 0,
+        "5": 0,
+        "10": 0
+      },
+      "partial": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "top_score": 0.4869,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.4869
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0012",
+          "score": 0.4651
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0035",
+          "score": 0.448
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.3919
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0037",
+          "score": 0.3154
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.2986
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0032",
+          "score": 0.2881
+        },
+        {
+          "id": "crime-and-punishment.txt#0638",
+          "score": 0.2769
+        },
+        {
+          "id": "crime-and-punishment.txt#1434",
+          "score": 0.2542
+        },
+        {
+          "id": "crime-and-punishment.txt#0125",
+          "score": 0.2526
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "type": "other",
+      "question": "Can I wash the brewing unit in the dishwasher?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.5052,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0008",
+          "score": 0.5052
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0015",
+          "score": 0.3881
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.3841
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0007",
+          "score": 0.3572
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0010",
+          "score": 0.3178
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0031",
+          "score": 0.3126
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.311
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0016",
+          "score": 0.2732
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.2731
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0014",
+          "score": 0.2653
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "type": "other",
+      "question": "How do I measure and set the water hardness?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.4782,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.4782
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0032",
+          "score": 0.4256
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0010",
+          "score": 0.3883
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.3834
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.3538
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0042",
+          "score": 0.3297
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0004",
+          "score": 0.3214
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0018",
+          "score": 0.3125
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0030",
+          "score": 0.2859
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0019",
+          "score": 0.2843
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "type": "other",
+      "question": "What milk temperature gives the best foam?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.5598,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0006",
+          "score": 0.5598
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0023",
+          "score": 0.3528
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0007",
+          "score": 0.3363
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.2953
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0038",
+          "score": 0.2791
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0022",
+          "score": 0.2709
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.2332
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0040",
+          "score": 0.2152
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0037",
+          "score": 0.2152
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0016",
+          "score": 0.177
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "type": "exact_identifier",
+      "question": "What does error code E47 mean?",
+      "answerable": true,
+      "quote_ranks": [
+        10
+      ],
+      "quote_partial_ranks": [
+        10
+      ],
+      "first_rank": 10,
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 0,
+        "5": 0,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": true
+      },
+      "top_score": 0.4787,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0042",
+          "score": 0.4787
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0029",
+          "score": 0.4706
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0028",
+          "score": 0.4645
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0027",
+          "score": 0.4381
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.4139
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0021",
+          "score": 0.4005
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0020",
+          "score": 0.3851
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0018",
+          "score": 0.3575
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0025",
+          "score": 0.3571
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0026",
+          "score": 0.3563
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "type": "exact_identifier",
+      "question": "My machine shows E27, what should I do?",
+      "answerable": true,
+      "quote_ranks": [
+        2
+      ],
+      "quote_partial_ranks": [
+        2
+      ],
+      "first_rank": 2,
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.5393,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0029",
+          "score": 0.5393
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0020",
+          "score": 0.5185
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0028",
+          "score": 0.5095
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0019",
+          "score": 0.5062
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0021",
+          "score": 0.4787
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0018",
+          "score": 0.4706
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0030",
+          "score": 0.4624
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0027",
+          "score": 0.4266
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0034",
+          "score": 0.4183
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0032",
+          "score": 0.4167
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "type": "vocabulary",
+      "question": "There is a little stone stuck in the grinder. How do I get it out?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.5009,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0026",
+          "score": 0.5009
+        },
+        {
+          "id": "crime-and-punishment.txt#0332",
+          "score": 0.4013
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0014",
+          "score": 0.3809
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0008",
+          "score": 0.3585
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0040",
+          "score": 0.3406
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.3383
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0015",
+          "score": 0.3326
+        },
+        {
+          "id": "crime-and-punishment.txt#0333",
+          "score": 0.3242
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.3215
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.3176
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "type": "vocabulary",
+      "question": "My espresso tastes watery and there is no foam on top, why?",
+      "answerable": true,
+      "quote_ranks": [
+        4
+      ],
+      "quote_partial_ranks": [
+        4
+      ],
+      "first_rank": 4,
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 0,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": false,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.5317,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0006",
+          "score": 0.5317
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0007",
+          "score": 0.501
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0004",
+          "score": 0.44
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0040",
+          "score": 0.416
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.4125
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0023",
+          "score": 0.4111
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0014",
+          "score": 0.3905
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0015",
+          "score": 0.3787
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0008",
+          "score": 0.3734
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0013",
+          "score": 0.3443
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "type": "vocabulary",
+      "question": "I have not used the machine for a month. What do I have to do before making a coffee?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.7077,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0004",
+          "score": 0.7077
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0008",
+          "score": 0.642
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0006",
+          "score": 0.6098
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0007",
+          "score": 0.5942
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.5583
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.5432
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0010",
+          "score": 0.5393
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0005",
+          "score": 0.5331
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0040",
+          "score": 0.533
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.5242
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "type": "vocabulary",
+      "question": "Is damage caused by hard water covered by the guarantee?",
+      "answerable": true,
+      "quote_ranks": [
+        7,
+        1
+      ],
+      "quote_partial_ranks": [
+        7,
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.399,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.399
+        },
+        {
+          "id": "crime-and-punishment.txt#1591",
+          "score": 0.2985
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0042",
+          "score": 0.2963
+        },
+        {
+          "id": "crime-and-punishment.txt#1589",
+          "score": 0.2887
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.2719
+        },
+        {
+          "id": "crime-and-punishment.txt#1590",
+          "score": 0.2703
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.2636
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0032",
+          "score": 0.2604
+        },
+        {
+          "id": "crime-and-punishment.txt#0531",
+          "score": 0.2565
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0039",
+          "score": 0.2359
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "type": "vocabulary",
+      "question": "Why does the machine never ask me to descale anymore?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.5106,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.5106
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.507
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0030",
+          "score": 0.4934
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0018",
+          "score": 0.4447
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.4396
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0020",
+          "score": 0.39
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0019",
+          "score": 0.389
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0032",
+          "score": 0.3847
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0022",
+          "score": 0.3795
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0017",
+          "score": 0.3778
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "type": "vocabulary",
+      "question": "How much space should I leave behind the machine?",
+      "answerable": true,
+      "quote_ranks": [
+        null
+      ],
+      "quote_partial_ranks": [
+        null
+      ],
+      "first_rank": null,
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "recall": {
+        "1": 0,
+        "3": 0,
+        "5": 0,
+        "10": 0
+      },
+      "partial": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "top_score": 0.323,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.323
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0015",
+          "score": 0.2708
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0004",
+          "score": 0.2551
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0006",
+          "score": 0.2477
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0008",
+          "score": 0.2452
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.2356
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0007",
+          "score": 0.2337
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0040",
+          "score": 0.2078
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0016",
+          "score": 0.2072
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.2065
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "type": "split_answer",
+      "question": "The coffee drips out very slowly, what is wrong?",
+      "answerable": true,
+      "quote_ranks": [
+        7,
+        null
+      ],
+      "quote_partial_ranks": [
+        7,
+        1
+      ],
+      "first_rank": 7,
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 0,
+        "5": 0,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.591,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0040",
+          "score": 0.591
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0004",
+          "score": 0.5275
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0008",
+          "score": 0.5249
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0014",
+          "score": 0.5092
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0039",
+          "score": 0.4952
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0033",
+          "score": 0.4764
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0005",
+          "score": 0.4559
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0007",
+          "score": 0.4521
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0013",
+          "score": 0.437
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.4333
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "type": "two_hop",
+      "question": "The display shows E61 but I have a water filter installed. Is that expected, and what should I do?",
+      "answerable": true,
+      "quote_ranks": [
+        6,
+        2
+      ],
+      "quote_partial_ranks": [
+        6,
+        2
+      ],
+      "first_rank": 2,
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 0.5,
+        "5": 0.5,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.5456,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0031",
+          "score": 0.5456
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.4872
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0032",
+          "score": 0.4747
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0038",
+          "score": 0.4288
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.423
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0030",
+          "score": 0.4146
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0028",
+          "score": 0.4071
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0019",
+          "score": 0.4019
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0033",
+          "score": 0.4004
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0018",
+          "score": 0.3993
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "type": "two_hop",
+      "question": "What is the difference between error E05 and error E74?",
+      "answerable": true,
+      "quote_ranks": [
+        null,
+        5
+      ],
+      "quote_partial_ranks": [
+        null,
+        5
+      ],
+      "first_rank": 5,
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 0,
+        "5": 0.5,
+        "10": 0.5
+      },
+      "partial": {
+        "1": false,
+        "3": false,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.3417,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0042",
+          "score": 0.3417
+        },
+        {
+          "id": "crime-and-punishment.txt#1590",
+          "score": 0.3145
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0034",
+          "score": 0.3108
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.3067
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0033",
+          "score": 0.3056
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0029",
+          "score": 0.2985
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0028",
+          "score": 0.2773
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0027",
+          "score": 0.2695
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0038",
+          "score": 0.2545
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0030",
+          "score": 0.2495
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "type": "not_in_corpus",
+      "question": "How much does the Vellora Duo cost?",
+      "answerable": false,
+      "quote_ranks": [],
+      "quote_partial_ranks": [],
+      "first_rank": null,
+      "hit": null,
+      "recall": null,
+      "partial": null,
+      "top_score": 0.3891,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.3891
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.3882
+        },
+        {
+          "id": "crime-and-punishment.txt#0125",
+          "score": 0.3111
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0035",
+          "score": 0.2715
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0012",
+          "score": 0.2617
+        },
+        {
+          "id": "crime-and-punishment.txt#0672",
+          "score": 0.2601
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.2591
+        },
+        {
+          "id": "crime-and-punishment.txt#0880",
+          "score": 0.2433
+        },
+        {
+          "id": "crime-and-punishment.txt#0893",
+          "score": 0.2387
+        },
+        {
+          "id": "crime-and-punishment.txt#1182",
+          "score": 0.2333
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "type": "not_in_corpus",
+      "question": "Can I make tea with the Vellora Duo?",
+      "answerable": false,
+      "quote_ranks": [],
+      "quote_partial_ranks": [],
+      "first_rank": null,
+      "hit": null,
+      "recall": null,
+      "partial": null,
+      "top_score": 0.4586,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.4586
+        },
+        {
+          "id": "crime-and-punishment.txt#0369",
+          "score": 0.392
+        },
+        {
+          "id": "crime-and-punishment.txt#0212",
+          "score": 0.3573
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.3465
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.3393
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0035",
+          "score": 0.328
+        },
+        {
+          "id": "crime-and-punishment.txt#0367",
+          "score": 0.3188
+        },
+        {
+          "id": "crime-and-punishment.txt#0091",
+          "score": 0.3156
+        },
+        {
+          "id": "crime-and-punishment.txt#0058",
+          "score": 0.3094
+        },
+        {
+          "id": "crime-and-punishment.txt#1098",
+          "score": 0.3093
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "type": "not_in_corpus",
+      "question": "What is the power consumption of the machine in watts?",
+      "answerable": false,
+      "quote_ranks": [],
+      "quote_partial_ranks": [],
+      "first_rank": null,
+      "hit": null,
+      "recall": null,
+      "partial": null,
+      "top_score": 0.2658,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.2658
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.26
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0042",
+          "score": 0.2599
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0036",
+          "score": 0.2564
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0002",
+          "score": 0.2161
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.2011
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0004",
+          "score": 0.1955
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0032",
+          "score": 0.1948
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.1928
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.1789
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "type": "other",
+      "question": "What does this say about Denis Amselemovitch?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.7256,
+      "retrieved": [
+        {
+          "id": "crime-and-punishment.txt#1021",
+          "score": 0.7256
+        },
+        {
+          "id": "crime-and-punishment.txt#0308",
+          "score": 0.4944
+        },
+        {
+          "id": "crime-and-punishment.txt#1036",
+          "score": 0.4703
+        },
+        {
+          "id": "crime-and-punishment.txt#0310",
+          "score": 0.467
+        },
+        {
+          "id": "crime-and-punishment.txt#0878",
+          "score": 0.4618
+        },
+        {
+          "id": "crime-and-punishment.txt#0442",
+          "score": 0.4611
+        },
+        {
+          "id": "crime-and-punishment.txt#0962",
+          "score": 0.4599
+        },
+        {
+          "id": "crime-and-punishment.txt#1410",
+          "score": 0.4593
+        },
+        {
+          "id": "crime-and-punishment.txt#1039",
+          "score": 0.4545
+        },
+        {
+          "id": "crime-and-punishment.txt#0967",
+          "score": 0.4529
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "type": "other",
+      "question": "What is Marmeladov's rank?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.3757,
+      "retrieved": [
+        {
+          "id": "crime-and-punishment.txt#0037",
+          "score": 0.3757
+        },
+        {
+          "id": "crime-and-punishment.txt#0041",
+          "score": 0.3666
+        },
+        {
+          "id": "crime-and-punishment.txt#0062",
+          "score": 0.3441
+        },
+        {
+          "id": "crime-and-punishment.txt#0522",
+          "score": 0.3406
+        },
+        {
+          "id": "crime-and-punishment.txt#0069",
+          "score": 0.3254
+        },
+        {
+          "id": "crime-and-punishment.txt#0083",
+          "score": 0.3252
+        },
+        {
+          "id": "crime-and-punishment.txt#0082",
+          "score": 0.3204
+        },
+        {
+          "id": "crime-and-punishment.txt#0692",
+          "score": 0.3115
+        },
+        {
+          "id": "crime-and-punishment.txt#0067",
+          "score": 0.3049
+        },
+        {
+          "id": "crime-and-punishment.txt#0042",
+          "score": 0.3042
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "type": "not_in_corpus",
+      "question": "What does Raskolnikov think about smartphones?",
+      "answerable": false,
+      "quote_ranks": [],
+      "quote_partial_ranks": [],
+      "first_rank": null,
+      "hit": null,
+      "recall": null,
+      "partial": null,
+      "top_score": 0.4888,
+      "retrieved": [
+        {
+          "id": "crime-and-punishment.txt#0210",
+          "score": 0.4888
+        },
+        {
+          "id": "crime-and-punishment.txt#0195",
+          "score": 0.4841
+        },
+        {
+          "id": "crime-and-punishment.txt#1251",
+          "score": 0.4837
+        },
+        {
+          "id": "crime-and-punishment.txt#1521",
+          "score": 0.4808
+        },
+        {
+          "id": "crime-and-punishment.txt#0998",
+          "score": 0.4709
+        },
+        {
+          "id": "crime-and-punishment.txt#1385",
+          "score": 0.4624
+        },
+        {
+          "id": "crime-and-punishment.txt#0786",
+          "score": 0.4563
+        },
+        {
+          "id": "crime-and-punishment.txt#1468",
+          "score": 0.4548
+        },
+        {
+          "id": "crime-and-punishment.txt#1386",
+          "score": 0.4526
+        },
+        {
+          "id": "crime-and-punishment.txt#1337",
+          "score": 0.452
+        }
+      ]
+    }
+  ]
+}

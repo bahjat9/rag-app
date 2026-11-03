@@ -56,3 +56,18 @@ td.good { color: #1d7a35; font-weight: bold; } td.bad { color: #a51d25; font-wei
 .stat { background: #f6f7fa; border-radius: 8px; padding: 10px; }
 .statvalue { font-weight: bold; font-size: 1.2em; }
 code { background: #f0f2f6; padding: 1px 4px; border-radius: 4px; }
+select, input[type="text"] { padding: 8px 10px; border: 1px solid #ccd3df; border-radius: 8px; font: inherit; background: white; }
+.formgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 10px 0; }
+.formgrid label { display: grid; gap: 4px; font-size: 0.88em; }
+.formgrid input[type="number"], .formgrid input[type="text"], .formgrid select { width: 100%; }
+label.check { display: flex; align-items: center; gap: 6px; font-size: 0.9em; }
+.chip { background: #e2edff; color: #182235; padding: 3px 8px; margin: 2px; font-size: 0.9em; }
+.words { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 1000px) { .words { grid-template-columns: 1fr; } }
+.scroll { max-height: 520px; overflow: auto; }
+tr.selected td { background: #f0f5ff; }
+.good { color: #1d7a35; } .bad { color: #a51d25; }
+.gradecard { border: 1px solid #e3e7ee; border-radius: 10px; padding: 10px 12px; margin: 10px 0; }
+.gradecard p { margin: 6px 0; }
+.gradeopt { margin-right: 10px; font-size: 0.9em; }
+input.note { flex: 1; min-width: 200px; }

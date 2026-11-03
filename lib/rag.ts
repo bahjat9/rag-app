@@ -4,14 +4,38 @@ import "server-only";
 import { checkDocId } from "./docs";
 import { embeddingModelName } from "./embeddings";
 import { AppError } from "./errors";
-import { generateAnswer, llmModel } from "./llm";
+import { generateAnswer, llmModel, type Usage } from "./llm";
 import { logQuery } from "./log";
 import { buildUserPrompt, PROMPT_VERSION } from "./prompt";
 import { AskResponseSchema, type AskResponse } from "./schema";
 import { getSettings } from "./settings";
-import { search } from "./store";
+import { search, type Hit } from "./store";
 
 export const MAX_QUESTION_CHARS = Number(process.env.MAX_QUESTION_CHARS) || 500;
+
+export type GroundedAnswer = {
+  found: boolean;
+  answer: string;
+  citations: Hit[];
+  warnings: string[];
+  usage: Usage | null;
+  generation_ms: number;
+};
+
+/** Generation step on already retrieved chunks: prompt -> LLM -> Zod -> citations checked. */
+export async function answerFromHits(question: string, retrieved: Hit[]): Promise<GroundedAnswer> {
+  const t0 = Date.now();
+  const { data, usage } = await generateAnswer(buildUserPrompt(question, retrieved));
+  // CHECK the citations: only chunks that were actually retrieved can be cited.
+  const byId = new Map(retrieved.map((h) => [h.id, h]));
+  const warnings: string[] = [];
+  const unknown = data.citations.filter((id) => !byId.has(id));
+  if (unknown.length) warnings.push(`The model cited ${unknown.length} reference(s) that were not retrieved; they were removed.`);
+  const citations = [...new Set(data.citations)].filter((id) => byId.has(id)).map((id) => byId.get(id)!);
+  if (data.found && citations.length === 0) warnings.push("The answer cites no retrieved passage: it is not grounded, verify it.");
+  if (retrieved.length && retrieved[0].score < 0.3) warnings.push(`Weak retrieval: the best passage only has a similarity of ${retrieved[0].score.toFixed(2)}.`);
+  return { found: data.found, answer: data.answer, citations, warnings, usage, generation_ms: Date.now() - t0 };
+}
 
 export async function ask(question: string, docs: string[]): Promise<AskResponse> {
   const q = question.trim();
@@ -27,17 +51,9 @@ export async function ask(question: string, docs: string[]): Promise<AskResponse
   try {
     const retrieved = await search(q, docs, settings);
     const t1 = Date.now();
-    const { data, usage } = await generateAnswer(buildUserPrompt(q, retrieved));
+    const { found, answer, citations, warnings, usage } = await answerFromHits(q, retrieved);
+    const data = { found, answer };
     const t2 = Date.now();
-
-    // CHECK the citations: only chunks that were actually retrieved can be cited.
-    const byId = new Map(retrieved.map((h) => [h.id, h]));
-    const warnings: string[] = [];
-    const unknown = data.citations.filter((id) => !byId.has(id));
-    if (unknown.length) warnings.push(`The model cited ${unknown.length} reference(s) that were not retrieved; they were removed.`);
-    const citations = [...new Set(data.citations)].filter((id) => byId.has(id)).map((id) => byId.get(id)!);
-    if (data.found && citations.length === 0) warnings.push("The answer cites no retrieved passage: it is not grounded, verify it.");
-    if (retrieved.length && retrieved[0].score < 0.3) warnings.push(`Weak retrieval: the best passage only has a similarity of ${retrieved[0].score.toFixed(2)}.`);
 
     const response = AskResponseSchema.parse({
       found: data.found,

@@ -1,0 +1,141 @@
+{
+  "summary": {
+    "ts": "2026-11-02T16:21:57.722Z",
+    "set": "kestrel",
+    "set_name": "Kestrel KB (provided)",
+    "llm_model": "gemini-3.1-flash-lite",
+    "questions": 10,
+    "answered_correctly_without_retrieval": [],
+    "verdicts": {
+      "correct": 1,
+      "partial": 2,
+      "wrong": 6,
+      "abstained": 1
+    },
+    "errors": 0,
+    "file": "2026-11-02T16-21-57-kestrel.json",
+    "flags_checked_by_hand": true
+  },
+  "rows": [
+    {
+      "id": "q01",
+      "type": "exact_identifier",
+      "question": "What does error KST-2044 mean and how do I fix it?",
+      "answerable": true,
+      "expected_answer": "The data source refused the connection because the Kestrel IP addresses are not on its allowlist. Add both 203.0.113.10 and 203.0.113.11; adding only one causes intermittent errors.",
+      "answer": "I have no information regarding a specific error code labeled KST-2044. It is possible this is an error internal to a specific proprietary software system, a typo, or an obscure code not documented in general technical references.",
+      "knows": false,
+      "verdict": "wrong",
+      "reason": "The answer claims there is no information about the error code, failing to provide the specific fix and explanation contained in the expected answer.",
+      "flag": false
+    },
+    {
+      "id": "q02",
+      "type": "exact_identifier",
+      "question": "A user gets KST-4012 when accepting an invitation. What should support tell them?",
+      "answerable": true,
+      "expected_answer": "There is no free seat. An Admin must free a seat, or the Owner must add seats or upgrade. The same invitation then works if it is less than 7 days old.",
+      "answer": "The KST-4012 error typically indicates an issue with the invitation token, such as it being expired, already redeemed, or associated with a different user account. Support should advise the user to ensure they are logged into the correct account, clear their browser cache, or request that the sender issue a new, fresh invitation link.",
+      "knows": true,
+      "verdict": "wrong",
+      "reason": "The answer provides incorrect causes for the KST-4012 error (token issues) instead of the correct cause, which is a lack of available seats. Consequently, the troubleshooting steps provided are also incorrect.",
+      "flag": false
+    },
+    {
+      "id": "q03",
+      "type": "split_answer",
+      "question": "What happens, step by step, when a customer's card payment fails?",
+      "answerable": true,
+      "expected_answer": "E-mail to the Owner and billing contact, retries after 1, 3 and 7 days, then a 21-day grace period (everything works), then read-only, then suspension at 60 days. Nothing is deleted.",
+      "answer": "1. The merchant sends transaction data to their payment processor. 2. The processor forwards the request to the card network (e.g., Visa, Mastercard). 3. The card network routes the request to the customer's issuing bank. 4. The issuing bank analyzes the request against criteria like available funds, fraud patterns, or card status. 5. If the criteria are not met, the bank declines the transaction. 6. The bank sends a decline code back through the network to the merchant. 7. The merchant receives the error message and notifies the customer that the payment has failed.",
+      "knows": true,
+      "verdict": "wrong",
+      "reason": "The answer provides a generic technical description of how a card transaction is processed and declined at a bank level, rather than describing the specific internal process and recovery steps for the failed payment as requested by the expected answer.",
+      "flag": false
+    },
+    {
+      "id": "q04",
+      "type": "split_answer",
+      "question": "Which plans include single sign-on, and how does an admin set it up?",
+      "answerable": true,
+      "expected_answer": "Business and Enterprise. An Admin opens Settings → Security → Single sign-on, downloads the Kestrel SP metadata, registers Kestrel in the identity provider, pastes the IdP metadata URL back, tests with one Admin, then enforces it.",
+      "answer": "Single sign-on (SSO) is typically available on Enterprise, Business, and some higher-tier professional plans. To set it up, an administrator must navigate to the security or identity management section of the platform's admin console, configure the SAML 2.0 application using the provided metadata URL or XML file, map the appropriate user attributes, and then verify the connection by signing in via the identity provider.",
+      "knows": true,
+      "verdict": "partial",
+      "reason": "The answer correctly identifies the plans (Business and Enterprise) and provides a general technical overview of SSO setup. However, it fails to mention the specific Kestrel-related steps like downloading the SP metadata and the specific testing workflow described in the expected answer.",
+      "flag": false
+    },
+    {
+      "id": "q05",
+      "type": "vocabulary",
+      "question": "I lost my phone and I can't log in anymore. What can I do?",
+      "answerable": true,
+      "expected_answer": "Use a backup code. Without one, ask a workspace Admin to reset your second factor. If you are the only Admin or the Owner, contact support from the account's e-mail address; identity verification can take up to 2 business days.",
+      "answer": "If you have lost access to your two-factor authentication device, use the recovery codes provided during setup, check if you have another trusted device logged in, or contact the service provider's account recovery support team to verify your identity and regain access.",
+      "knows": true,
+      "verdict": "partial",
+      "reason": "The answer mentions backup codes and contacting support, but it misses the specific procedure of asking a workspace Admin to reset the second factor, which is a key instruction for this type of platform access issue.",
+      "flag": false
+    },
+    {
+      "id": "q06",
+      "type": "versions",
+      "question": "Can I get a refund on my annual plan 45 days after it renewed?",
+      "answerable": true,
+      "expected_answer": "Yes, under the current (March 2026) policy: annual plans are refundable within 60 days of renewal, pro-rated from the request date. The old 2025 policy allowed only 30 days.",
+      "answer": "Refund policies for annual plans are specific to the company or service provider. Most providers have strict cancellation windows, often ranging from 7 to 30 days, making a refund 45 days after renewal unlikely unless stated otherwise in their terms of service.",
+      "knows": false,
+      "verdict": "wrong",
+      "reason": "The answer provides a general assumption instead of answering based on the provided policy, which clearly states that annual plans are refundable within 60 days of renewal.",
+      "flag": false
+    },
+    {
+      "id": "q07",
+      "type": "versions",
+      "question": "How much do I save by paying annually instead of monthly?",
+      "answerable": true,
+      "expected_answer": "20% compared with twelve months of monthly billing (it was 15% under the 2025 policy).",
+      "answer": "The amount saved by paying annually versus monthly varies significantly depending on the specific service provider or company, as each has its own pricing structure and discount policies. Please provide the name of the company or service to get a more accurate estimate.",
+      "knows": false,
+      "verdict": "wrong",
+      "reason": "The answer claims the information varies by provider, while the expected answer provided a specific percentage applicable to the context of the question.",
+      "flag": false
+    },
+    {
+      "id": "q08",
+      "type": "two_hop",
+      "question": "Error KST-5031 happened on the last two scheduled reports. Which team should support contact, and where?",
+      "answerable": true,
+      "expected_answer": "Messaging, which owns postroom: post in #oncall-messaging as SEV-2. Outside 08:00–20:00 on weekdays, escalate to the Platform on-call.",
+      "answer": "I do not have access to internal company error codes or support contact directories, so I cannot identify which team handles KST-5031.",
+      "knows": false,
+      "verdict": "abstained",
+      "reason": "The user correctly identifies that the information is not available to them, therefore the answer is considered abstained.",
+      "flag": false
+    },
+    {
+      "id": "q09",
+      "type": "not_in_corpus",
+      "question": "Is there a Kestrel mobile app for iPhone?",
+      "answerable": false,
+      "expected_answer": "Not in the documents.",
+      "answer": "Yes, Kestrel offers a mobile application for iPhone called Kestrel LiNK, which allows users to connect to compatible Kestrel devices via Bluetooth for real-time monitoring and data management.",
+      "knows": true,
+      "verdict": "wrong",
+      "reason": "The expected answer stated that the information was not in the documents, but the model provided external information.",
+      "flag": false
+    },
+    {
+      "id": "q10",
+      "type": "not_in_corpus",
+      "question": "How much does one seat cost per month on the Business plan?",
+      "answerable": false,
+      "expected_answer": "Not in the documents (the billing policy says prices are on the pricing page).",
+      "answer": "I do not have access to specific real-time pricing information for a service as you have not specified which company or platform you are referring to.",
+      "knows": false,
+      "verdict": "correct",
+      "reason": "The answer correctly abstains from providing information not found in the documents, matching the expected answer of 'Not in the documents'.",
+      "flag": false
+    }
+  ]
+}

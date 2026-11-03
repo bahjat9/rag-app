@@ -22,6 +22,12 @@ async function getExtractor(): Promise<Extractor> {
     extractorPromise = (async () => {
       const t = await import("@huggingface/transformers");
       t.env.cacheDir = path.join(process.cwd(), ".cache", "models");
+      // Optional: load the model from a local folder (<dir>/Xenova/all-MiniLM-L6-v2/...) instead of
+      // downloading it, e.g. on a machine without access to huggingface.co.
+      if (process.env.EMBEDDINGS_MODEL_DIR) {
+        t.env.localModelPath = process.env.EMBEDDINGS_MODEL_DIR;
+        t.env.allowRemoteModels = false;
+      }
       return (await t.pipeline("feature-extraction", LOCAL_MODEL, { dtype: "fp32" })) as unknown as Extractor;
     })().catch((error) => {
       extractorPromise = null; // allow a retry later

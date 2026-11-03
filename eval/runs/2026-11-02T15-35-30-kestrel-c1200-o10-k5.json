@@ -1,0 +1,883 @@
+{
+  "summary": {
+    "ts": "2026-11-02T15:35:30.086Z",
+    "file": "2026-11-02T15-35-30-kestrel-c1200-o10-k5.json",
+    "set": "kestrel",
+    "set_name": "Kestrel KB (provided)",
+    "label": "C",
+    "embedding_model": "all-MiniLM-L6-v2",
+    "settings": {
+      "chunkSize": 1200,
+      "overlapPercent": 10,
+      "topK": 5,
+      "minParagraphLength": 20
+    },
+    "docs": [
+      "product-guide.md",
+      "billing-policy-2025.md",
+      "billing-policy-2026.md",
+      "support-runbook-errors.md",
+      "service-catalog.md"
+    ],
+    "questions": 10,
+    "answerable": 8,
+    "at": {
+      "1": {
+        "hit": 0.75,
+        "recall": 0.625,
+        "partial": 0.75
+      },
+      "3": {
+        "hit": 1,
+        "recall": 0.9375,
+        "partial": 1
+      },
+      "5": {
+        "hit": 1,
+        "recall": 0.9375,
+        "partial": 1
+      },
+      "10": {
+        "hit": 1,
+        "recall": 1,
+        "partial": 1
+      }
+    },
+    "mrr": 0.8541666666666666,
+    "by_type": {
+      "exact_identifier": {
+        "n": 2,
+        "at": {
+          "1": {
+            "hit": 0.5,
+            "recall": 0.5
+          },
+          "3": {
+            "hit": 1,
+            "recall": 1
+          },
+          "5": {
+            "hit": 1,
+            "recall": 1
+          },
+          "10": {
+            "hit": 1,
+            "recall": 1
+          }
+        }
+      },
+      "split_answer": {
+        "n": 2,
+        "at": {
+          "1": {
+            "hit": 1,
+            "recall": 0.75
+          },
+          "3": {
+            "hit": 1,
+            "recall": 1
+          },
+          "5": {
+            "hit": 1,
+            "recall": 1
+          },
+          "10": {
+            "hit": 1,
+            "recall": 1
+          }
+        }
+      },
+      "vocabulary": {
+        "n": 1,
+        "at": {
+          "1": {
+            "hit": 1,
+            "recall": 1
+          },
+          "3": {
+            "hit": 1,
+            "recall": 1
+          },
+          "5": {
+            "hit": 1,
+            "recall": 1
+          },
+          "10": {
+            "hit": 1,
+            "recall": 1
+          }
+        }
+      },
+      "versions": {
+        "n": 2,
+        "at": {
+          "1": {
+            "hit": 0.5,
+            "recall": 0.5
+          },
+          "3": {
+            "hit": 1,
+            "recall": 1
+          },
+          "5": {
+            "hit": 1,
+            "recall": 1
+          },
+          "10": {
+            "hit": 1,
+            "recall": 1
+          }
+        }
+      },
+      "two_hop": {
+        "n": 1,
+        "at": {
+          "1": {
+            "hit": 1,
+            "recall": 0.5
+          },
+          "3": {
+            "hit": 1,
+            "recall": 0.5
+          },
+          "5": {
+            "hit": 1,
+            "recall": 0.5
+          },
+          "10": {
+            "hit": 1,
+            "recall": 1
+          }
+        }
+      }
+    },
+    "unanswerable": 2,
+    "answerable_avg_top_score": 0.504525,
+    "unanswerable_avg_top_score": 0.3931,
+    "answers": false,
+    "llm_model": null,
+    "duration_ms": 2372
+  },
+  "rows": [
+    {
+      "id": "q01",
+      "type": "exact_identifier",
+      "question": "What does error KST-2044 mean and how do I fix it?",
+      "answerable": true,
+      "quote_ranks": [
+        3,
+        3
+      ],
+      "quote_partial_ranks": [
+        3,
+        3
+      ],
+      "first_rank": 3,
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.5067,
+      "retrieved": [
+        {
+          "id": "support-runbook-errors.md#0002",
+          "score": 0.5067
+        },
+        {
+          "id": "support-runbook-errors.md#0005",
+          "score": 0.4211
+        },
+        {
+          "id": "support-runbook-errors.md#0003",
+          "score": 0.3897
+        },
+        {
+          "id": "support-runbook-errors.md#0000",
+          "score": 0.3598
+        },
+        {
+          "id": "support-runbook-errors.md#0004",
+          "score": 0.3567
+        },
+        {
+          "id": "support-runbook-errors.md#0001",
+          "score": 0.3511
+        },
+        {
+          "id": "support-runbook-errors.md#0006",
+          "score": 0.3148
+        },
+        {
+          "id": "product-guide.md#0007",
+          "score": 0.2965
+        },
+        {
+          "id": "service-catalog.md#0000",
+          "score": 0.1441
+        },
+        {
+          "id": "product-guide.md#0004",
+          "score": 0.1412
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "type": "exact_identifier",
+      "question": "A user gets KST-4012 when accepting an invitation. What should support tell them?",
+      "answerable": true,
+      "quote_ranks": [
+        1,
+        1
+      ],
+      "quote_partial_ranks": [
+        1,
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.4808,
+      "retrieved": [
+        {
+          "id": "support-runbook-errors.md#0004",
+          "score": 0.4808
+        },
+        {
+          "id": "support-runbook-errors.md#0001",
+          "score": 0.4413
+        },
+        {
+          "id": "support-runbook-errors.md#0002",
+          "score": 0.4204
+        },
+        {
+          "id": "product-guide.md#0002",
+          "score": 0.4156
+        },
+        {
+          "id": "support-runbook-errors.md#0005",
+          "score": 0.3963
+        },
+        {
+          "id": "support-runbook-errors.md#0003",
+          "score": 0.372
+        },
+        {
+          "id": "support-runbook-errors.md#0006",
+          "score": 0.3634
+        },
+        {
+          "id": "product-guide.md#0003",
+          "score": 0.34
+        },
+        {
+          "id": "support-runbook-errors.md#0000",
+          "score": 0.3309
+        },
+        {
+          "id": "service-catalog.md#0000",
+          "score": 0.3121
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "type": "split_answer",
+      "question": "What happens, step by step, when a customer's card payment fails?",
+      "answerable": true,
+      "quote_ranks": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "quote_partial_ranks": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.5778,
+      "retrieved": [
+        {
+          "id": "billing-policy-2026.md#0003",
+          "score": 0.5778
+        },
+        {
+          "id": "support-runbook-errors.md#0006",
+          "score": 0.5518
+        },
+        {
+          "id": "billing-policy-2025.md#0002",
+          "score": 0.5257
+        },
+        {
+          "id": "support-runbook-errors.md#0007",
+          "score": 0.4492
+        },
+        {
+          "id": "billing-policy-2025.md#0001",
+          "score": 0.4254
+        },
+        {
+          "id": "billing-policy-2026.md#0001",
+          "score": 0.4198
+        },
+        {
+          "id": "billing-policy-2026.md#0002",
+          "score": 0.3911
+        },
+        {
+          "id": "billing-policy-2025.md#0000",
+          "score": 0.3664
+        },
+        {
+          "id": "billing-policy-2026.md#0000",
+          "score": 0.3238
+        },
+        {
+          "id": "support-runbook-errors.md#0001",
+          "score": 0.3001
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "type": "split_answer",
+      "question": "Which plans include single sign-on, and how does an admin set it up?",
+      "answerable": true,
+      "quote_ranks": [
+        2,
+        1
+      ],
+      "quote_partial_ranks": [
+        2,
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.5,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.5475,
+      "retrieved": [
+        {
+          "id": "product-guide.md#0003",
+          "score": 0.5475
+        },
+        {
+          "id": "product-guide.md#0001",
+          "score": 0.4314
+        },
+        {
+          "id": "product-guide.md#0004",
+          "score": 0.3821
+        },
+        {
+          "id": "support-runbook-errors.md#0001",
+          "score": 0.339
+        },
+        {
+          "id": "product-guide.md#0002",
+          "score": 0.3359
+        },
+        {
+          "id": "service-catalog.md#0000",
+          "score": 0.3261
+        },
+        {
+          "id": "product-guide.md#0000",
+          "score": 0.3215
+        },
+        {
+          "id": "product-guide.md#0006",
+          "score": 0.3136
+        },
+        {
+          "id": "service-catalog.md#0001",
+          "score": 0.2744
+        },
+        {
+          "id": "billing-policy-2025.md#0000",
+          "score": 0.2624
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "type": "vocabulary",
+      "question": "I lost my phone and I can't log in anymore. What can I do?",
+      "answerable": true,
+      "quote_ranks": [
+        1,
+        1
+      ],
+      "quote_partial_ranks": [
+        1,
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.3651,
+      "retrieved": [
+        {
+          "id": "product-guide.md#0004",
+          "score": 0.3651
+        },
+        {
+          "id": "support-runbook-errors.md#0001",
+          "score": 0.3133
+        },
+        {
+          "id": "support-runbook-errors.md#0002",
+          "score": 0.2616
+        },
+        {
+          "id": "support-runbook-errors.md#0006",
+          "score": 0.2198
+        },
+        {
+          "id": "product-guide.md#0007",
+          "score": 0.2154
+        },
+        {
+          "id": "support-runbook-errors.md#0003",
+          "score": 0.1834
+        },
+        {
+          "id": "product-guide.md#0003",
+          "score": 0.1707
+        },
+        {
+          "id": "billing-policy-2025.md#0002",
+          "score": 0.1631
+        },
+        {
+          "id": "billing-policy-2026.md#0003",
+          "score": 0.1575
+        },
+        {
+          "id": "support-runbook-errors.md#0005",
+          "score": 0.1323
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "type": "versions",
+      "question": "Can I get a refund on my annual plan 45 days after it renewed?",
+      "answerable": true,
+      "quote_ranks": [
+        1,
+        1
+      ],
+      "quote_partial_ranks": [
+        1,
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.5391,
+      "retrieved": [
+        {
+          "id": "billing-policy-2026.md#0002",
+          "score": 0.5391
+        },
+        {
+          "id": "billing-policy-2026.md#0004",
+          "score": 0.5127
+        },
+        {
+          "id": "billing-policy-2025.md#0002",
+          "score": 0.5105
+        },
+        {
+          "id": "billing-policy-2025.md#0000",
+          "score": 0.4546
+        },
+        {
+          "id": "billing-policy-2026.md#0000",
+          "score": 0.4497
+        },
+        {
+          "id": "billing-policy-2026.md#0003",
+          "score": 0.4173
+        },
+        {
+          "id": "billing-policy-2025.md#0001",
+          "score": 0.3141
+        },
+        {
+          "id": "billing-policy-2025.md#0003",
+          "score": 0.3139
+        },
+        {
+          "id": "support-runbook-errors.md#0006",
+          "score": 0.2965
+        },
+        {
+          "id": "product-guide.md#0001",
+          "score": 0.2526
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "type": "versions",
+      "question": "How much do I save by paying annually instead of monthly?",
+      "answerable": true,
+      "quote_ranks": [
+        2
+      ],
+      "quote_partial_ranks": [
+        2
+      ],
+      "first_rank": 2,
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.4329,
+      "retrieved": [
+        {
+          "id": "billing-policy-2025.md#0000",
+          "score": 0.4329
+        },
+        {
+          "id": "billing-policy-2026.md#0000",
+          "score": 0.3823
+        },
+        {
+          "id": "billing-policy-2026.md#0004",
+          "score": 0.2474
+        },
+        {
+          "id": "billing-policy-2026.md#0001",
+          "score": 0.2243
+        },
+        {
+          "id": "billing-policy-2026.md#0002",
+          "score": 0.1844
+        },
+        {
+          "id": "product-guide.md#0006",
+          "score": 0.1776
+        },
+        {
+          "id": "billing-policy-2025.md#0001",
+          "score": 0.1761
+        },
+        {
+          "id": "billing-policy-2025.md#0002",
+          "score": 0.1738
+        },
+        {
+          "id": "billing-policy-2025.md#0003",
+          "score": 0.1648
+        },
+        {
+          "id": "product-guide.md#0001",
+          "score": 0.1492
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "type": "two_hop",
+      "question": "Error KST-5031 happened on the last two scheduled reports. Which team should support contact, and where?",
+      "answerable": true,
+      "quote_ranks": [
+        1,
+        9
+      ],
+      "quote_partial_ranks": [
+        1,
+        9
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.5,
+        "3": 0.5,
+        "5": 0.5,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0.5863,
+      "retrieved": [
+        {
+          "id": "support-runbook-errors.md#0005",
+          "score": 0.5863
+        },
+        {
+          "id": "support-runbook-errors.md#0000",
+          "score": 0.5381
+        },
+        {
+          "id": "support-runbook-errors.md#0002",
+          "score": 0.5014
+        },
+        {
+          "id": "support-runbook-errors.md#0003",
+          "score": 0.4931
+        },
+        {
+          "id": "support-runbook-errors.md#0004",
+          "score": 0.4525
+        },
+        {
+          "id": "product-guide.md#0007",
+          "score": 0.4415
+        },
+        {
+          "id": "support-runbook-errors.md#0006",
+          "score": 0.4373
+        },
+        {
+          "id": "support-runbook-errors.md#0001",
+          "score": 0.4336
+        },
+        {
+          "id": "service-catalog.md#0002",
+          "score": 0.3987
+        },
+        {
+          "id": "support-runbook-errors.md#0007",
+          "score": 0.3117
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "type": "not_in_corpus",
+      "question": "Is there a Kestrel mobile app for iPhone?",
+      "answerable": false,
+      "quote_ranks": [],
+      "quote_partial_ranks": [],
+      "first_rank": null,
+      "hit": null,
+      "recall": null,
+      "partial": null,
+      "top_score": 0.3259,
+      "retrieved": [
+        {
+          "id": "service-catalog.md#0000",
+          "score": 0.3259
+        },
+        {
+          "id": "product-guide.md#0000",
+          "score": 0.3186
+        },
+        {
+          "id": "billing-policy-2025.md#0000",
+          "score": 0.2512
+        },
+        {
+          "id": "product-guide.md#0003",
+          "score": 0.2392
+        },
+        {
+          "id": "support-runbook-errors.md#0000",
+          "score": 0.234
+        },
+        {
+          "id": "product-guide.md#0007",
+          "score": 0.2246
+        },
+        {
+          "id": "product-guide.md#0006",
+          "score": 0.2213
+        },
+        {
+          "id": "billing-policy-2026.md#0000",
+          "score": 0.2076
+        },
+        {
+          "id": "support-runbook-errors.md#0003",
+          "score": 0.1627
+        },
+        {
+          "id": "product-guide.md#0004",
+          "score": 0.1575
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "type": "not_in_corpus",
+      "question": "How much does one seat cost per month on the Business plan?",
+      "answerable": false,
+      "quote_ranks": [],
+      "quote_partial_ranks": [],
+      "first_rank": null,
+      "hit": null,
+      "recall": null,
+      "partial": null,
+      "top_score": 0.4603,
+      "retrieved": [
+        {
+          "id": "billing-policy-2025.md#0000",
+          "score": 0.4603
+        },
+        {
+          "id": "billing-policy-2026.md#0000",
+          "score": 0.4162
+        },
+        {
+          "id": "billing-policy-2026.md#0002",
+          "score": 0.4141
+        },
+        {
+          "id": "product-guide.md#0000",
+          "score": 0.2986
+        },
+        {
+          "id": "billing-policy-2025.md#0001",
+          "score": 0.2966
+        },
+        {
+          "id": "billing-policy-2026.md#0001",
+          "score": 0.2665
+        },
+        {
+          "id": "billing-policy-2026.md#0004",
+          "score": 0.2634
+        },
+        {
+          "id": "billing-policy-2025.md#0003",
+          "score": 0.2365
+        },
+        {
+          "id": "support-runbook-errors.md#0004",
+          "score": 0.2317
+        },
+        {
+          "id": "product-guide.md#0001",
+          "score": 0.2309
+        }
+      ]
+    }
+  ]
+}

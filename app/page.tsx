@@ -2,32 +2,16 @@
 
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import type { AskResponse } from "@/lib/schema";
+import { call, json, type Chunk, type QuestionSet, type Settings } from "./ui/common";
+import { EvalTab } from "./ui/EvalTab";
+import { WordsTab } from "./ui/WordsTab";
 
 type Doc = { id: string; bytes: number; modified: string; index: "ready" | "missing" | "stale"; chunks: number | null };
-type Settings = { chunkSize: number; overlapPercent: number; topK: number; minParagraphLength: number };
-type Chunk = { id: string; doc: string; index: number; start: number; end: number; text: string };
-
-async function call<T>(url: string, init?: RequestInit): Promise<T> {
-  let res: Response;
-  try {
-    res = await fetch(url, init);
-  } catch {
-    throw new Error("Network error: the server is not reachable.");
-  }
-  const data = await res.json().catch(() => null);
-  if (!res.ok) throw new Error(`${data?.error ?? `Request failed (HTTP ${res.status}).`} (HTTP ${res.status})`);
-  return data as T;
-}
-const json = (method: string, body: unknown): RequestInit => ({
-  method,
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(body),
-});
 const kb = (b: number) => (b > 1e6 ? `${(b / 1e6).toFixed(1)} MB` : `${Math.round(b / 1000)} kB`);
-const pct = (x: number | null | undefined) => (x == null ? "–" : `${(x * 100).toFixed(1)} %`);
 
 export default function Home() {
-  const [tab, setTab] = useState<"ask" | "eval">("ask");
+  const [tab, setTab] = useState<"ask" | "eval" | "words">("ask");
+  const [sets, setSets] = useState<QuestionSet[]>([]);
   const [docs, setDocs] = useState<Doc[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [settings, setSettings] = useState<Settings | null>(null);
@@ -49,6 +33,9 @@ export default function Home() {
 
   useEffect(() => {
     refresh();
+    call<{ sets: QuestionSet[] }>("/api/sets")
+      .then((r) => setSets(r.sets))
+      .catch((e) => setNotice({ kind: "error", text: `Question sets: ${(e as Error).message}` }));
   }, [refresh]);
 
   async function upload(files: FileList | null) {
@@ -113,7 +100,7 @@ export default function Home() {
       <header className="topbar">
         <div>
           <h1>Ask the docs</h1>
-          <p className="muted">RAG V1 – naive retrieval-augmented question answering with references</p>
+          <p className="muted">RAG V2 – question answering with references, evaluation on two corpora, words analytics</p>
         </div>
         <nav className="tabs">
           <button className={tab === "ask" ? "tab active" : "tab"} onClick={() => setTab("ask")}>
@@ -121,6 +108,9 @@ export default function Home() {
           </button>
           <button className={tab === "eval" ? "tab active" : "tab"} onClick={() => setTab("eval")}>
             Evaluation
+          </button>
+          <button className={tab === "words" ? "tab active" : "tab"} onClick={() => setTab("words")}>
+            Words
           </button>
         </nav>
       </header>
@@ -140,6 +130,16 @@ export default function Home() {
               + Add .md / .txt files
               <input type="file" accept=".md,.txt,text/plain,text/markdown" multiple onChange={(e) => upload(e.target.files)} />
             </label>
+            {sets.length > 0 && (
+              <p className="small">
+                Select a corpus:{" "}
+                {sets.map((st) => (
+                  <button key={st.id} className="chip" onClick={() => setSelected(st.docs.filter((d) => docs.some((x) => x.id === d)))}>
+                    {st.name}
+                  </button>
+                ))}
+              </p>
+            )}
             <ul className="doclist">
               {docs.map((d) => (
                 <li key={d.id}>
@@ -196,7 +196,11 @@ export default function Home() {
           </section>
         </aside>
 
-        <div>{tab === "ask" ? <AskPanel selected={selected} /> : <EvalPanel settings={settings} />}</div>
+        <div>
+          {tab === "ask" && <AskPanel selected={selected} />}
+          {tab === "eval" && <EvalTab settings={settings} sets={sets} />}
+          {tab === "words" && <WordsTab sets={sets} selected={selected} />}
+        </div>
       </div>
     </main>
   );
@@ -304,119 +308,6 @@ function AskPanel({ selected }: { selected: string[] }) {
           </div>
         </div>
       )}
-    </section>
-  );
-}
-
-type EvalSummary = {
-  ts: string;
-  file: string;
-  embedding_model: string;
-  settings: Settings;
-  questions: number;
-  answerable: number;
-  hit_at_k: number;
-  partial_hit_at_k: number;
-  mrr: number;
-  by_type: Record<string, { n: number; hit: number; partial: number }>;
-  unanswerable_avg_top_score: number | null;
-  answerable_avg_top_score: number | null;
-  duration_ms: number;
-};
-type EvalRow = { id: string; type: string; question: string; hit: boolean | null; partial_hit: boolean | null; rank: number | null; top_score: number; top_ids: string[] };
-
-function EvalPanel({ settings }: { settings: Settings | null }) {
-  const [runs, setRuns] = useState<EvalSummary[]>([]);
-  const [last, setLast] = useState<{ summary: EvalSummary; rows: EvalRow[] } | null>(null);
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const load = useCallback(async () => {
-    try {
-      setRuns((await call<{ runs: EvalSummary[] }>("/api/eval")).runs.reverse());
-    } catch (e) {
-      setError((e as Error).message);
-    }
-  }, []);
-  useEffect(() => {
-    load();
-  }, [load]);
-
-  async function run() {
-    setBusy(true);
-    setError(null);
-    try {
-      setLast(await call("/api/eval", { method: "POST" }));
-      await load();
-    } catch (e) {
-      setError((e as Error).message);
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  return (
-    <section className="panel">
-      <h2>Retrieval baseline</h2>
-      <p className="small muted">
-        Runs the questions of <code>eval/questions.json</code> through the retrieval step only (no LLM call: free and repeatable) and checks whether the passage holding the answer is in the top-k.
-        Current settings: chunk {settings?.chunkSize} · overlap {settings?.overlapPercent}% · top-{settings?.topK}.
-      </p>
-      <button onClick={run} disabled={busy}>
-        {busy ? "Running…" : "Run the baseline"}
-      </button>
-      {error && <p role="alert">{error}</p>}
-
-      {last && (
-        <div className="result">
-          <div className="stats">
-            <div className="stat"><div className="small muted">hit@{last.summary.settings.topK}</div><div className="statvalue">{pct(last.summary.hit_at_k)}</div></div>
-            <div className="stat"><div className="small muted">partial hit</div><div className="statvalue">{pct(last.summary.partial_hit_at_k)}</div></div>
-            <div className="stat"><div className="small muted">MRR</div><div className="statvalue">{last.summary.mrr.toFixed(3)}</div></div>
-            <div className="stat"><div className="small muted">avg top score (answerable / not)</div><div className="statvalue">{last.summary.answerable_avg_top_score?.toFixed(2)} / {last.summary.unanswerable_avg_top_score?.toFixed(2)}</div></div>
-          </div>
-          <table>
-            <thead>
-              <tr><th>Id</th><th>Type</th><th>Question</th><th>Hit</th><th>Rank</th><th>Top score</th></tr>
-            </thead>
-            <tbody>
-              {last.rows.map((r) => (
-                <tr key={r.id}>
-                  <td>{r.id}</td>
-                  <td>{r.type}</td>
-                  <td>{r.question}</td>
-                  <td className={r.hit === null ? "muted" : r.hit ? "good" : r.partial_hit ? "warn" : "bad"}>{r.hit === null ? "n/a" : r.hit ? "yes" : r.partial_hit ? "partial" : "MISS"}</td>
-                  <td>{r.rank ?? "–"}</td>
-                  <td>{r.top_score.toFixed(3)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      <h3>All runs</h3>
-      <table>
-        <thead>
-          <tr><th>Date</th><th>Embedding</th><th>Chunk / overlap / k</th><th>hit@k</th><th>partial</th><th>MRR</th><th>By type</th></tr>
-        </thead>
-        <tbody>
-          {runs.map((r) => (
-            <tr key={r.file}>
-              <td className="small">{r.ts.replace("T", " ").slice(0, 19)}</td>
-              <td>{r.embedding_model}</td>
-              <td>{r.settings.chunkSize} / {r.settings.overlapPercent}% / {r.settings.topK}</td>
-              <td>{pct(r.hit_at_k)}</td>
-              <td>{pct(r.partial_hit_at_k)}</td>
-              <td>{r.mrr.toFixed(3)}</td>
-              <td className="small">{Object.entries(r.by_type).map(([t, v]) => `${t} ${v.hit}/${v.n}`).join(" · ")}</td>
-            </tr>
-          ))}
-          {!runs.length && (
-            <tr><td colSpan={7} className="muted">No run yet.</td></tr>
-          )}
-        </tbody>
-      </table>
     </section>
   );
 }
