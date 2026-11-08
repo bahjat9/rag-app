@@ -27,6 +27,13 @@ export const HitSchema = z.object({
   text: z.string(),
   score: z.number(),
   rank: z.number(),
+  // V3: which retriever(s) found this chunk, and at which rank (before fusion)
+  sources: z.array(z.object({ retriever: z.enum(["dense", "bm25", "graph"]), rank: z.number(), score: z.number(), matched: z.array(z.string()).optional() })).optional(),
+});
+
+export const GraphPathSchema = z.object({
+  seeds: z.array(z.object({ key: z.string(), name: z.string(), type: z.string(), matched: z.string() })),
+  edges: z.array(z.object({ source: z.string(), relation: z.string(), target: z.string(), hop: z.number(), chunks: z.array(z.string()) })),
 });
 
 export const AskResponseSchema = z.object({
@@ -37,9 +44,17 @@ export const AskResponseSchema = z.object({
   warnings: z.array(z.string()),
   model: z.string(),
   embeddingModel: z.string(),
-  settings: z.object({ chunkSize: z.number(), overlapPercent: z.number(), topK: z.number(), minParagraphLength: z.number() }),
+  settings: z.object({
+    chunkSize: z.number(),
+    overlapPercent: z.number(),
+    topK: z.number(),
+    minParagraphLength: z.number(),
+    retrievers: z.object({ dense: z.boolean(), bm25: z.boolean(), graph: z.boolean() }),
+  }),
+  // V3: the graph explanation (entities found in the question, edges followed, their chunks)
+  graph: z.object({ available: z.boolean(), path: GraphPathSchema }).nullable(),
   usage: z.object({ input_tokens: z.number(), output_tokens: z.number(), total_tokens: z.number() }).nullable(),
-  latency: z.object({ retrieval_ms: z.number(), generation_ms: z.number(), total_ms: z.number() }),
+  latency: z.object({ retrieval_ms: z.number(), generation_ms: z.number(), total_ms: z.number(), per_retriever_ms: z.record(z.string(), z.number().nullable()).optional() }),
   promptVersion: z.string(),
 });
 export type AskResponse = z.infer<typeof AskResponseSchema>;

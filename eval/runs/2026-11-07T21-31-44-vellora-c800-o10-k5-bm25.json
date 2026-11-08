@@ -1,0 +1,3210 @@
+{
+  "summary": {
+    "ts": "2026-11-07T21:31:44.689Z",
+    "file": "2026-11-07T21-31-44-vellora-c800-o10-k5-bm25.json",
+    "set": "vellora",
+    "set_name": "Vellora manual + Crime and Punishment (ours)",
+    "label": "",
+    "embedding_model": "all-MiniLM-L6-v2",
+    "settings": {
+      "chunkSize": 800,
+      "overlapPercent": 10,
+      "topK": 5,
+      "minParagraphLength": 20,
+      "retrievers": {
+        "dense": false,
+        "bm25": true,
+        "graph": false
+      }
+    },
+    "docs": [
+      "vellora-duo-espresso-machine.txt",
+      "crime-and-punishment.txt"
+    ],
+    "questions": 27,
+    "answerable": 23,
+    "at": {
+      "1": {
+        "hit": 0.4782608695652174,
+        "recall": 0.45652173913043476,
+        "partial": 0.4782608695652174
+      },
+      "3": {
+        "hit": 0.7391304347826086,
+        "recall": 0.717391304347826,
+        "partial": 0.782608695652174
+      },
+      "5": {
+        "hit": 0.8695652173913043,
+        "recall": 0.8478260869565217,
+        "partial": 0.8695652173913043
+      },
+      "10": {
+        "hit": 0.9130434782608695,
+        "recall": 0.9130434782608695,
+        "partial": 0.9130434782608695
+      }
+    },
+    "mrr": 0.6171497584541062,
+    "by_type": {
+      "other": {
+        "n": 12,
+        "at": {
+          "1": {
+            "hit": 0.5833333333333334,
+            "recall": 0.5833333333333334
+          },
+          "3": {
+            "hit": 0.8333333333333334,
+            "recall": 0.8333333333333334
+          },
+          "5": {
+            "hit": 0.8333333333333334,
+            "recall": 0.8333333333333334
+          },
+          "10": {
+            "hit": 0.9166666666666666,
+            "recall": 0.9166666666666666
+          }
+        }
+      },
+      "exact_identifier": {
+        "n": 2,
+        "at": {
+          "1": {
+            "hit": 0.5,
+            "recall": 0.5
+          },
+          "3": {
+            "hit": 1,
+            "recall": 1
+          },
+          "5": {
+            "hit": 1,
+            "recall": 1
+          },
+          "10": {
+            "hit": 1,
+            "recall": 1
+          }
+        }
+      },
+      "vocabulary": {
+        "n": 6,
+        "at": {
+          "1": {
+            "hit": 0.3333333333333333,
+            "recall": 0.3333333333333333
+          },
+          "3": {
+            "hit": 0.6666666666666666,
+            "recall": 0.6666666666666666
+          },
+          "5": {
+            "hit": 0.8333333333333334,
+            "recall": 0.8333333333333334
+          },
+          "10": {
+            "hit": 0.8333333333333334,
+            "recall": 0.8333333333333334
+          }
+        }
+      },
+      "split_answer": {
+        "n": 1,
+        "at": {
+          "1": {
+            "hit": 0,
+            "recall": 0
+          },
+          "3": {
+            "hit": 0,
+            "recall": 0
+          },
+          "5": {
+            "hit": 1,
+            "recall": 1
+          },
+          "10": {
+            "hit": 1,
+            "recall": 1
+          }
+        }
+      },
+      "two_hop": {
+        "n": 2,
+        "at": {
+          "1": {
+            "hit": 0.5,
+            "recall": 0.25
+          },
+          "3": {
+            "hit": 0.5,
+            "recall": 0.25
+          },
+          "5": {
+            "hit": 1,
+            "recall": 0.75
+          },
+          "10": {
+            "hit": 1,
+            "recall": 1
+          }
+        }
+      }
+    },
+    "unanswerable": 4,
+    "answerable_avg_top_score": 0,
+    "unanswerable_avg_top_score": 0,
+    "answers": false,
+    "llm_model": null,
+    "duration_ms": 651,
+    "retrievers": "bm25",
+    "cost": {
+      "retrieval_ms_avg": 21,
+      "per_retriever_ms_avg": {
+        "dense": null,
+        "bm25": 14,
+        "graph": null
+      },
+      "llm_calls_per_question": 0,
+      "tokens_per_question": null,
+      "generation_ms_avg": null
+    }
+  },
+  "rows": [
+    {
+      "id": "q01",
+      "type": "other",
+      "question": "How large is the water tank?",
+      "answerable": true,
+      "quote_ranks": [
+        null
+      ],
+      "quote_partial_ranks": [
+        null
+      ],
+      "first_rank": null,
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "recall": {
+        "1": 0,
+        "3": 0,
+        "5": 0,
+        "10": 0
+      },
+      "partial": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0010",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0012",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0013",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0019",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0021",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0018",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0038",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0032",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          13
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 70,
+        "graph": null,
+        "total": 88
+      }
+    },
+    {
+      "id": "q02",
+      "type": "other",
+      "question": "How long does the descaling programme take?",
+      "answerable": true,
+      "quote_ranks": [
+        2
+      ],
+      "quote_partial_ranks": [
+        2
+      ],
+      "first_rank": 2,
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0030",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0010",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0032",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0037",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0017",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0018",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0022",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0031",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          2
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 12,
+        "graph": null,
+        "total": 18
+      }
+    },
+    {
+      "id": "q03",
+      "type": "other",
+      "question": "How long does a water filter last?",
+      "answerable": true,
+      "quote_ranks": [
+        3
+      ],
+      "quote_partial_ranks": [
+        3
+      ],
+      "first_rank": 3,
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0031",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0010",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0002",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0032",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0038",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0039",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          3
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 18,
+        "graph": null,
+        "total": 30
+      }
+    },
+    {
+      "id": "q04",
+      "type": "other",
+      "question": "Which coffee beans should not be used in the machine?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0024",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0025",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0040",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0015",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0004",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0026",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0006",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          1
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 11,
+        "graph": null,
+        "total": 17
+      }
+    },
+    {
+      "id": "q05",
+      "type": "other",
+      "question": "How do I make two cups of coffee at once?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0004",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0016",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0369",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0005",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0010",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0033",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0002",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0111",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0484",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0006",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          1
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 12,
+        "graph": null,
+        "total": 18
+      }
+    },
+    {
+      "id": "q06",
+      "type": "other",
+      "question": "How long is the warranty on the Vellora Duo?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0035",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0042",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1589",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1588",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0037",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          1
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 11,
+        "graph": null,
+        "total": 17
+      }
+    },
+    {
+      "id": "q07",
+      "type": "other",
+      "question": "When is Vellora customer service available?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0042",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0012",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0029",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0039",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0020",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0036",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0017",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0035",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          1
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 13,
+        "graph": null,
+        "total": 20
+      }
+    },
+    {
+      "id": "q08",
+      "type": "other",
+      "question": "Can I wash the brewing unit in the dishwasher?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0008",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0015",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0016",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0014",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0040",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0031",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0039",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0007",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          1
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 13,
+        "graph": null,
+        "total": 18
+      }
+    },
+    {
+      "id": "q09",
+      "type": "other",
+      "question": "How do I measure and set the water hardness?",
+      "answerable": true,
+      "quote_ranks": [
+        3
+      ],
+      "quote_partial_ranks": [
+        3
+      ],
+      "first_rank": 3,
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0032",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0028",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0002",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0038",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0010",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0019",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0004",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0455",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0142",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          3
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 10,
+        "graph": null,
+        "total": 18
+      }
+    },
+    {
+      "id": "q10",
+      "type": "other",
+      "question": "What milk temperature gives the best foam?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0006",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0023",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0002",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0007",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0981",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0022",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0037",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0017",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0018",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0040",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          1
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 13,
+        "graph": null,
+        "total": 21
+      }
+    },
+    {
+      "id": "q11",
+      "type": "exact_identifier",
+      "question": "What does error code E47 mean?",
+      "answerable": true,
+      "quote_ranks": [
+        3
+      ],
+      "quote_partial_ranks": [
+        3
+      ],
+      "first_rank": 3,
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0039",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0026",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0042",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0040",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0012",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1215",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          3
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 12,
+        "graph": null,
+        "total": 18
+      }
+    },
+    {
+      "id": "q12",
+      "type": "exact_identifier",
+      "question": "My machine shows E27, what should I do?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0020",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0004",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0035",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0034",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0039",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          1
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 11,
+        "graph": null,
+        "total": 18
+      }
+    },
+    {
+      "id": "q13",
+      "type": "vocabulary",
+      "question": "There is a little stone stuck in the grinder. How do I get it out?",
+      "answerable": true,
+      "quote_ranks": [
+        2
+      ],
+      "quote_partial_ranks": [
+        2
+      ],
+      "first_rank": 2,
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "crime-and-punishment.txt#0176",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0026",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0332",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0027",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0025",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0333",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0200",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0024",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0747",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0490",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          2
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 12,
+        "graph": null,
+        "total": 18
+      }
+    },
+    {
+      "id": "q14",
+      "type": "vocabulary",
+      "question": "My espresso tastes watery and there is no foam on top, why?",
+      "answerable": true,
+      "quote_ranks": [
+        null
+      ],
+      "quote_partial_ranks": [
+        null
+      ],
+      "first_rank": null,
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "recall": {
+        "1": 0,
+        "3": 0,
+        "5": 0,
+        "10": 0
+      },
+      "partial": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0006",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0005",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0726",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0981",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0332",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0078",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0007",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0004",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0002",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          null
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 10,
+        "graph": null,
+        "total": 24
+      }
+    },
+    {
+      "id": "q15",
+      "type": "vocabulary",
+      "question": "I have not used the machine for a month. What do I have to do before making a coffee?",
+      "answerable": true,
+      "quote_ranks": [
+        3
+      ],
+      "quote_partial_ranks": [
+        3
+      ],
+      "first_rank": 3,
+      "hit": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0015",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0004",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0008",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0033",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0016",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0039",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0034",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          3
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 12,
+        "graph": null,
+        "total": 18
+      }
+    },
+    {
+      "id": "q16",
+      "type": "vocabulary",
+      "question": "Is damage caused by hard water covered by the guarantee?",
+      "answerable": true,
+      "quote_ranks": [
+        2,
+        1
+      ],
+      "quote_partial_ranks": [
+        2,
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0634",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0021",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0019",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1589",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1588",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0010",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          2,
+          1
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 13,
+        "graph": null,
+        "total": 20
+      }
+    },
+    {
+      "id": "q17",
+      "type": "vocabulary",
+      "question": "Why does the machine never ask me to descale anymore?",
+      "answerable": true,
+      "quote_ranks": [
+        4
+      ],
+      "quote_partial_ranks": [
+        4
+      ],
+      "first_rank": 4,
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 0,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": false,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0039",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0026",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0035",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0034",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0006",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0263",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          4
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 12,
+        "graph": null,
+        "total": 17
+      }
+    },
+    {
+      "id": "q18",
+      "type": "vocabulary",
+      "question": "How much space should I leave behind the machine?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0034",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0042",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0433",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0558",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0015",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0008",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0126",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0035",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0018",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0472",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          1
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 11,
+        "graph": null,
+        "total": 16
+      }
+    },
+    {
+      "id": "q19",
+      "type": "split_answer",
+      "question": "The coffee drips out very slowly, what is wrong?",
+      "answerable": true,
+      "quote_ranks": [
+        4,
+        null
+      ],
+      "quote_partial_ranks": [
+        4,
+        2
+      ],
+      "first_rank": 4,
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 0,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0002",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0039",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0040",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0005",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0419",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0033",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0004",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0016",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0023",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          4,
+          null
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 10,
+        "graph": null,
+        "total": 17
+      }
+    },
+    {
+      "id": "q20",
+      "type": "two_hop",
+      "question": "The display shows E61 but I have a water filter installed. Is that expected, and what should I do?",
+      "answerable": true,
+      "quote_ranks": [
+        9,
+        1
+      ],
+      "quote_partial_ranks": [
+        9,
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0.5,
+        "3": 0.5,
+        "5": 0.5,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0011",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0009",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0010",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0031",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0002",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0004",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0029",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0038",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          9,
+          1
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 13,
+        "graph": null,
+        "total": 18
+      }
+    },
+    {
+      "id": "q21",
+      "type": "two_hop",
+      "question": "What is the difference between error E05 and error E74?",
+      "answerable": true,
+      "quote_ranks": [
+        5,
+        4
+      ],
+      "quote_partial_ranks": [
+        5,
+        4
+      ],
+      "first_rank": 4,
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 0,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": false,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "crime-and-punishment.txt#1044",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1215",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0039",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0033",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0013",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0752",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0753",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1511",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0147",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1310",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          5,
+          4
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 12,
+        "graph": null,
+        "total": 18
+      }
+    },
+    {
+      "id": "q22",
+      "type": "not_in_corpus",
+      "question": "How much does the Vellora Duo cost?",
+      "answerable": false,
+      "quote_ranks": [],
+      "quote_partial_ranks": [],
+      "first_rank": null,
+      "hit": null,
+      "recall": null,
+      "partial": null,
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0035",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0126",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0695",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0221",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0642",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0134",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1573",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": []
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 10,
+        "graph": null,
+        "total": 16
+      }
+    },
+    {
+      "id": "q23",
+      "type": "not_in_corpus",
+      "question": "Can I make tea with the Vellora Duo?",
+      "answerable": false,
+      "quote_ranks": [],
+      "quote_partial_ranks": [],
+      "first_rank": null,
+      "hit": null,
+      "recall": null,
+      "partial": null,
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0041",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0035",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0371",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0373",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1546",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0212",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0369",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1430",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": []
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 9,
+        "graph": null,
+        "total": 16
+      }
+    },
+    {
+      "id": "q24",
+      "type": "not_in_corpus",
+      "question": "What is the power consumption of the machine in watts?",
+      "answerable": false,
+      "quote_ranks": [],
+      "quote_partial_ranks": [],
+      "first_rank": null,
+      "hit": null,
+      "recall": null,
+      "partial": null,
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "vellora-duo-espresso-machine.txt#0000",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0001",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0033",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0032",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0003",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0028",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0922",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0035",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0034",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "vellora-duo-espresso-machine.txt#0039",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": []
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 12,
+        "graph": null,
+        "total": 19
+      }
+    },
+    {
+      "id": "q25",
+      "type": "other",
+      "question": "What does this say about Denis Amselemovitch?",
+      "answerable": true,
+      "quote_ranks": [
+        1
+      ],
+      "quote_partial_ranks": [
+        1
+      ],
+      "first_rank": 1,
+      "hit": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "recall": {
+        "1": 1,
+        "3": 1,
+        "5": 1,
+        "10": 1
+      },
+      "partial": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "crime-and-punishment.txt#1021",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0870",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0833",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0074",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0556",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1205",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1017",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0075",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1114",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0849",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          1
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 10,
+        "graph": null,
+        "total": 15
+      }
+    },
+    {
+      "id": "q26",
+      "type": "other",
+      "question": "What is Marmeladov's rank?",
+      "answerable": true,
+      "quote_ranks": [
+        9
+      ],
+      "quote_partial_ranks": [
+        9
+      ],
+      "first_rank": 9,
+      "hit": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": true
+      },
+      "recall": {
+        "1": 0,
+        "3": 0,
+        "5": 0,
+        "10": 1
+      },
+      "partial": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": true
+      },
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "crime-and-punishment.txt#0147",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1078",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1079",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0532",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1089",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0523",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0111",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0205",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0037",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1518",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": [
+          9
+        ]
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 10,
+        "graph": null,
+        "total": 17
+      }
+    },
+    {
+      "id": "q27",
+      "type": "not_in_corpus",
+      "question": "What does Raskolnikov think about smartphones?",
+      "answerable": false,
+      "quote_ranks": [],
+      "quote_partial_ranks": [],
+      "first_rank": null,
+      "hit": null,
+      "recall": null,
+      "partial": null,
+      "top_score": 0,
+      "retrieved": [
+        {
+          "id": "crime-and-punishment.txt#0827",
+          "score": 0.01639,
+          "sources": [
+            "bm25#1"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0576",
+          "score": 0.01613,
+          "sources": [
+            "bm25#2"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1103",
+          "score": 0.01587,
+          "sources": [
+            "bm25#3"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1339",
+          "score": 0.01563,
+          "sources": [
+            "bm25#4"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0067",
+          "score": 0.01538,
+          "sources": [
+            "bm25#5"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1383",
+          "score": 0.01515,
+          "sources": [
+            "bm25#6"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1064",
+          "score": 0.01493,
+          "sources": [
+            "bm25#7"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#1513",
+          "score": 0.01471,
+          "sources": [
+            "bm25#8"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0723",
+          "score": 0.01449,
+          "sources": [
+            "bm25#9"
+          ]
+        },
+        {
+          "id": "crime-and-punishment.txt#0784",
+          "score": 0.01429,
+          "sources": [
+            "bm25#10"
+          ]
+        }
+      ],
+      "quote_by_retriever": {
+        "bm25": []
+      },
+      "retrieval_ms": {
+        "dense": null,
+        "bm25": 9,
+        "graph": null,
+        "total": 15
+      }
+    }
+  ]
+}

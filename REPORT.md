@@ -1,6 +1,189 @@
 # REPORT – RAG project
 
-> V2 sections first, then the V1 report.
+> V3 sections first, then V2, then the V1 report.
+
+## V3 – results table
+
+Every run: chunks 800 / 10 % / min paragraph 20, all-MiniLM-L6-v2, top 10 retrieved, top-k 5 for answers. Kestrel now has
+10 answerable questions (q11, q12 added in V3); V2 rows had 8. Full table with V1/V2 runs and per-type recall: `eval/RESULTS.md`
+(`cli.ts results`).
+
+### Kestrel KB (10 answerable questions)
+
+| Configuration | hit@1 | hit@3 | hit@5 | hit@10 | recall@1 | recall@3 | recall@5 | recall@10 | MRR | retrieval ms / q |
+|---|---|---|---|---|---|---|---|---|---|---|
+| dense | 50 % | 80 % | 90 % | 100 % | 33 % | 65 % | 80 % | 90 % | 0.692 | 44 |
+| bm25 (extra) | 60 % | 90 % | 90 % | 90 % | 40 % | 63 % | 63 % | 85 % | 0.733 | 2 |
+| dense + bm25 | 50 % | 100 % | 100 % | 100 % | 30 % | 78 % | 90 % | 95 % | 0.700 | 44 |
+| dense + bm25 + graph | **60 %** | 90 % | 100 % | 100 % | 40 % | 68 % | 90 % | 90 % | **0.753** | 116 (*) |
+
+Per type, hit@1 / 3 / 5 / 10 (questions):
+
+| Configuration | exact_identifier (2) | split_answer (2) | two_hop (3) | versions (2) | vocabulary (1) |
+|---|---|---|---|---|---|
+| dense | 1 / 1 / 1 / 2 | 2 / 2 / 2 / 2 | 1 / 3 / 3 / 3 | 0 / 1 / 2 / 2 | 1 / 1 / 1 / 1 |
+| bm25 | 2 / 2 / 2 / 2 | 1 / 2 / 2 / 2 | 2 / 3 / 3 / 3 | 1 / 2 / 2 / 2 | 0 / 0 / 0 / 0 |
+| dense + bm25 | 1 / 2 / 2 / 2 | 1 / 2 / 2 / 2 | 2 / 3 / 3 / 3 | 1 / 2 / 2 / 2 | 0 / 1 / 1 / 1 |
+| dense + bm25 + graph | 2 / 2 / 2 / 2 | 1 / 2 / 2 / 2 | 2 / 3 / 3 / 3 | 1 / 1 / 2 / 2 | 0 / 1 / 1 / 1 |
+
+Per type, recall@1 / 3 / 5 / 10 (%):
+
+| Configuration | exact_identifier | split_answer | two_hop | versions | vocabulary |
+|---|---|---|---|---|---|
+| dense | 25 / 50 / 50 / 100 | 63 / 100 / 100 / 100 | 17 / 50 / 67 / 67 | 0 / 50 / 100 / 100 | 100 / 100 / 100 / 100 |
+| bm25 | 75 / 100 / 100 / 100 | 25 / 38 / 38 / 100 | 33 / 50 / 50 / 83 | 50 / 100 / 100 / 100 | 0 / 0 / 0 / 0 |
+| dense + bm25 | 25 / 100 / 100 / 100 | 25 / 63 / 100 / 100 | 33 / 50 / 67 / 83 | 50 / 100 / 100 / 100 | 0 / 100 / 100 / 100 |
+| dense + bm25 + graph | 75 / 100 / 100 / 100 | 25 / 63 / 100 / 100 | 33 / 50 / 67 / 67 | 50 / 50 / 100 / 100 | 0 / 100 / 100 / 100 |
+
+(*) The graph run was made on our laptop (dense 98 ms, BM25 6 ms, graph 2 ms); the other rows on a faster machine
+(dense ~40 ms). Compare the per-retriever times, not the totals across machines.
+
+### Vellora manual + Crime and Punishment (23 answerable questions)
+
+| Configuration | hit@1 | hit@3 | hit@5 | hit@10 | recall@1 | recall@3 | recall@5 | recall@10 | MRR | retrieval ms / q |
+|---|---|---|---|---|---|---|---|---|---|---|
+| dense | 52 % | 65 % | 78 % | 87 % | 52 % | 63 % | 74 % | 85 % | 0.628 | 22 |
+| bm25 (extra) | 48 % | 74 % | 87 % | 91 % | 46 % | 72 % | 85 % | 91 % | 0.617 | 21 |
+| dense + bm25 | 57 % | 78 % | 87 % | 96 % | 52 % | 74 % | 83 % | 96 % | 0.693 | 51 |
+
+Per type, hit@1 / 3 / 5 / 10: see `eval/RESULTS.md` (two_hop: dense 0/1/2/2 → dense+bm25 2/2/2/2; vocabulary 4/4/5/5 → 3/4/4/6).
+
+### Cost per question
+
+| Configuration | LLM calls (retrieval) | LLM calls (answer) | tokens / answer | latency (our laptop, `--answers` runs) |
+|---|---|---|---|---|
+| dense | 0 | 1 | 1,280 | 84 ms (generation 4.9 s) |
+| dense + bm25 | 0 | 1 | 1,310 | 78 ms, bm25 13 ms (generation 4.5 s) |
+| dense + bm25 + graph | 0 (the graph is searched by names) | 1 | 1,280 | 136 ms, graph 7 ms (generation 9.5 s, slowed by Gemini 503 retries) |
+| graph build (once, Kestrel) | 42 calls (one per chunk), 37,028 input + 13,301 output tokens, 302 s of LLM time | | | ≈ 1.0 call, 1,200 tokens per chunk |
+
+### Default configuration
+
+Our default is **dense + BM25**. It is better than dense alone on both corpora: on Kestrel hit@5 goes from 90 % to
+100 % and recall@5 from 80 % to 90 %; on our corpus hit@5 goes from 78 % to 87 %, hit@10 from 87 % to 96 % and MRR from
+0.628 to 0.693. BM25 adds about 10 ms per question and no LLM call. Adding the graph on Kestrel gives the best hit@1
+(50 → 60 %) and MRR (0.700 → 0.753), but it loses hit@3 (100 → 90 %, question q06) and two_hop recall@10
+(83 → 67 %, question q12), it only exists for Kestrel, and it costs 42 LLM calls every time it is rebuilt. So the graph
+stays a switch: it is useful when the question names an error code (q01 moved from rank 3 to rank 1), not as the default.
+
+## V3 – BM25
+
+**Index.** BM25 has its own small index next to the dense one: one JSON file per document and chunk setting
+(`data/index/<doc>__bm25__800_10_20.json`). For every chunk it stores the chunk length and how many times each word
+appears. It is built from exactly the same chunks (same ids) as the dense index, so both retrievers talk about the same
+chunks and RRF can add their votes.
+
+**Tokenization.** We reuse the tokenizer of the Words tab: lower-case, letters and digits, and error codes like KST-2044
+or IP addresses like 203.0.113.10 stay one token. Stop words are removed. A hyphenated word also gives its parts
+(`two-factor` → `two-factor`, `two`, `factor`), so an exact code still matches exactly and "factor" still matches "two-factor".
+Scoring is standard BM25 (k1 = 1.2, b = 0.75). The document frequencies are computed at query time over the documents
+the question is asked against, so adding or removing a document never leaves old statistics.
+
+**Updates.** The file keeps the hash of the document. If the document changed, or the file is missing, it is rebuilt
+automatically before the next search (same check as the dense index).
+
+**What it changed.** BM25 fixes exact identifiers: for Kestrel q01 (KST-2044) dense had the answer at rank 6, BM25 at
+rank 1, and after fusion it is at rank 3. On our corpus it found q07 (customer service hours, missed by dense) and q18.
+What it cannot do: Kestrel q05 ("I lost my phone and can't log in") – the document talks about the second factor and
+backup codes, there is no word in common, and BM25 does not find the answer in its top 20.
+
+## V3 – concept graph
+
+The graph is built only on Kestrel. At indexing time an LLM reads each chunk and returns (entity, relation, entity)
+triples with a fixed list of types; we check every answer with Zod, keep where each fact came from, and merge entities
+with the same name. At question time we look for entity names in the question and follow the edges to find chunks.
+The details:
+
+- **Schema (fixed):** entity types error_code, service, team, person, channel, plan, feature, role, policy, setting, value, concept; relations raised_by, escalate_to, owned_by, led_by, on_call_channel, included_in, configured_in, requires, replaces, has_value, related_to (`lib/graph.ts`).
+- **Extraction:** one LLM call per chunk (42 chunks), JSON schema mode + Zod check. Invalid output → retried once → the chunk is recorded as failed (listed in the Graph tab and `graph stats`) and skipped; `--retry-failed` tries again. A quota error stops the build without marking the chunk; running it again resumes.
+- **Headings problem we found:** the chunker drops paragraphs shorter than 20 characters, so headings like `### connector-hub` and `### postroom` are not in any chunk: a chunk says "Owner: Data Integrations" without saying of what. The extraction prompt therefore also gets the headings of the sections the chunk overlaps (computed from the document). The chunks themselves are unchanged.
+- **Provenance:** every entity and edge keeps the ids of the chunks it was extracted from; the UI opens them.
+- **Entity resolution:** names normalised (case, "the", punctuation, KST codes upper-case, trailing "service/team/plan/policy/channel" removed); same normalised name = same entity. 7 merges. **Correct merge:** `Free` + `Free plan` → one entity `free` (the trailing "plan" is removed). **Missed merge:** `annual plan` was merged into `annual`, but `annual plans` (plural) stayed a separate entity: plurals are not normalised, so one concept is two entities. **Wrong type:** `Analytics Engine` is typed team in some chunks and service in others (8 such type conflicts; the majority type is kept).
+- **Retrieval:** entities whose name appears in the question are the seeds (values excluded, the most specific name kept); edges are followed 2 hops (weights 1, 1, 0.5); every chunk behind a seed / edge / reached entity gets the weight; chunks ranked by total weight.
+- **Cost:** 42 LLM calls, 37,028 input + 13,301 output tokens, 302 s (gemini-3.1-flash-lite, paced 4 s between calls). One chunk's first output was invalid (relation names used as keys); Zod rejected it, the retry was valid: 0 failed chunks. Gemini refused our nested JSON schema with HTTP 400, so the extraction asks for the format in the prompt instead (`lib/llm.ts`); Zod checks the result the same way.
+- **Where it fails:**
+  - no entity named in the question → no seed → nothing (q03, q05, q09).
+  - generic words match entity names: "Which **team**…" matches the plan *Team*, "**support**" and "**plan**" are entities too (q02, q08, q10, q11, q12 have such seeds). Their chunks (plans table, billing) take places in the graph's list.
+  - the second hop is not reached: q08's second quote (Messaging row) is only rank 20 in the graph list; q12's second hop goes through the IP addresses, which are `value` entities (never seeds, not followed at hop 2), so connector-hub is never reached.
+  - extraction errors (3 wrong, 1 unsupported out of 10 sampled triples).
+- **Optional features:** none (aliases are only the merged surface names).
+
+### Graph in numbers
+
+| | |
+|---|---|
+| Chunks read / failed | 42 / 0 |
+| Entities / relations | 198 / 156 |
+| Entity types | value 44, feature 24, concept 23, error_code 21, policy 17, setting 15, plan 13, service 12, team 10, channel 8, person 6, role 5 |
+| Relation types | has_value 59, included_in 23, related_to 18, owned_by 13, configured_in 12, escalate_to 9, requires 6, led_by 6, on_call_channel 6, raised_by 2, replaces 2 |
+| Merges (entity resolution) / type conflicts | 7 / 8 |
+| Build cost | 42 calls, 37,028 + 13,301 tokens, 302 s |
+| Retrieval latency | 2 ms per question, 0 LLM calls |
+
+### Extraction quality (10 random triples)
+
+`eval/graph-triples.json` (seeded random draw, graded by hand). **correct 6 · wrong 3 · unsupported 1.** The wrong ones attach a value to the wrong subject (12 months is for a corrected invoice copy, not a refund window; 50 recipients is per schedule, not per dashboard; KST-5038 is not "included in" Enterprise, the longer token lifetime is). `has_value` is the most frequent relation (59 / 156) and the least reliable.
+
+### Did the graph's chunks reach the top-k after fusion?
+
+Yes: graph chunks are in the fused top-5 for **8 of the 10** answerable questions (5 of 5 places for q02, q04, q08, q11, and for the unanswerable q10). They are not always the evidence chunks:
+
+| Question | graph seeds | evidence rank in the graph list | fused rank, dense+bm25 → +graph |
+|---|---|---|---|
+| q01 KST-2044 | KST-2044 | 1, 1 | 3, 3 → **1, 1** |
+| q06 annual plan refund | plan; annual plan | –, – | 3, 3 → **5, 5** |
+| q08 KST-5031 | Team; support; KST-5031 | 4, 20 | 1, – → 1, – |
+| q11 KST-3012 | Team; support; KST-3012 | 12, 10 | 2, 4 → 2, 4 |
+| q12 KST-2044 → IP owner | Team; KST-2044 | 7, – | 1, 10 → 1, **–** |
+
+We did not change the fusion: the graph chunks already reach the top-k. What would help is better seeds (ignore generic words such as team, support, plan) and following values at hop 2 – not done in V3 (see known failures).
+
+## V3 – one question where adding a retriever made things worse
+
+**Kestrel q06** – "Can I get a refund on my annual plan 45 days after it renewed?" (type versions). With dense + BM25
+both evidence quotes are at rank 3; when we add the graph they drop to rank 5, which is the hit@3 drop from 100 % to 90 %.
+The graph finds "plan" and "annual plan" in the question and uses them as seeds. These are very general entities that
+appear in many chunks (plans, billing), so the graph's list is full of chunks about plans in general and does not contain
+the 2026 refund rule at all. With RRF every list votes, so chunks that get a graph vote on top
+of their dense or BM25 vote pass the evidence chunk, which gets no graph vote. The graph made things worse because the question only names generic entities; it helps when the
+question names something specific, like an error code (q01).
+
+Other cases we saw: q12 (graph: the second quote leaves the top 10), q03 (BM25: the 2026 chunk is dense #1 but only
+BM25 #8, and the old 2025 policy, which uses the same words, passes it; recall@3 100 % → 25 %) and Vellora q14 (BM25:
+rank 4 → 8, because BM25 has no evidence chunk in its top 20 and the evidence only gets the dense vote).
+
+## V3 – decision log (new entries)
+
+| # | Decision | Options considered | Picked | Why |
+|---|---|---|---|---|
+| 16 | Keyword retriever | BM25 library · own BM25 | own BM25 (~100 lines), k1 1.2, b 0.75 | Small corpora; we control the tokenizer (error codes, IPs whole) and can show what matched. |
+| 17 | Where the BM25 index lives | in memory at start · file next to the dense index | file per document + chunk setting, IDF at query time | Same chunks and ids as dense; rebuilt with the same document-hash check; IDF follows the selected documents. |
+| 18 | Fusion | weighted score sum · RRF | RRF, k = 60, top 20 per retriever | Scores of cosine, BM25 and graph are on different scales; RRF only uses ranks. |
+| 19 | Graph schema | free extraction · fixed schema | 12 entity types, 11 relations | Fixed types can be validated with Zod and compared; free relations explode into near-duplicates. |
+| 20 | Invalid extraction | stop the build · skip the chunk | retry once, then record and skip; quota errors stop and resume | One bad chunk must not lose the build; failures stay visible. |
+| 21 | Headings for extraction | change the chunker · add headings to the prompt | headings in the extraction prompt only | Changing the chunker changes every V2 number; the graph needs to know which service a paragraph is about. |
+| 22 | Graph query | LLM extracts entities from the question · name matching | name matching | No LLM call at query time (cost, latency); the limit is questions that do not name an entity. |
+| 23 | New questions | edit q08 · add | add q11, q12 (two_hop) with evidence for each hop | Never edit questions silently. |
+| 24 | Default retrievers | dense · dense+bm25 · dense+bm25+graph | dense + bm25 (graph switchable, Kestrel only) | Best hit@3 on Kestrel (100 %) and better than dense on both corpora; the graph adds hit@1 (50 → 60 %) but loses q06 and q12 and costs 42 LLM calls per build. |
+| 25 | Graph output format | JSON schema mode · format in the prompt | JSON schema, falls back to the prompt when the provider refuses the schema (400) | Gemini refused the nested schema; Zod checks the output in both cases. |
+
+## V3 – known failures (updated)
+
+| Failure | Question | What we observed | Idea |
+|---|---|---|---|
+| No shared word, no named entity | Kestrel q05 | BM25 and graph find nothing; only dense finds it | keep dense in the default |
+| Old and new policy share the words | Kestrel q03 | BM25 ranks the 2026 chunk 8th; the runbook and the 2025 policy pass it (rank 1 → 5) | prefer the newest version / metadata filter |
+| One-retriever evidence loses in RRF | Vellora q14 | evidence found by dense only drops 4 → 8 | weighted RRF, or a larger top-k |
+| Headings removed by the chunker | service-catalog | chunks lose the service name ("connector-hub") | section-aware chunking |
+| Generic words become graph seeds | Kestrel q02, q08, q10–q12 | "team", "support", "plan" match entities; their chunks fill the graph list | stop list for seeds, or let the LLM pick the entities in the question |
+| Second hop through a value | Kestrel q12 | IP addresses are values: never followed, connector-hub never reached | follow value nodes when they are shared by two chunks |
+| Wrong subject in has_value | 3 of 10 sampled triples | value attached to the wrong entity | narrower relations (per value kind), or attach values to the sentence's subject only |
+| Plurals not merged | annual plan / annual plans | one concept, two entities | singularise names in the normalisation |
+
+---
+
+# V2 report
+
 
 ## V2 – results table
 

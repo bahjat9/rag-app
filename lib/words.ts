@@ -9,22 +9,11 @@
 //   Markdown symbols (#, |, *, `) are separators.
 import "server-only";
 import type { Settings } from "./settings";
-import { allChunks, search } from "./store";
+import { retrieve } from "./retrieve";
+import { allChunks } from "./store";
 
-const TOKEN_RE = /[\p{L}\p{N}]+(?:[-'’._][\p{L}\p{N}]+)*/gu;
-
-export const STOPWORDS = new Set(
-  (
-    "a an the and or but if then else of to in on at by for with from into onto about as is are was were be been being am do does did doing have has had having " +
-    "i me my we our you your he him his she her it its they them their this that these those there here what which who whom whose when where why how " +
-    "not no nor so than too very can could should would will shall may might must also just only own same other such each few more most some any all both " +
-    "up down out over under again further once off s t"
-  ).split(" "),
-);
-
-export function tokenize(text: string): string[] {
-  return (text.toLowerCase().replace(/’/g, "'").match(TOKEN_RE) ?? []).map((t) => t.replace(/[.'_-]+$/, ""));
-}
+import { STOPWORDS, tokenize } from "./tokenize";
+export { STOPWORDS, tokenize };
 
 type ChunkRef = { id: string; doc: string; text: string };
 type WordStats = { word: string; count: number; chunks: Map<string, number> };
@@ -109,7 +98,7 @@ export async function questionWords(docs: string[], s: Settings, question: strin
   const v = await vocabulary(docs, s);
   const norm = (x: string) => x.toLowerCase().replace(/\s+/g, " ").trim();
   const evidenceChunks = [...v.chunks.values()].filter((c) => evidence.some((e) => norm(c.text).includes(norm(e)))).map((c) => c.id);
-  const retrieved = (await search(question, docs, s)).map((h) => ({ id: h.id, score: Number(h.score.toFixed(4)) }));
+  const retrieved = (await retrieve(question, docs, s)).hits.map((h) => ({ id: h.id, score: Number(h.score.toFixed(5)) }));
   const seen = new Set<string>();
   const words = tokenize(question)
     .filter((w) => !seen.has(w) && seen.add(w))

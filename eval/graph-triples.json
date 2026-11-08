@@ -1,0 +1,106 @@
+{
+  "graph": "graph__7b6f86f3__800_10_20.json",
+  "sampled_at": "2026-11-07T21:49:15.111Z",
+  "triples": [
+    {
+      "n": 1,
+      "source": "KST-1xxx",
+      "relation": "related_to",
+      "target": "sign-in",
+      "chunk": "support-runbook-errors.md#0000",
+      "chunk_text": "# Kestrel Analytics — Support Runbook: Error Codes\n\nInternal document · Owner: Customer Support · Last reviewed: 2 September 2026\n\n## How to use this runbook\n\nEvery error shown to a Kestrel user carries a code of the form `KST-` followed by four digits. The first digit gives the area: 1 for sign-in, 2 for connectors, 3 for queries and dashboards, 4 for members and seats, 5 for delivery and embedding, 6 for billing.\n\nFor each code, this runbook gives what the user sees, the usual cause, what support can do, and when to escalate. Always ask the customer for the workspace name, the exact code and the time it happened. If a code is not listed here, escalate it to the on-call engineer of the Platform team.\n\nEscalations go to the team that owns the service involved. The owning team of each servi",
+      "grade": "correct",
+      "note": "the chunk says the first digit 1 means sign-in"
+    },
+    {
+      "n": 2,
+      "source": "support",
+      "relation": "has_value",
+      "target": "refund window 12 months",
+      "chunk": "billing-policy-2026.md#0002",
+      "chunk_text": "so pay by bank transfer against an invoice, with payment due within 30 days of the invoice date.\n\nThe payment method can be updated by the workspace Owner from **Settings → Plan → Payment method**. We do not store full card or account numbers; they are held by our payment processor.\n\nAn invoice is issued for every charge and sent by e-mail to the billing contact of the workspace. Invoices can also be downloaded from **Settings → Plan → Invoices**. The billing contact and the company details printed on invoices (name, address, VAT number) can be changed by the Owner; changes apply to future invoices only. A corrected copy of a past invoice can be requested from support within 12 months of its date.\n\n## 5. Adding and removing seats\n\nSeats can be added at any time. Added seats are charged imm",
+      "grade": "wrong",
+      "note": "the 12 months is for asking support for a corrected invoice copy, not a refund window"
+    },
+    {
+      "n": 3,
+      "source": "Data Integrations",
+      "relation": "led_by",
+      "target": "Tomasz Wójcik",
+      "chunk": "service-catalog.md#0003",
+      "chunk_text": "y-relevant events (sign-ins, role changes, connector edits, exports) for workspaces on Business and Enterprise plans.\nOwner: **Identity**.\n\n| Team | Engineering lead | On-call channel | Working hours (Paris time) |\n|---|---|---|---|\n| Platform | Samuel Okafor | #oncall-platform | 24/7 rotation |\n| Identity | Priya Raman | #oncall-identity | 24/7 rotation |\n| Data Integrations | Tomasz Wójcik | #oncall-data-integrations | 08:00–20:00, weekdays |\n| Analytics Engine | Léa Fontaine | #oncall-analytics | 24/7 rotation |\n| Messaging | Inès Moreau | #oncall-messaging | 08:00–20:00, weekdays |\n| Payments Core | Jonas Berg | #oncall-payments | 24/7 rotation |\n\nTeams with weekday hours are covered outside those hours by the Platform on-call, who can page the team lead for SEV-1 incidents only.\n\n## 3",
+      "grade": "correct",
+      "note": "in the teams table"
+    },
+    {
+      "n": 4,
+      "source": "KST-4012",
+      "relation": "requires",
+      "target": "plan",
+      "chunk": "support-runbook-errors.md#0006",
+      "chunk_text": "ry plan and cannot be raised.\n**Escalate:** to Analytics Engine only if a query that used to finish quickly suddenly times out for many datasets of the same customer.\n\n### KST-3020 — Dataset refresh failed\n\n**User sees:** a red clock on the tiles.\n**Cause:** the tooltip shows a second code with the real cause, usually a KST-2xxx connector error.\n**Support action:** handle the underlying code.\n**Escalate:** depends on the underlying code.\n\n## Members and seats (KST-4xxx)\n\n### KST-4012 — No seat available\n\n**User sees:** \"This workspace has no seat available. Ask an Admin.\"\n**Cause:** the person is accepting an invitation, but all seats of the plan are already used. Pending invitations do not use a seat; the check happens at acceptance.\n**Support action:** explain that an Admin of the worksp",
+      "grade": "unsupported",
+      "note": "the chunk never says KST-4012 “requires” a plan; it says the plan’s seats are all used"
+    },
+    {
+      "n": 5,
+      "source": "KST-5038",
+      "relation": "included_in",
+      "target": "Enterprise",
+      "chunk": "support-runbook-errors.md#0009",
+      "chunk_text": "pired\n\n**User sees:** an embedded dashboard shows \"This link has expired\".\n**Cause:** the embed token passed by the customer's application is older than its lifetime (24 hours by default).\n**Support action:** the customer's server must request a new token before the old one expires. On Business and Enterprise, the lifetime can be raised up to 30 days.\n**Escalate:** no.\n\n## Billing (KST-6xxx)\n\n### KST-6002 — Payment declined\n\n**User sees:** \"Your payment was declined.\"\n**Cause:** the card was refused by the bank: insufficient funds, expired card, or a security block.\n**Support action:** ask the Owner to update the payment method before the next automatic retry. Follow the current Billing and Refund Policy for retries, grace period and read-only rules. Support cannot take card details over e",
+      "grade": "wrong",
+      "note": "it’s the longer token lifetime (up to 30 days) that is on Business and Enterprise, not the error code"
+    },
+    {
+      "n": 6,
+      "source": "query time limit",
+      "relation": "has_value",
+      "target": "120 seconds",
+      "chunk": "support-runbook-errors.md#0005",
+      "chunk_text": "me from either address.\n**Escalate:** no.\n\n### KST-2051 — Credentials rejected\n\n**User sees:** \"The username or password for this data source is incorrect.\"\n**Cause:** the database password was changed, or the database user was removed.\n**Support action:** an Admin must edit the connector and enter the new credentials. Support cannot see stored credentials.\n**Escalate:** no.\n\n## Queries and dashboards (KST-3xxx)\n\n### KST-3012 — Query time limit exceeded\n\n**User sees:** \"This query took too long and was stopped.\"\n**Cause:** a dataset query ran for more than 120 seconds.\n**Support action:** suggest adding a filter, pre-aggregating in the source database, or refreshing less often. The time limit is the same on every plan and cannot be raised.\n**Escalate:** to Analytics Engine only if a query ",
+      "grade": "correct",
+      "note": "stated"
+    },
+    {
+      "n": 7,
+      "source": "policy",
+      "relation": "has_value",
+      "target": "payment due within 30 days",
+      "chunk": "billing-policy-2026.md#0002",
+      "chunk_text": "so pay by bank transfer against an invoice, with payment due within 30 days of the invoice date.\n\nThe payment method can be updated by the workspace Owner from **Settings → Plan → Payment method**. We do not store full card or account numbers; they are held by our payment processor.\n\nAn invoice is issued for every charge and sent by e-mail to the billing contact of the workspace. Invoices can also be downloaded from **Settings → Plan → Invoices**. The billing contact and the company details printed on invoices (name, address, VAT number) can be changed by the Owner; changes apply to future invoices only. A corrected copy of a past invoice can be requested from support within 12 months of its date.\n\n## 5. Adding and removing seats\n\nSeats can be added at any time. Added seats are charged imm",
+      "grade": "correct",
+      "note": "stated (for invoice payment); “policy” is vague"
+    },
+    {
+      "n": 8,
+      "source": "backup code",
+      "relation": "has_value",
+      "target": "10 backup codes",
+      "chunk": "product-guide.md#0004",
+      "chunk_text": "ions do not use a seat. A seat is used only when the person accepts the invitation. If the workspace has no free seat at that moment, the invitation cannot be accepted until an Admin frees a seat or the Owner moves to a larger plan.\n\nMembers can be removed at any time. Their dashboards are not deleted: they are transferred to the Admin who removed them.\n\n### 5.1 Password and two-factor authentication\n\nMembers sign in with their e-mail address and a password, unless the workspace uses single sign-on. We strongly recommend turning on two-factor authentication from **Profile → Security**. Kestrel supports authenticator apps that generate time-based six-digit codes. When you turn it on, Kestrel shows 10 backup codes. Each backup code works once. Store them somewhere safe and separate from your",
+      "grade": "correct",
+      "note": "stated"
+    },
+    {
+      "n": 9,
+      "source": "Team",
+      "relation": "has_value",
+      "target": "20 seats",
+      "chunk": "product-guide.md#0001",
+      "chunk_text": "one workspace cannot see the content of another workspace, even inside the same organisation.\n\n## 2. Plans and limits\n\nEach workspace is on exactly one plan. The plan sets the number of seats, how often data refreshes, and which administration features are available.\n\n| | Free | Starter | Team | Business | Enterprise |\n|---|---|---|---|---|---|\n| Seats included | 2 | 5 | 20 | 100 | Custom |\n| Dashboards | 3 | 25 | Unlimited | Unlimited | Unlimited |\n| Data connectors | 1 | 3 | 10 | Unlimited | Unlimited |\n| Fastest refresh | Daily | Hourly | Every 15 minutes | Every 5 minutes | Every minute |\n| History kept | 30 days | 1 year | 2 years | 5 years | Custom |\n| Single sign-on (SAML) | — | — | — | Yes | Yes |\n| SCIM user provisioning | — | — | — | — | Yes |\n| Audit log | — | — | — | 90 days | ",
+      "grade": "correct",
+      "note": "the plans table says Team includes 20 seats"
+    },
+    {
+      "n": 10,
+      "source": "dashboard",
+      "relation": "has_value",
+      "target": "50 recipients",
+      "chunk": "product-guide.md#0008",
+      "chunk_text": "query has a time limit of 120 seconds. Queries that take longer are stopped. If this happens often, add a filter, pre-aggregate the data in your database, or schedule a less frequent refresh.\n\n## 7. Dashboards and refresh\n\nDashboards are built from tiles. Each tile reads one dataset. When a dataset refreshes, every tile that uses it is updated. The refresh frequency of a dataset cannot be faster than the fastest refresh of your plan (see section 2).\n\nYou can see when a dataset was last refreshed by hovering over the clock icon in the corner of any tile. A red clock means the last refresh failed; the tooltip shows the error code.\n\n## 8. Scheduled reports\n\nAny dashboard can be sent as a PDF on a schedule: daily, weekly or monthly. A schedule can have up to 50 recipients, who do not need to b",
+      "grade": "wrong",
+      "note": "the 50-recipient limit is for a report schedule, not a dashboard"
+    }
+  ]
+}

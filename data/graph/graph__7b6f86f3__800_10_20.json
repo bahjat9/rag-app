@@ -1,0 +1,6282 @@
+{
+ "version": 1,
+ "key": "800_10_20",
+ "docs": [
+  "billing-policy-2025.md",
+  "billing-policy-2026.md",
+  "product-guide.md",
+  "service-catalog.md",
+  "support-runbook-errors.md"
+ ],
+ "model": "gemini-3.1-flash-lite",
+ "built_at": "2026-11-07T21:48:41.736Z",
+ "extractions": {
+  "product-guide.md#0000": {
+   "ok": true,
+   "input_tokens": 829,
+   "output_tokens": 64,
+   "calls": 1,
+   "ms": 5510,
+   "extraction": {
+    "entities": [
+     {
+      "name": "Kestrel Analytics",
+      "type": "service"
+     },
+     {
+      "name": "workspace",
+      "type": "concept"
+     }
+    ],
+    "relations": []
+   }
+  },
+  "product-guide.md#0001": {
+   "ok": true,
+   "input_tokens": 915,
+   "output_tokens": 640,
+   "calls": 1,
+   "ms": 5567,
+   "extraction": {
+    "entities": [
+     {
+      "name": "Free",
+      "type": "plan"
+     },
+     {
+      "name": "Starter",
+      "type": "plan"
+     },
+     {
+      "name": "Team",
+      "type": "plan"
+     },
+     {
+      "name": "Business",
+      "type": "plan"
+     },
+     {
+      "name": "Enterprise",
+      "type": "plan"
+     },
+     {
+      "name": "seats",
+      "type": "feature"
+     },
+     {
+      "name": "data refresh",
+      "type": "feature"
+     },
+     {
+      "name": "dashboards",
+      "type": "feature"
+     },
+     {
+      "name": "data connectors",
+      "type": "feature"
+     },
+     {
+      "name": "Single sign-on (SAML)",
+      "type": "feature"
+     },
+     {
+      "name": "SCIM user provisioning",
+      "type": "feature"
+     },
+     {
+      "name": "Audit log",
+      "type": "feature"
+     }
+    ],
+    "relations": [
+     {
+      "source": "seats",
+      "relation": "included_in",
+      "target": "Free"
+     },
+     {
+      "source": "seats",
+      "relation": "included_in",
+      "target": "Starter"
+     },
+     {
+      "source": "seats",
+      "relation": "included_in",
+      "target": "Team"
+     },
+     {
+      "source": "seats",
+      "relation": "included_in",
+      "target": "Business"
+     },
+     {
+      "source": "seats",
+      "relation": "included_in",
+      "target": "Enterprise"
+     },
+     {
+      "source": "Free",
+      "relation": "has_value",
+      "target": "2 seats"
+     },
+     {
+      "source": "Starter",
+      "relation": "has_value",
+      "target": "5 seats"
+     },
+     {
+      "source": "Team",
+      "relation": "has_value",
+      "target": "20 seats"
+     },
+     {
+      "source": "Business",
+      "relation": "has_value",
+      "target": "100 seats"
+     },
+     {
+      "source": "dashboards",
+      "relation": "included_in",
+      "target": "Free"
+     },
+     {
+      "source": "Free",
+      "relation": "has_value",
+      "target": "3 dashboards"
+     },
+     {
+      "source": "Single sign-on (SAML)",
+      "relation": "included_in",
+      "target": "Business"
+     },
+     {
+      "source": "Single sign-on (SAML)",
+      "relation": "included_in",
+      "target": "Enterprise"
+     },
+     {
+      "source": "SCIM user provisioning",
+      "relation": "included_in",
+      "target": "Enterprise"
+     },
+     {
+      "source": "Audit log",
+      "relation": "included_in",
+      "target": "Business"
+     },
+     {
+      "source": "Business",
+      "relation": "has_value",
+      "target": "Audit log 90 days"
+     }
+    ]
+   }
+  },
+  "product-guide.md#0002": {
+   "ok": true,
+   "input_tokens": 867,
+   "output_tokens": 250,
+   "calls": 1,
+   "ms": 5101,
+   "extraction": {
+    "entities": [
+     {
+      "name": "Audit log",
+      "type": "feature"
+     },
+     {
+      "name": "90 days",
+      "type": "value"
+     },
+     {
+      "name": "1 year",
+      "type": "value"
+     },
+     {
+      "name": "Settings → Plan",
+      "type": "setting"
+     },
+     {
+      "name": "Owner",
+      "type": "role"
+     },
+     {
+      "name": "Admin",
+      "type": "role"
+     },
+     {
+      "name": "Editor",
+      "type": "role"
+     }
+    ],
+    "relations": [
+     {
+      "source": "Audit log",
+      "relation": "has_value",
+      "target": "90 days"
+     },
+     {
+      "source": "Audit log",
+      "relation": "has_value",
+      "target": "1 year"
+     }
+    ]
+   }
+  },
+  "product-guide.md#0003": {
+   "ok": true,
+   "input_tokens": 846,
+   "output_tokens": 299,
+   "calls": 1,
+   "ms": 5329,
+   "extraction": {
+    "entities": [
+     {
+      "name": "Owner",
+      "type": "role"
+     },
+     {
+      "name": "Editor",
+      "type": "role"
+     },
+     {
+      "name": "Viewer",
+      "type": "role"
+     },
+     {
+      "name": "Admin",
+      "type": "role"
+     },
+     {
+      "name": "Settings → Members",
+      "type": "setting"
+     },
+     {
+      "name": "Settings → Members → Invite",
+      "type": "setting"
+     },
+     {
+      "name": "invitation",
+      "type": "policy"
+     },
+     {
+      "name": "invitation valid 7 days",
+      "type": "value"
+     },
+     {
+      "name": "seat",
+      "type": "concept"
+     }
+    ],
+    "relations": [
+     {
+      "source": "invitation",
+      "relation": "has_value",
+      "target": "invitation valid 7 days"
+     },
+     {
+      "source": "Admin",
+      "relation": "requires",
+      "target": "Owner"
+     }
+    ]
+   }
+  },
+  "product-guide.md#0004": {
+   "ok": true,
+   "input_tokens": 858,
+   "output_tokens": 417,
+   "calls": 1,
+   "ms": 6458,
+   "extraction": {
+    "entities": [
+     {
+      "name": "seat",
+      "type": "concept"
+     },
+     {
+      "name": "Admin",
+      "type": "role"
+     },
+     {
+      "name": "Owner",
+      "type": "role"
+     },
+     {
+      "name": "plan",
+      "type": "plan"
+     },
+     {
+      "name": "Member",
+      "type": "role"
+     },
+     {
+      "name": "dashboard",
+      "type": "feature"
+     },
+     {
+      "name": "single sign-on",
+      "type": "policy"
+     },
+     {
+      "name": "two-factor authentication",
+      "type": "feature"
+     },
+     {
+      "name": "Profile → Security",
+      "type": "setting"
+     },
+     {
+      "name": "time-based six-digit code",
+      "type": "value"
+     },
+     {
+      "name": "backup code",
+      "type": "feature"
+     },
+     {
+      "name": "10 backup codes",
+      "type": "value"
+     }
+    ],
+    "relations": [
+     {
+      "source": "two-factor authentication",
+      "relation": "configured_in",
+      "target": "Profile → Security"
+     },
+     {
+      "source": "two-factor authentication",
+      "relation": "has_value",
+      "target": "time-based six-digit code"
+     },
+     {
+      "source": "backup code",
+      "relation": "has_value",
+      "target": "10 backup codes"
+     }
+    ]
+   }
+  },
+  "product-guide.md#0005": {
+   "ok": true,
+   "input_tokens": 868,
+   "output_tokens": 427,
+   "calls": 1,
+   "ms": 5225,
+   "extraction": {
+    "entities": [
+     {
+      "name": "two-factor authentication",
+      "type": "feature"
+     },
+     {
+      "name": "Settings → Security",
+      "type": "setting"
+     },
+     {
+      "name": "Business",
+      "type": "plan"
+     },
+     {
+      "name": "Enterprise",
+      "type": "plan"
+     },
+     {
+      "name": "single sign-on",
+      "type": "feature"
+     },
+     {
+      "name": "SAML 2.0",
+      "type": "concept"
+     },
+     {
+      "name": "Settings → Security → Single sign-on",
+      "type": "setting"
+     },
+     {
+      "name": "Admin",
+      "type": "role"
+     },
+     {
+      "name": "passwords",
+      "type": "feature"
+     }
+    ],
+    "relations": [
+     {
+      "source": "two-factor authentication",
+      "relation": "configured_in",
+      "target": "Settings → Security"
+     },
+     {
+      "source": "single sign-on",
+      "relation": "included_in",
+      "target": "Business"
+     },
+     {
+      "source": "single sign-on",
+      "relation": "included_in",
+      "target": "Enterprise"
+     },
+     {
+      "source": "single sign-on",
+      "relation": "requires",
+      "target": "SAML 2.0"
+     },
+     {
+      "source": "single sign-on",
+      "relation": "configured_in",
+      "target": "Settings → Security → Single sign-on"
+     }
+    ]
+   }
+  },
+  "product-guide.md#0006": {
+   "ok": true,
+   "input_tokens": 862,
+   "output_tokens": 255,
+   "calls": 1,
+   "ms": 23792,
+   "extraction": {
+    "entities": [
+     {
+      "name": "Single sign-on",
+      "type": "feature"
+     },
+     {
+      "name": "Profile → Security",
+      "type": "setting"
+     },
+     {
+      "name": "Settings → Members",
+      "type": "setting"
+     },
+     {
+      "name": "Admin",
+      "type": "role"
+     },
+     {
+      "name": "Owner",
+      "type": "role"
+     },
+     {
+      "name": "verification",
+      "type": "policy"
+     },
+     {
+      "name": "2 business days",
+      "type": "value"
+     }
+    ],
+    "relations": [
+     {
+      "source": "Single sign-on",
+      "relation": "configured_in",
+      "target": "Profile → Security"
+     },
+     {
+      "source": "verification",
+      "relation": "has_value",
+      "target": "2 business days"
+     }
+    ]
+   }
+  },
+  "product-guide.md#0007": {
+   "ok": true,
+   "input_tokens": 881,
+   "output_tokens": 371,
+   "calls": 1,
+   "ms": 5083,
+   "extraction": {
+    "entities": [
+     {
+      "name": "verification",
+      "type": "concept"
+     },
+     {
+      "name": "2 business days",
+      "type": "value"
+     },
+     {
+      "name": "reset link",
+      "type": "feature"
+     },
+     {
+      "name": "1 hour",
+      "type": "value"
+     },
+     {
+      "name": "connector",
+      "type": "concept"
+     },
+     {
+      "name": "CSV file",
+      "type": "feature"
+     },
+     {
+      "name": "200 MB",
+      "type": "value"
+     },
+     {
+      "name": "dataset query",
+      "type": "feature"
+     },
+     {
+      "name": "120 seconds",
+      "type": "value"
+     }
+    ],
+    "relations": [
+     {
+      "source": "verification",
+      "relation": "has_value",
+      "target": "2 business days"
+     },
+     {
+      "source": "reset link",
+      "relation": "has_value",
+      "target": "1 hour"
+     },
+     {
+      "source": "CSV file",
+      "relation": "has_value",
+      "target": "200 MB"
+     },
+     {
+      "source": "dataset query",
+      "relation": "has_value",
+      "target": "120 seconds"
+     }
+    ]
+   }
+  },
+  "product-guide.md#0008": {
+   "ok": true,
+   "input_tokens": 876,
+   "output_tokens": 303,
+   "calls": 1,
+   "ms": 5290,
+   "extraction": {
+    "entities": [
+     {
+      "name": "query",
+      "type": "concept"
+     },
+     {
+      "name": "120 seconds",
+      "type": "value"
+     },
+     {
+      "name": "dataset",
+      "type": "concept"
+     },
+     {
+      "name": "tile",
+      "type": "feature"
+     },
+     {
+      "name": "refresh frequency",
+      "type": "setting"
+     },
+     {
+      "name": "plan",
+      "type": "plan"
+     },
+     {
+      "name": "dashboard",
+      "type": "feature"
+     },
+     {
+      "name": "50 recipients",
+      "type": "value"
+     }
+    ],
+    "relations": [
+     {
+      "source": "query",
+      "relation": "has_value",
+      "target": "120 seconds"
+     },
+     {
+      "source": "refresh frequency",
+      "relation": "requires",
+      "target": "plan"
+     },
+     {
+      "source": "dashboard",
+      "relation": "has_value",
+      "target": "50 recipients"
+     }
+    ]
+   }
+  },
+  "product-guide.md#0009": {
+   "ok": true,
+   "input_tokens": 845,
+   "output_tokens": 270,
+   "calls": 1,
+   "ms": 5280,
+   "extraction": {
+    "entities": [
+     {
+      "name": "schedule",
+      "type": "feature"
+     },
+     {
+      "name": "50 recipients",
+      "type": "value"
+     },
+     {
+      "name": "Public links",
+      "type": "feature"
+     },
+     {
+      "name": "Free",
+      "type": "plan"
+     },
+     {
+      "name": "Admin",
+      "type": "role"
+     },
+     {
+      "name": "Embedding",
+      "type": "feature"
+     },
+     {
+      "name": "Kestrel API",
+      "type": "service"
+     },
+     {
+      "name": "embed token",
+      "type": "concept"
+     }
+    ],
+    "relations": [
+     {
+      "source": "schedule",
+      "relation": "has_value",
+      "target": "50 recipients"
+     },
+     {
+      "source": "Public links",
+      "relation": "included_in",
+      "target": "Free"
+     }
+    ]
+   }
+  },
+  "product-guide.md#0010": {
+   "ok": true,
+   "input_tokens": 856,
+   "output_tokens": 529,
+   "calls": 1,
+   "ms": 5326,
+   "extraction": {
+    "entities": [
+     {
+      "name": "embed token",
+      "type": "feature"
+     },
+     {
+      "name": "24 hours",
+      "type": "value"
+     },
+     {
+      "name": "Business",
+      "type": "plan"
+     },
+     {
+      "name": "Enterprise",
+      "type": "plan"
+     },
+     {
+      "name": "30 days",
+      "type": "value"
+     },
+     {
+      "name": "Settings → Embedding",
+      "type": "setting"
+     },
+     {
+      "name": "Owner",
+      "type": "role"
+     },
+     {
+      "name": "workspace export",
+      "type": "feature"
+     },
+     {
+      "name": "Settings → Workspace → Export",
+      "type": "setting"
+     },
+     {
+      "name": "workspace deletion policy",
+      "type": "policy"
+     },
+     {
+      "name": "refund window 30 days",
+      "type": "value"
+     }
+    ],
+    "relations": [
+     {
+      "source": "embed token",
+      "relation": "has_value",
+      "target": "24 hours"
+     },
+     {
+      "source": "embed token",
+      "relation": "has_value",
+      "target": "30 days"
+     },
+     {
+      "source": "embed token",
+      "relation": "configured_in",
+      "target": "Settings → Embedding"
+     },
+     {
+      "source": "embed token",
+      "relation": "included_in",
+      "target": "Business"
+     },
+     {
+      "source": "embed token",
+      "relation": "included_in",
+      "target": "Enterprise"
+     },
+     {
+      "source": "workspace export",
+      "relation": "configured_in",
+      "target": "Settings → Workspace → Export"
+     },
+     {
+      "source": "workspace deletion policy",
+      "relation": "has_value",
+      "target": "refund window 30 days"
+     }
+    ]
+   }
+  },
+  "product-guide.md#0011": {
+   "ok": true,
+   "input_tokens": 835,
+   "output_tokens": 377,
+   "calls": 1,
+   "ms": 5237,
+   "extraction": {
+    "entities": [
+     {
+      "name": "Free",
+      "type": "plan"
+     },
+     {
+      "name": "Starter",
+      "type": "plan"
+     },
+     {
+      "name": "Team",
+      "type": "plan"
+     },
+     {
+      "name": "Business",
+      "type": "plan"
+     },
+     {
+      "name": "Enterprise",
+      "type": "plan"
+     },
+     {
+      "name": "Best effort",
+      "type": "value"
+     },
+     {
+      "name": "2 business days",
+      "type": "value"
+     },
+     {
+      "name": "1 business day",
+      "type": "value"
+     },
+     {
+      "name": "8 business hours",
+      "type": "value"
+     },
+     {
+      "name": "4 hours",
+      "type": "value"
+     },
+     {
+      "name": "privacy policy",
+      "type": "policy"
+     },
+     {
+      "name": "one month",
+      "type": "value"
+     }
+    ],
+    "relations": [
+     {
+      "source": "Free",
+      "relation": "has_value",
+      "target": "Best effort"
+     },
+     {
+      "source": "Starter",
+      "relation": "has_value",
+      "target": "2 business days"
+     },
+     {
+      "source": "Team",
+      "relation": "has_value",
+      "target": "1 business day"
+     },
+     {
+      "source": "Business",
+      "relation": "has_value",
+      "target": "8 business hours"
+     },
+     {
+      "source": "Enterprise",
+      "relation": "has_value",
+      "target": "4 hours"
+     },
+     {
+      "source": "privacy policy",
+      "relation": "has_value",
+      "target": "one month"
+     }
+    ]
+   }
+  },
+  "billing-policy-2025.md#0000": {
+   "ok": true,
+   "input_tokens": 861,
+   "output_tokens": 331,
+   "calls": 1,
+   "ms": 5617,
+   "extraction": {
+    "entities": [
+     {
+      "name": "Billing and Refund Policy",
+      "type": "policy"
+     },
+     {
+      "name": "Finance",
+      "type": "team"
+     },
+     {
+      "name": "Starter",
+      "type": "plan"
+     },
+     {
+      "name": "Team",
+      "type": "plan"
+     },
+     {
+      "name": "Business",
+      "type": "plan"
+     },
+     {
+      "name": "Enterprise",
+      "type": "plan"
+     }
+    ],
+    "relations": [
+     {
+      "source": "Billing and Refund Policy",
+      "relation": "owned_by",
+      "target": "Finance"
+     },
+     {
+      "source": "Starter",
+      "relation": "included_in",
+      "target": "Billing and Refund Policy"
+     },
+     {
+      "source": "Team",
+      "relation": "included_in",
+      "target": "Billing and Refund Policy"
+     },
+     {
+      "source": "Business",
+      "relation": "included_in",
+      "target": "Billing and Refund Policy"
+     },
+     {
+      "source": "Enterprise",
+      "relation": "included_in",
+      "target": "Billing and Refund Policy"
+     }
+    ]
+   }
+  },
+  "billing-policy-2025.md#0001": {
+   "ok": true,
+   "input_tokens": 867,
+   "output_tokens": 386,
+   "calls": 1,
+   "ms": 5119,
+   "extraction": {
+    "entities": [
+     {
+      "name": "annual billing",
+      "type": "plan"
+     },
+     {
+      "name": "15% discount",
+      "type": "value"
+     },
+     {
+      "name": "monthly billing",
+      "type": "plan"
+     },
+     {
+      "name": "Business",
+      "type": "plan"
+     },
+     {
+      "name": "Enterprise",
+      "type": "plan"
+     },
+     {
+      "name": "payment due within 30 days",
+      "type": "value"
+     },
+     {
+      "name": "Payment method",
+      "type": "setting"
+     },
+     {
+      "name": "Owner",
+      "type": "role"
+     },
+     {
+      "name": "Settings → Plan → Payment method",
+      "type": "setting"
+     }
+    ],
+    "relations": [
+     {
+      "source": "annual billing",
+      "relation": "has_value",
+      "target": "15% discount"
+     },
+     {
+      "source": "Business",
+      "relation": "has_value",
+      "target": "payment due within 30 days"
+     },
+     {
+      "source": "Enterprise",
+      "relation": "has_value",
+      "target": "payment due within 30 days"
+     },
+     {
+      "source": "Payment method",
+      "relation": "configured_in",
+      "target": "Settings → Plan → Payment method"
+     }
+    ]
+   }
+  },
+  "billing-policy-2025.md#0002": {
+   "ok": true,
+   "input_tokens": 894,
+   "output_tokens": 252,
+   "calls": 1,
+   "ms": 5039,
+   "extraction": {
+    "entities": [
+     {
+      "name": "Settings → Plan → Invoices",
+      "type": "setting"
+     },
+     {
+      "name": "Owner",
+      "type": "role"
+     },
+     {
+      "name": "refund window 90 days",
+      "type": "value"
+     },
+     {
+      "name": "corrected invoice request policy",
+      "type": "policy"
+     },
+     {
+      "name": "seat removal policy",
+      "type": "policy"
+     },
+     {
+      "name": "seat addition policy",
+      "type": "policy"
+     }
+    ],
+    "relations": [
+     {
+      "source": "Settings → Plan → Invoices",
+      "relation": "configured_in",
+      "target": "Settings → Plan → Invoices"
+     },
+     {
+      "source": "corrected invoice request policy",
+      "relation": "has_value",
+      "target": "refund window 90 days"
+     }
+    ]
+   }
+  },
+  "billing-policy-2025.md#0003": {
+   "ok": true,
+   "input_tokens": 883,
+   "output_tokens": 341,
+   "calls": 1,
+   "ms": 5099,
+   "extraction": {
+    "entities": [
+     {
+      "name": "Monthly plans",
+      "type": "plan"
+     },
+     {
+      "name": "Annual plans",
+      "type": "plan"
+     },
+     {
+      "name": "Owner",
+      "type": "role"
+     },
+     {
+      "name": "billing@kestrel.example",
+      "type": "channel"
+     },
+     {
+      "name": "refund window 30 days",
+      "type": "value"
+     },
+     {
+      "name": "processing time 10 business days",
+      "type": "value"
+     },
+     {
+      "name": "retry window 3 days",
+      "type": "value"
+     },
+     {
+      "name": "retry window 7 days",
+      "type": "value"
+     }
+    ],
+    "relations": [
+     {
+      "source": "Annual plans",
+      "relation": "has_value",
+      "target": "refund window 30 days"
+     },
+     {
+      "source": "billing@kestrel.example",
+      "relation": "related_to",
+      "target": "Owner"
+     },
+     {
+      "source": "billing@kestrel.example",
+      "relation": "has_value",
+      "target": "processing time 10 business days"
+     }
+    ]
+   }
+  },
+  "billing-policy-2025.md#0004": {
+   "ok": true,
+   "input_tokens": 853,
+   "output_tokens": 403,
+   "calls": 1,
+   "ms": 5994,
+   "extraction": {
+    "entities": [
+     {
+      "name": "Billing and Refund Policy",
+      "type": "policy"
+     },
+     {
+      "name": "payment retry window 3 days",
+      "type": "value"
+     },
+     {
+      "name": "payment retry window 7 days",
+      "type": "value"
+     },
+     {
+      "name": "grace period 14 days",
+      "type": "value"
+     },
+     {
+      "name": "Owner",
+      "type": "role"
+     },
+     {
+      "name": "Cancel plan",
+      "type": "feature"
+     },
+     {
+      "name": "Settings → Plan → Cancel plan",
+      "type": "setting"
+     },
+     {
+      "name": "paid plan",
+      "type": "plan"
+     },
+     {
+      "name": "Free plan",
+      "type": "plan"
+     }
+    ],
+    "relations": [
+     {
+      "source": "Billing and Refund Policy",
+      "relation": "has_value",
+      "target": "payment retry window 3 days"
+     },
+     {
+      "source": "Billing and Refund Policy",
+      "relation": "has_value",
+      "target": "payment retry window 7 days"
+     },
+     {
+      "source": "Billing and Refund Policy",
+      "relation": "has_value",
+      "target": "grace period 14 days"
+     },
+     {
+      "source": "Cancel plan",
+      "relation": "configured_in",
+      "target": "Settings → Plan → Cancel plan"
+     }
+    ]
+   }
+  },
+  "billing-policy-2025.md#0005": {
+   "ok": true,
+   "input_tokens": 791,
+   "output_tokens": 85,
+   "calls": 1,
+   "ms": 4774,
+   "extraction": {
+    "entities": [
+     {
+      "name": "Free",
+      "type": "plan"
+     },
+     {
+      "name": "VAT",
+      "type": "concept"
+     },
+     {
+      "name": "sales tax",
+      "type": "concept"
+     }
+    ],
+    "relations": []
+   }
+  },
+  "billing-policy-2026.md#0000": {
+   "ok": true,
+   "input_tokens": 869,
+   "output_tokens": 438,
+   "calls": 1,
+   "ms": 5147,
+   "extraction": {
+    "entities": [
+     {
+      "name": "Billing and Refund Policy (2026)",
+      "type": "policy"
+     },
+     {
+      "name": "Billing and Refund Policy (2025)",
+      "type": "policy"
+     },
+     {
+      "name": "Finance",
+      "type": "team"
+     },
+     {
+      "name": "Starter",
+      "type": "plan"
+     },
+     {
+      "name": "Team",
+      "type": "plan"
+     },
+     {
+      "name": "Business",
+      "type": "plan"
+     },
+     {
+      "name": "Enterprise",
+      "type": "plan"
+     }
+    ],
+    "relations": [
+     {
+      "source": "Billing and Refund Policy (2026)",
+      "relation": "replaces",
+      "target": "Billing and Refund Policy (2025)"
+     },
+     {
+      "source": "Billing and Refund Policy (2026)",
+      "relation": "owned_by",
+      "target": "Finance"
+     },
+     {
+      "source": "Starter",
+      "relation": "related_to",
+      "target": "Billing and Refund Policy (2026)"
+     },
+     {
+      "source": "Team",
+      "relation": "related_to",
+      "target": "Billing and Refund Policy (2026)"
+     },
+     {
+      "source": "Business",
+      "relation": "related_to",
+      "target": "Billing and Refund Policy (2026)"
+     },
+     {
+      "source": "Enterprise",
+      "relation": "related_to",
+      "target": "Billing and Refund Policy (2026)"
+     }
+    ]
+   }
+  },
+  "billing-policy-2026.md#0001": {
+   "ok": true,
+   "input_tokens": 849,
+   "output_tokens": 329,
+   "calls": 1,
+   "ms": 5349,
+   "extraction": {
+    "entities": [
+     {
+      "name": "Monthly",
+      "type": "plan"
+     },
+     {
+      "name": "Annual",
+      "type": "plan"
+     },
+     {
+      "name": "20% discount",
+      "type": "value"
+     },
+     {
+      "name": "payment due 30 days",
+      "type": "value"
+     },
+     {
+      "name": "Team",
+      "type": "plan"
+     },
+     {
+      "name": "Business",
+      "type": "plan"
+     },
+     {
+      "name": "Enterprise",
+      "type": "plan"
+     }
+    ],
+    "relations": [
+     {
+      "source": "Annual",
+      "relation": "has_value",
+      "target": "20% discount"
+     },
+     {
+      "source": "Team",
+      "relation": "has_value",
+      "target": "payment due 30 days"
+     },
+     {
+      "source": "Business",
+      "relation": "has_value",
+      "target": "payment due 30 days"
+     },
+     {
+      "source": "Enterprise",
+      "relation": "has_value",
+      "target": "payment due 30 days"
+     }
+    ]
+   }
+  },
+  "billing-policy-2026.md#0002": {
+   "ok": true,
+   "input_tokens": 880,
+   "output_tokens": 415,
+   "calls": 1,
+   "ms": 5186,
+   "extraction": {
+    "entities": [
+     {
+      "name": "policy",
+      "type": "concept"
+     },
+     {
+      "name": "payment due within 30 days",
+      "type": "value"
+     },
+     {
+      "name": "Payment method",
+      "type": "setting"
+     },
+     {
+      "name": "Owner",
+      "type": "role"
+     },
+     {
+      "name": "Settings → Plan → Payment method",
+      "type": "setting"
+     },
+     {
+      "name": "Invoices",
+      "type": "setting"
+     },
+     {
+      "name": "Settings → Plan → Invoices",
+      "type": "setting"
+     },
+     {
+      "name": "refund window 12 months",
+      "type": "value"
+     },
+     {
+      "name": "support",
+      "type": "team"
+     },
+     {
+      "name": "Seats",
+      "type": "feature"
+     }
+    ],
+    "relations": [
+     {
+      "source": "policy",
+      "relation": "has_value",
+      "target": "payment due within 30 days"
+     },
+     {
+      "source": "Payment method",
+      "relation": "configured_in",
+      "target": "Settings → Plan → Payment method"
+     },
+     {
+      "source": "Invoices",
+      "relation": "configured_in",
+      "target": "Settings → Plan → Invoices"
+     },
+     {
+      "source": "support",
+      "relation": "has_value",
+      "target": "refund window 12 months"
+     }
+    ]
+   }
+  },
+  "billing-policy-2026.md#0003": {
+   "ok": true,
+   "input_tokens": 864,
+   "output_tokens": 132,
+   "calls": 1,
+   "ms": 4991,
+   "extraction": {
+    "entities": [
+     {
+      "name": "Monthly plans",
+      "type": "plan"
+     },
+     {
+      "name": "Annual plans",
+      "type": "plan"
+     },
+     {
+      "name": "refund window 60 days",
+      "type": "value"
+     }
+    ],
+    "relations": [
+     {
+      "source": "Annual plans",
+      "relation": "has_value",
+      "target": "refund window 60 days"
+     }
+    ]
+   }
+  },
+  "billing-policy-2026.md#0004": {
+   "ok": true,
+   "input_tokens": 865,
+   "output_tokens": 300,
+   "calls": 1,
+   "ms": 5386,
+   "extraction": {
+    "entities": [
+     {
+      "name": "annual plans",
+      "type": "plan"
+     },
+     {
+      "name": "refund window 0 days",
+      "type": "value"
+     },
+     {
+      "name": "Owner",
+      "type": "role"
+     },
+     {
+      "name": "Request a refund",
+      "type": "setting"
+     },
+     {
+      "name": "billing error",
+      "type": "concept"
+     },
+     {
+      "name": "refund processing time 14 days",
+      "type": "value"
+     },
+     {
+      "name": "Failed payments",
+      "type": "concept"
+     }
+    ],
+    "relations": [
+     {
+      "source": "annual plans",
+      "relation": "has_value",
+      "target": "refund window 0 days"
+     },
+     {
+      "source": "Request a refund",
+      "relation": "related_to",
+      "target": "Owner"
+     },
+     {
+      "source": "billing error",
+      "relation": "has_value",
+      "target": "refund processing time 14 days"
+     }
+    ]
+   }
+  },
+  "billing-policy-2026.md#0005": {
+   "ok": true,
+   "input_tokens": 854,
+   "output_tokens": 346,
+   "calls": 1,
+   "ms": 13599,
+   "extraction": {
+    "entities": [
+     {
+      "name": "grace period",
+      "type": "policy"
+     },
+     {
+      "name": "21 days",
+      "type": "value"
+     },
+     {
+      "name": "refund window",
+      "type": "policy"
+     },
+     {
+      "name": "60 days",
+      "type": "value"
+     },
+     {
+      "name": "Cancel plan",
+      "type": "feature"
+     },
+     {
+      "name": "Settings → Plan",
+      "type": "setting"
+     },
+     {
+      "name": "Owner",
+      "type": "role"
+     },
+     {
+      "name": "paid plan",
+      "type": "plan"
+     }
+    ],
+    "relations": [
+     {
+      "source": "grace period",
+      "relation": "has_value",
+      "target": "21 days"
+     },
+     {
+      "source": "refund window",
+      "relation": "has_value",
+      "target": "60 days"
+     },
+     {
+      "source": "Cancel plan",
+      "relation": "configured_in",
+      "target": "Settings → Plan"
+     },
+     {
+      "source": "Cancel plan",
+      "relation": "related_to",
+      "target": "paid plan"
+     }
+    ]
+   }
+  },
+  "billing-policy-2026.md#0006": {
+   "ok": true,
+   "input_tokens": 851,
+   "output_tokens": 317,
+   "calls": 1,
+   "ms": 5356,
+   "extraction": {
+    "entities": [
+     {
+      "name": "Cancel plan",
+      "type": "feature"
+     },
+     {
+      "name": "Settings → Plan → Cancel plan",
+      "type": "setting"
+     },
+     {
+      "name": "paid plan",
+      "type": "plan"
+     },
+     {
+      "name": "Free plan",
+      "type": "plan"
+     },
+     {
+      "name": "annual plan",
+      "type": "plan"
+     },
+     {
+      "name": "VAT",
+      "type": "policy"
+     },
+     {
+      "name": "sales tax",
+      "type": "policy"
+     },
+     {
+      "name": "billing@kestrel.example",
+      "type": "channel"
+     }
+    ],
+    "relations": [
+     {
+      "source": "Cancel plan",
+      "relation": "configured_in",
+      "target": "Settings → Plan → Cancel plan"
+     },
+     {
+      "source": "Cancel plan",
+      "relation": "related_to",
+      "target": "paid plan"
+     },
+     {
+      "source": "VAT",
+      "relation": "related_to",
+      "target": "sales tax"
+     }
+    ]
+   }
+  },
+  "support-runbook-errors.md#0000": {
+   "ok": true,
+   "input_tokens": 881,
+   "output_tokens": 459,
+   "calls": 1,
+   "ms": 5603,
+   "extraction": {
+    "entities": [
+     {
+      "name": "Customer Support",
+      "type": "team"
+     },
+     {
+      "name": "Platform",
+      "type": "team"
+     },
+     {
+      "name": "KST-1xxx",
+      "type": "error_code"
+     },
+     {
+      "name": "KST-2xxx",
+      "type": "error_code"
+     },
+     {
+      "name": "KST-3xxx",
+      "type": "error_code"
+     },
+     {
+      "name": "KST-4xxx",
+      "type": "error_code"
+     },
+     {
+      "name": "KST-5xxx",
+      "type": "error_code"
+     },
+     {
+      "name": "KST-6xxx",
+      "type": "error_code"
+     }
+    ],
+    "relations": [
+     {
+      "source": "KST-1xxx",
+      "relation": "related_to",
+      "target": "sign-in"
+     },
+     {
+      "source": "KST-2xxx",
+      "relation": "related_to",
+      "target": "connectors"
+     },
+     {
+      "source": "KST-3xxx",
+      "relation": "related_to",
+      "target": "queries and dashboards"
+     },
+     {
+      "source": "KST-4xxx",
+      "relation": "related_to",
+      "target": "members and seats"
+     },
+     {
+      "source": "KST-5xxx",
+      "relation": "related_to",
+      "target": "delivery and embedding"
+     },
+     {
+      "source": "KST-6xxx",
+      "relation": "related_to",
+      "target": "billing"
+     }
+    ]
+   }
+  },
+  "support-runbook-errors.md#0001": {
+   "ok": true,
+   "input_tokens": 956,
+   "output_tokens": 332,
+   "calls": 1,
+   "ms": 5553,
+   "extraction": {
+    "entities": [
+     {
+      "name": "SEV-1",
+      "type": "policy"
+     },
+     {
+      "name": "SEV-2",
+      "type": "policy"
+     },
+     {
+      "name": "SEV-3",
+      "type": "policy"
+     },
+     {
+      "name": "SEV-4",
+      "type": "policy"
+     },
+     {
+      "name": "15 minutes",
+      "type": "value"
+     },
+     {
+      "name": "1 hour",
+      "type": "value"
+     },
+     {
+      "name": "Next business day",
+      "type": "value"
+     },
+     {
+      "name": "KST-1001",
+      "type": "error_code"
+     }
+    ],
+    "relations": [
+     {
+      "source": "SEV-1",
+      "relation": "has_value",
+      "target": "15 minutes"
+     },
+     {
+      "source": "SEV-2",
+      "relation": "has_value",
+      "target": "1 hour"
+     },
+     {
+      "source": "SEV-3",
+      "relation": "has_value",
+      "target": "Next business day"
+     }
+    ]
+   }
+  },
+  "support-runbook-errors.md#0002": {
+   "ok": true,
+   "input_tokens": 949,
+   "output_tokens": 230,
+   "calls": 1,
+   "ms": 4978,
+   "extraction": {
+    "entities": [
+     {
+      "name": "KST-1007",
+      "type": "error_code"
+     },
+     {
+      "name": "KST-1012",
+      "type": "error_code"
+     },
+     {
+      "name": "time sync",
+      "type": "concept"
+     },
+     {
+      "name": "30 seconds",
+      "type": "value"
+     },
+     {
+      "name": "two-factor code",
+      "type": "feature"
+     }
+    ],
+    "relations": [
+     {
+      "source": "KST-1007",
+      "relation": "requires",
+      "target": "time sync"
+     },
+     {
+      "source": "KST-1007",
+      "relation": "has_value",
+      "target": "30 seconds"
+     }
+    ]
+   }
+  },
+  "support-runbook-errors.md#0003": {
+   "ok": true,
+   "input_tokens": 966,
+   "output_tokens": 216,
+   "calls": 1,
+   "ms": 5792,
+   "extraction": {
+    "entities": [
+     {
+      "name": "KST-1012",
+      "type": "error_code"
+     },
+     {
+      "name": "Identity",
+      "type": "team"
+     },
+     {
+      "name": "Settings → Security → Single sign-on",
+      "type": "setting"
+     },
+     {
+      "name": "KST-2040",
+      "type": "error_code"
+     }
+    ],
+    "relations": [
+     {
+      "source": "KST-1012",
+      "relation": "escalate_to",
+      "target": "Identity"
+     },
+     {
+      "source": "KST-1012",
+      "relation": "configured_in",
+      "target": "Settings → Security → Single sign-on"
+     }
+    ]
+   }
+  },
+  "support-runbook-errors.md#0004": {
+   "ok": true,
+   "input_tokens": 952,
+   "output_tokens": 198,
+   "calls": 1,
+   "ms": 4812,
+   "extraction": {
+    "entities": [
+     {
+      "name": "KST-2040",
+      "type": "error_code"
+     },
+     {
+      "name": "KST-2044",
+      "type": "error_code"
+     },
+     {
+      "name": "KST-2051",
+      "type": "error_code"
+     },
+     {
+      "name": "Data Integrations",
+      "type": "team"
+     },
+     {
+      "name": "connector",
+      "type": "feature"
+     }
+    ],
+    "relations": [
+     {
+      "source": "KST-2040",
+      "relation": "escalate_to",
+      "target": "Data Integrations"
+     }
+    ]
+   }
+  },
+  "support-runbook-errors.md#0005": {
+   "ok": true,
+   "input_tokens": 976,
+   "output_tokens": 245,
+   "calls": 1,
+   "ms": 5009,
+   "extraction": {
+    "entities": [
+     {
+      "name": "KST-2051",
+      "type": "error_code"
+     },
+     {
+      "name": "KST-3012",
+      "type": "error_code"
+     },
+     {
+      "name": "Analytics Engine",
+      "type": "team"
+     },
+     {
+      "name": "query time limit",
+      "type": "value"
+     }
+    ],
+    "relations": [
+     {
+      "source": "KST-3012",
+      "relation": "escalate_to",
+      "target": "Analytics Engine"
+     },
+     {
+      "source": "KST-3012",
+      "relation": "has_value",
+      "target": "query time limit"
+     },
+     {
+      "source": "query time limit",
+      "relation": "has_value",
+      "target": "120 seconds"
+     }
+    ]
+   }
+  },
+  "support-runbook-errors.md#0006": {
+   "ok": true,
+   "input_tokens": 977,
+   "output_tokens": 202,
+   "calls": 1,
+   "ms": 15641,
+   "extraction": {
+    "entities": [
+     {
+      "name": "KST-3020",
+      "type": "error_code"
+     },
+     {
+      "name": "Analytics Engine",
+      "type": "service"
+     },
+     {
+      "name": "KST-4012",
+      "type": "error_code"
+     },
+     {
+      "name": "plan",
+      "type": "plan"
+     }
+    ],
+    "relations": [
+     {
+      "source": "KST-3020",
+      "relation": "escalate_to",
+      "target": "Analytics Engine"
+     },
+     {
+      "source": "KST-4012",
+      "relation": "requires",
+      "target": "plan"
+     }
+    ]
+   }
+  },
+  "support-runbook-errors.md#0007": {
+   "ok": true,
+   "input_tokens": 978,
+   "output_tokens": 301,
+   "calls": 1,
+   "ms": 14864,
+   "extraction": {
+    "entities": [
+     {
+      "name": "KST-4012",
+      "type": "error_code"
+     },
+     {
+      "name": "KST-4019",
+      "type": "error_code"
+     },
+     {
+      "name": "KST-5031",
+      "type": "error_code"
+     },
+     {
+      "name": "invitation link",
+      "type": "feature"
+     },
+     {
+      "name": "7 days",
+      "type": "value"
+     },
+     {
+      "name": "Settings → Members",
+      "type": "setting"
+     },
+     {
+      "name": "Admin",
+      "type": "role"
+     },
+     {
+      "name": "Owner",
+      "type": "role"
+     }
+    ],
+    "relations": [
+     {
+      "source": "invitation link",
+      "relation": "has_value",
+      "target": "7 days"
+     },
+     {
+      "source": "KST-4019",
+      "relation": "configured_in",
+      "target": "Settings → Members"
+     }
+    ]
+   }
+  },
+  "support-runbook-errors.md#0008": {
+   "ok": true,
+   "input_tokens": 909,
+   "output_tokens": 243,
+   "calls": 1,
+   "ms": 36465,
+   "extraction": {
+    "entities": [
+     {
+      "name": "KST-5031",
+      "type": "error_code"
+     },
+     {
+      "name": "postroom",
+      "type": "service"
+     },
+     {
+      "name": "Delivery and embedding",
+      "type": "team"
+     },
+     {
+      "name": "KST-5038",
+      "type": "error_code"
+     }
+    ],
+    "relations": [
+     {
+      "source": "KST-5031",
+      "relation": "raised_by",
+      "target": "postroom"
+     },
+     {
+      "source": "postroom",
+      "relation": "owned_by",
+      "target": "Delivery and embedding"
+     },
+     {
+      "source": "KST-5031",
+      "relation": "escalate_to",
+      "target": "Delivery and embedding"
+     }
+    ]
+   }
+  },
+  "support-runbook-errors.md#0009": {
+   "ok": true,
+   "input_tokens": 930,
+   "output_tokens": 329,
+   "calls": 1,
+   "ms": 5096,
+   "extraction": {
+    "entities": [
+     {
+      "name": "KST-5038",
+      "type": "error_code"
+     },
+     {
+      "name": "KST-6002",
+      "type": "error_code"
+     },
+     {
+      "name": "Business",
+      "type": "plan"
+     },
+     {
+      "name": "Enterprise",
+      "type": "plan"
+     },
+     {
+      "name": "embed token lifetime 24 hours",
+      "type": "value"
+     },
+     {
+      "name": "embed token lifetime 30 days",
+      "type": "value"
+     },
+     {
+      "name": "Billing and Refund Policy",
+      "type": "policy"
+     }
+    ],
+    "relations": [
+     {
+      "source": "KST-5038",
+      "relation": "has_value",
+      "target": "embed token lifetime 24 hours"
+     },
+     {
+      "source": "KST-5038",
+      "relation": "has_value",
+      "target": "embed token lifetime 30 days"
+     },
+     {
+      "source": "KST-5038",
+      "relation": "included_in",
+      "target": "Business"
+     },
+     {
+      "source": "KST-5038",
+      "relation": "included_in",
+      "target": "Enterprise"
+     },
+     {
+      "source": "Billing and Refund Policy",
+      "relation": "related_to",
+      "target": "KST-6002"
+     }
+    ]
+   }
+  },
+  "support-runbook-errors.md#0010": {
+   "ok": true,
+   "input_tokens": 866,
+   "output_tokens": 268,
+   "calls": 1,
+   "ms": 5346,
+   "extraction": {
+    "entities": [
+     {
+      "name": "KST-6002",
+      "type": "error_code"
+     },
+     {
+      "name": "KST-6010",
+      "type": "error_code"
+     },
+     {
+      "name": "Payments Core",
+      "type": "team"
+     },
+     {
+      "name": "refund window",
+      "type": "policy"
+     },
+     {
+      "name": "billing errors always refunded",
+      "type": "value"
+     }
+    ],
+    "relations": [
+     {
+      "source": "KST-6002",
+      "relation": "escalate_to",
+      "target": "Payments Core"
+     },
+     {
+      "source": "KST-6010",
+      "relation": "escalate_to",
+      "target": "Payments Core"
+     },
+     {
+      "source": "refund window",
+      "relation": "has_value",
+      "target": "billing errors always refunded"
+     }
+    ]
+   }
+  },
+  "service-catalog.md#0000": {
+   "ok": true,
+   "input_tokens": 889,
+   "output_tokens": 331,
+   "calls": 1,
+   "ms": 6349,
+   "extraction": {
+    "entities": [
+     {
+      "name": "gateway",
+      "type": "service"
+     },
+     {
+      "name": "Platform",
+      "type": "team"
+     },
+     {
+      "name": "600 API requests per minute per workspace",
+      "type": "value"
+     },
+     {
+      "name": "HTTP 429",
+      "type": "error_code"
+     },
+     {
+      "name": "auth",
+      "type": "service"
+     },
+     {
+      "name": "Identity",
+      "type": "team"
+     },
+     {
+      "name": "#platform-help",
+      "type": "channel"
+     }
+    ],
+    "relations": [
+     {
+      "source": "gateway",
+      "relation": "owned_by",
+      "target": "Platform"
+     },
+     {
+      "source": "gateway",
+      "relation": "has_value",
+      "target": "600 API requests per minute per workspace"
+     },
+     {
+      "source": "HTTP 429",
+      "relation": "raised_by",
+      "target": "gateway"
+     },
+     {
+      "source": "auth",
+      "relation": "owned_by",
+      "target": "Identity"
+     }
+    ]
+   }
+  },
+  "service-catalog.md#0001": {
+   "ok": true,
+   "input_tokens": 907,
+   "output_tokens": 331,
+   "calls": 1,
+   "ms": 5315,
+   "extraction": {
+    "entities": [
+     {
+      "name": "auth",
+      "type": "service"
+     },
+     {
+      "name": "Identity",
+      "type": "team"
+     },
+     {
+      "name": "connector-hub",
+      "type": "service"
+     },
+     {
+      "name": "Data Integrations",
+      "type": "team"
+     },
+     {
+      "name": "query-engine",
+      "type": "service"
+     },
+     {
+      "name": "Analytics Engine",
+      "type": "team"
+     },
+     {
+      "name": "query time limit",
+      "type": "value"
+     },
+     {
+      "name": "scheduler",
+      "type": "service"
+     },
+     {
+      "name": "postroom",
+      "type": "service"
+     }
+    ],
+    "relations": [
+     {
+      "source": "auth",
+      "relation": "owned_by",
+      "target": "Identity"
+     },
+     {
+      "source": "connector-hub",
+      "relation": "owned_by",
+      "target": "Data Integrations"
+     },
+     {
+      "source": "query-engine",
+      "relation": "owned_by",
+      "target": "Analytics Engine"
+     },
+     {
+      "source": "query-engine",
+      "relation": "has_value",
+      "target": "query time limit"
+     },
+     {
+      "source": "query time limit",
+      "relation": "related_to",
+      "target": "120-second"
+     },
+     {
+      "source": "scheduler",
+      "relation": "owned_by",
+      "target": "Analytics Engine"
+     },
+     {
+      "source": "postroom",
+      "relation": "owned_by",
+      "target": "Analytics Engine"
+     }
+    ]
+   }
+  },
+  "service-catalog.md#0002": {
+   "ok": true,
+   "input_tokens": 875,
+   "output_tokens": 301,
+   "calls": 1,
+   "ms": 5360,
+   "extraction": {
+    "entities": [
+     {
+      "name": "postroom",
+      "type": "service"
+     },
+     {
+      "name": "Messaging",
+      "type": "team"
+     },
+     {
+      "name": "mailman",
+      "type": "service"
+     },
+     {
+      "name": "embed-svc",
+      "type": "service"
+     },
+     {
+      "name": "Platform",
+      "type": "team"
+     },
+     {
+      "name": "ledger",
+      "type": "service"
+     },
+     {
+      "name": "Payments Core",
+      "type": "team"
+     },
+     {
+      "name": "Billing and Refund Policy",
+      "type": "policy"
+     },
+     {
+      "name": "audit-log",
+      "type": "service"
+     }
+    ],
+    "relations": [
+     {
+      "source": "postroom",
+      "relation": "owned_by",
+      "target": "Messaging"
+     },
+     {
+      "source": "postroom",
+      "relation": "replaces",
+      "target": "mailman"
+     },
+     {
+      "source": "embed-svc",
+      "relation": "owned_by",
+      "target": "Platform"
+     },
+     {
+      "source": "ledger",
+      "relation": "owned_by",
+      "target": "Payments Core"
+     },
+     {
+      "source": "ledger",
+      "relation": "requires",
+      "target": "Billing and Refund Policy"
+     }
+    ]
+   }
+  },
+  "service-catalog.md#0003": {
+   "ok": true,
+   "input_tokens": 931,
+   "output_tokens": 871,
+   "calls": 1,
+   "ms": 6039,
+   "extraction": {
+    "entities": [
+     {
+      "name": "audit-log",
+      "type": "service"
+     },
+     {
+      "name": "Business",
+      "type": "plan"
+     },
+     {
+      "name": "Enterprise",
+      "type": "plan"
+     },
+     {
+      "name": "Identity",
+      "type": "team"
+     },
+     {
+      "name": "Platform",
+      "type": "team"
+     },
+     {
+      "name": "Data Integrations",
+      "type": "team"
+     },
+     {
+      "name": "Analytics Engine",
+      "type": "team"
+     },
+     {
+      "name": "Messaging",
+      "type": "team"
+     },
+     {
+      "name": "Payments Core",
+      "type": "team"
+     },
+     {
+      "name": "Samuel Okafor",
+      "type": "person"
+     },
+     {
+      "name": "Priya Raman",
+      "type": "person"
+     },
+     {
+      "name": "Tomasz Wójcik",
+      "type": "person"
+     },
+     {
+      "name": "Léa Fontaine",
+      "type": "person"
+     },
+     {
+      "name": "Inès Moreau",
+      "type": "person"
+     },
+     {
+      "name": "Jonas Berg",
+      "type": "person"
+     },
+     {
+      "name": "#oncall-platform",
+      "type": "channel"
+     },
+     {
+      "name": "#oncall-identity",
+      "type": "channel"
+     },
+     {
+      "name": "#oncall-data-integrations",
+      "type": "channel"
+     },
+     {
+      "name": "#oncall-analytics",
+      "type": "channel"
+     },
+     {
+      "name": "#oncall-messaging",
+      "type": "channel"
+     },
+     {
+      "name": "#oncall-payments",
+      "type": "channel"
+     }
+    ],
+    "relations": [
+     {
+      "source": "audit-log",
+      "relation": "owned_by",
+      "target": "Identity"
+     },
+     {
+      "source": "audit-log",
+      "relation": "included_in",
+      "target": "Business"
+     },
+     {
+      "source": "audit-log",
+      "relation": "included_in",
+      "target": "Enterprise"
+     },
+     {
+      "source": "Platform",
+      "relation": "led_by",
+      "target": "Samuel Okafor"
+     },
+     {
+      "source": "Identity",
+      "relation": "led_by",
+      "target": "Priya Raman"
+     },
+     {
+      "source": "Data Integrations",
+      "relation": "led_by",
+      "target": "Tomasz Wójcik"
+     },
+     {
+      "source": "Analytics Engine",
+      "relation": "led_by",
+      "target": "Léa Fontaine"
+     },
+     {
+      "source": "Messaging",
+      "relation": "led_by",
+      "target": "Inès Moreau"
+     },
+     {
+      "source": "Payments Core",
+      "relation": "led_by",
+      "target": "Jonas Berg"
+     },
+     {
+      "source": "Platform",
+      "relation": "on_call_channel",
+      "target": "#oncall-platform"
+     },
+     {
+      "source": "Identity",
+      "relation": "on_call_channel",
+      "target": "#oncall-identity"
+     },
+     {
+      "source": "Data Integrations",
+      "relation": "on_call_channel",
+      "target": "#oncall-data-integrations"
+     },
+     {
+      "source": "Analytics Engine",
+      "relation": "on_call_channel",
+      "target": "#oncall-analytics"
+     },
+     {
+      "source": "Messaging",
+      "relation": "on_call_channel",
+      "target": "#oncall-messaging"
+     },
+     {
+      "source": "Payments Core",
+      "relation": "on_call_channel",
+      "target": "#oncall-payments"
+     },
+     {
+      "source": "Data Integrations",
+      "relation": "escalate_to",
+      "target": "Platform"
+     },
+     {
+      "source": "Messaging",
+      "relation": "escalate_to",
+      "target": "Platform"
+     }
+    ]
+   }
+  },
+  "service-catalog.md#0004": {
+   "ok": true,
+   "input_tokens": 876,
+   "output_tokens": 160,
+   "calls": 1,
+   "ms": 5204,
+   "extraction": {
+    "entities": [
+     {
+      "name": "Platform",
+      "type": "team"
+     },
+     {
+      "name": "Support",
+      "type": "team"
+     },
+     {
+      "name": "SEV-1",
+      "type": "concept"
+     }
+    ],
+    "relations": [
+     {
+      "source": "Platform",
+      "relation": "related_to",
+      "target": "SEV-1"
+     },
+     {
+      "source": "Support",
+      "relation": "related_to",
+      "target": "SEV-1"
+     }
+    ]
+   }
+  },
+  "service-catalog.md#0005": {
+   "ok": true,
+   "input_tokens": 691,
+   "output_tokens": 7,
+   "calls": 1,
+   "ms": 5028,
+   "extraction": {
+    "entities": [],
+    "relations": []
+   }
+  }
+ },
+ "nodes": [
+  {
+   "key": "kestrel analytics",
+   "name": "Kestrel Analytics",
+   "type": "service",
+   "names": [
+    "Kestrel Analytics"
+   ],
+   "chunks": [
+    "product-guide.md#0000"
+   ]
+  },
+  {
+   "key": "workspace",
+   "name": "workspace",
+   "type": "concept",
+   "names": [
+    "workspace"
+   ],
+   "chunks": [
+    "product-guide.md#0000"
+   ]
+  },
+  {
+   "key": "free",
+   "name": "Free plan",
+   "type": "plan",
+   "names": [
+    "Free",
+    "Free plan"
+   ],
+   "chunks": [
+    "product-guide.md#0001",
+    "product-guide.md#0009",
+    "product-guide.md#0011",
+    "billing-policy-2025.md#0004",
+    "billing-policy-2025.md#0005",
+    "billing-policy-2026.md#0006"
+   ]
+  },
+  {
+   "key": "starter",
+   "name": "Starter",
+   "type": "plan",
+   "names": [
+    "Starter"
+   ],
+   "chunks": [
+    "product-guide.md#0001",
+    "product-guide.md#0011",
+    "billing-policy-2025.md#0000",
+    "billing-policy-2026.md#0000"
+   ]
+  },
+  {
+   "key": "team",
+   "name": "Team",
+   "type": "plan",
+   "names": [
+    "Team"
+   ],
+   "chunks": [
+    "product-guide.md#0001",
+    "product-guide.md#0011",
+    "billing-policy-2025.md#0000",
+    "billing-policy-2026.md#0000",
+    "billing-policy-2026.md#0001"
+   ]
+  },
+  {
+   "key": "business",
+   "name": "Business",
+   "type": "plan",
+   "names": [
+    "Business"
+   ],
+   "chunks": [
+    "product-guide.md#0001",
+    "product-guide.md#0005",
+    "product-guide.md#0010",
+    "product-guide.md#0011",
+    "billing-policy-2025.md#0000",
+    "billing-policy-2025.md#0001",
+    "billing-policy-2026.md#0000",
+    "billing-policy-2026.md#0001",
+    "support-runbook-errors.md#0009",
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "enterprise",
+   "name": "Enterprise",
+   "type": "plan",
+   "names": [
+    "Enterprise"
+   ],
+   "chunks": [
+    "product-guide.md#0001",
+    "product-guide.md#0005",
+    "product-guide.md#0010",
+    "product-guide.md#0011",
+    "billing-policy-2025.md#0000",
+    "billing-policy-2025.md#0001",
+    "billing-policy-2026.md#0000",
+    "billing-policy-2026.md#0001",
+    "support-runbook-errors.md#0009",
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "seats",
+   "name": "seats",
+   "type": "feature",
+   "names": [
+    "seats",
+    "Seats"
+   ],
+   "chunks": [
+    "product-guide.md#0001",
+    "billing-policy-2026.md#0002"
+   ]
+  },
+  {
+   "key": "data refresh",
+   "name": "data refresh",
+   "type": "feature",
+   "names": [
+    "data refresh"
+   ],
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "key": "dashboards",
+   "name": "dashboards",
+   "type": "feature",
+   "names": [
+    "dashboards"
+   ],
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "key": "data connectors",
+   "name": "data connectors",
+   "type": "feature",
+   "names": [
+    "data connectors"
+   ],
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "key": "single sign-on saml",
+   "name": "Single sign-on (SAML)",
+   "type": "feature",
+   "names": [
+    "Single sign-on (SAML)"
+   ],
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "key": "scim user provisioning",
+   "name": "SCIM user provisioning",
+   "type": "feature",
+   "names": [
+    "SCIM user provisioning"
+   ],
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "key": "audit log",
+   "name": "Audit log",
+   "type": "feature",
+   "names": [
+    "Audit log"
+   ],
+   "chunks": [
+    "product-guide.md#0001",
+    "product-guide.md#0002"
+   ]
+  },
+  {
+   "key": "2 seats",
+   "name": "2 seats",
+   "type": "concept",
+   "names": [
+    "2 seats"
+   ],
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "key": "5 seats",
+   "name": "5 seats",
+   "type": "concept",
+   "names": [
+    "5 seats"
+   ],
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "key": "20 seats",
+   "name": "20 seats",
+   "type": "concept",
+   "names": [
+    "20 seats"
+   ],
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "key": "100 seats",
+   "name": "100 seats",
+   "type": "concept",
+   "names": [
+    "100 seats"
+   ],
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "key": "3 dashboards",
+   "name": "3 dashboards",
+   "type": "concept",
+   "names": [
+    "3 dashboards"
+   ],
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "key": "audit log 90 days",
+   "name": "Audit log 90 days",
+   "type": "concept",
+   "names": [
+    "Audit log 90 days"
+   ],
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "key": "90 days",
+   "name": "90 days",
+   "type": "value",
+   "names": [
+    "90 days"
+   ],
+   "chunks": [
+    "product-guide.md#0002"
+   ]
+  },
+  {
+   "key": "1 year",
+   "name": "1 year",
+   "type": "value",
+   "names": [
+    "1 year"
+   ],
+   "chunks": [
+    "product-guide.md#0002"
+   ]
+  },
+  {
+   "key": "settings",
+   "name": "Settings → Plan",
+   "type": "setting",
+   "names": [
+    "Settings → Plan"
+   ],
+   "chunks": [
+    "product-guide.md#0002",
+    "billing-policy-2026.md#0005"
+   ]
+  },
+  {
+   "key": "owner",
+   "name": "Owner",
+   "type": "role",
+   "names": [
+    "Owner"
+   ],
+   "chunks": [
+    "product-guide.md#0002",
+    "product-guide.md#0003",
+    "product-guide.md#0004",
+    "product-guide.md#0006",
+    "product-guide.md#0010",
+    "billing-policy-2025.md#0001",
+    "billing-policy-2025.md#0002",
+    "billing-policy-2025.md#0003",
+    "billing-policy-2025.md#0004",
+    "billing-policy-2026.md#0002",
+    "billing-policy-2026.md#0004",
+    "billing-policy-2026.md#0005",
+    "support-runbook-errors.md#0007"
+   ]
+  },
+  {
+   "key": "admin",
+   "name": "Admin",
+   "type": "role",
+   "names": [
+    "Admin"
+   ],
+   "chunks": [
+    "product-guide.md#0002",
+    "product-guide.md#0003",
+    "product-guide.md#0004",
+    "product-guide.md#0005",
+    "product-guide.md#0006",
+    "product-guide.md#0009",
+    "support-runbook-errors.md#0007"
+   ]
+  },
+  {
+   "key": "editor",
+   "name": "Editor",
+   "type": "role",
+   "names": [
+    "Editor"
+   ],
+   "chunks": [
+    "product-guide.md#0002",
+    "product-guide.md#0003"
+   ]
+  },
+  {
+   "key": "viewer",
+   "name": "Viewer",
+   "type": "role",
+   "names": [
+    "Viewer"
+   ],
+   "chunks": [
+    "product-guide.md#0003"
+   ]
+  },
+  {
+   "key": "settings members",
+   "name": "Settings → Members",
+   "type": "setting",
+   "names": [
+    "Settings → Members"
+   ],
+   "chunks": [
+    "product-guide.md#0003",
+    "product-guide.md#0006",
+    "support-runbook-errors.md#0007"
+   ]
+  },
+  {
+   "key": "settings members invite",
+   "name": "Settings → Members → Invite",
+   "type": "setting",
+   "names": [
+    "Settings → Members → Invite"
+   ],
+   "chunks": [
+    "product-guide.md#0003"
+   ]
+  },
+  {
+   "key": "invitation",
+   "name": "invitation",
+   "type": "policy",
+   "names": [
+    "invitation"
+   ],
+   "chunks": [
+    "product-guide.md#0003"
+   ]
+  },
+  {
+   "key": "invitation valid 7 days",
+   "name": "invitation valid 7 days",
+   "type": "value",
+   "names": [
+    "invitation valid 7 days"
+   ],
+   "chunks": [
+    "product-guide.md#0003"
+   ]
+  },
+  {
+   "key": "seat",
+   "name": "seat",
+   "type": "concept",
+   "names": [
+    "seat"
+   ],
+   "chunks": [
+    "product-guide.md#0003",
+    "product-guide.md#0004"
+   ]
+  },
+  {
+   "key": "plan",
+   "name": "plan",
+   "type": "plan",
+   "names": [
+    "plan"
+   ],
+   "chunks": [
+    "product-guide.md#0004",
+    "product-guide.md#0008",
+    "support-runbook-errors.md#0006"
+   ]
+  },
+  {
+   "key": "member",
+   "name": "Member",
+   "type": "role",
+   "names": [
+    "Member"
+   ],
+   "chunks": [
+    "product-guide.md#0004"
+   ]
+  },
+  {
+   "key": "dashboard",
+   "name": "dashboard",
+   "type": "feature",
+   "names": [
+    "dashboard"
+   ],
+   "chunks": [
+    "product-guide.md#0004",
+    "product-guide.md#0008"
+   ]
+  },
+  {
+   "key": "single sign-on",
+   "name": "single sign-on",
+   "type": "feature",
+   "names": [
+    "single sign-on",
+    "Single sign-on"
+   ],
+   "chunks": [
+    "product-guide.md#0004",
+    "product-guide.md#0005",
+    "product-guide.md#0006"
+   ]
+  },
+  {
+   "key": "two-factor authentication",
+   "name": "two-factor authentication",
+   "type": "feature",
+   "names": [
+    "two-factor authentication"
+   ],
+   "chunks": [
+    "product-guide.md#0004",
+    "product-guide.md#0005"
+   ]
+  },
+  {
+   "key": "profile security",
+   "name": "Profile → Security",
+   "type": "setting",
+   "names": [
+    "Profile → Security"
+   ],
+   "chunks": [
+    "product-guide.md#0004",
+    "product-guide.md#0006"
+   ]
+  },
+  {
+   "key": "time-based six-digit code",
+   "name": "time-based six-digit code",
+   "type": "value",
+   "names": [
+    "time-based six-digit code"
+   ],
+   "chunks": [
+    "product-guide.md#0004"
+   ]
+  },
+  {
+   "key": "backup code",
+   "name": "backup code",
+   "type": "feature",
+   "names": [
+    "backup code"
+   ],
+   "chunks": [
+    "product-guide.md#0004"
+   ]
+  },
+  {
+   "key": "10 backup codes",
+   "name": "10 backup codes",
+   "type": "value",
+   "names": [
+    "10 backup codes"
+   ],
+   "chunks": [
+    "product-guide.md#0004"
+   ]
+  },
+  {
+   "key": "settings security",
+   "name": "Settings → Security",
+   "type": "setting",
+   "names": [
+    "Settings → Security"
+   ],
+   "chunks": [
+    "product-guide.md#0005"
+   ]
+  },
+  {
+   "key": "saml 2.0",
+   "name": "SAML 2.0",
+   "type": "concept",
+   "names": [
+    "SAML 2.0"
+   ],
+   "chunks": [
+    "product-guide.md#0005"
+   ]
+  },
+  {
+   "key": "settings security single sign-on",
+   "name": "Settings → Security → Single sign-on",
+   "type": "setting",
+   "names": [
+    "Settings → Security → Single sign-on"
+   ],
+   "chunks": [
+    "product-guide.md#0005",
+    "support-runbook-errors.md#0003"
+   ]
+  },
+  {
+   "key": "passwords",
+   "name": "passwords",
+   "type": "feature",
+   "names": [
+    "passwords"
+   ],
+   "chunks": [
+    "product-guide.md#0005"
+   ]
+  },
+  {
+   "key": "verification",
+   "name": "verification",
+   "type": "policy",
+   "names": [
+    "verification"
+   ],
+   "chunks": [
+    "product-guide.md#0006",
+    "product-guide.md#0007"
+   ]
+  },
+  {
+   "key": "2 business days",
+   "name": "2 business days",
+   "type": "value",
+   "names": [
+    "2 business days"
+   ],
+   "chunks": [
+    "product-guide.md#0006",
+    "product-guide.md#0007",
+    "product-guide.md#0011"
+   ]
+  },
+  {
+   "key": "reset link",
+   "name": "reset link",
+   "type": "feature",
+   "names": [
+    "reset link"
+   ],
+   "chunks": [
+    "product-guide.md#0007"
+   ]
+  },
+  {
+   "key": "1 hour",
+   "name": "1 hour",
+   "type": "value",
+   "names": [
+    "1 hour"
+   ],
+   "chunks": [
+    "product-guide.md#0007",
+    "support-runbook-errors.md#0001"
+   ]
+  },
+  {
+   "key": "connector",
+   "name": "connector",
+   "type": "concept",
+   "names": [
+    "connector"
+   ],
+   "chunks": [
+    "product-guide.md#0007",
+    "support-runbook-errors.md#0004"
+   ]
+  },
+  {
+   "key": "csv file",
+   "name": "CSV file",
+   "type": "feature",
+   "names": [
+    "CSV file"
+   ],
+   "chunks": [
+    "product-guide.md#0007"
+   ]
+  },
+  {
+   "key": "200 mb",
+   "name": "200 MB",
+   "type": "value",
+   "names": [
+    "200 MB"
+   ],
+   "chunks": [
+    "product-guide.md#0007"
+   ]
+  },
+  {
+   "key": "dataset query",
+   "name": "dataset query",
+   "type": "feature",
+   "names": [
+    "dataset query"
+   ],
+   "chunks": [
+    "product-guide.md#0007"
+   ]
+  },
+  {
+   "key": "120 seconds",
+   "name": "120 seconds",
+   "type": "value",
+   "names": [
+    "120 seconds"
+   ],
+   "chunks": [
+    "product-guide.md#0007",
+    "product-guide.md#0008",
+    "support-runbook-errors.md#0005"
+   ]
+  },
+  {
+   "key": "query",
+   "name": "query",
+   "type": "concept",
+   "names": [
+    "query"
+   ],
+   "chunks": [
+    "product-guide.md#0008"
+   ]
+  },
+  {
+   "key": "dataset",
+   "name": "dataset",
+   "type": "concept",
+   "names": [
+    "dataset"
+   ],
+   "chunks": [
+    "product-guide.md#0008"
+   ]
+  },
+  {
+   "key": "tile",
+   "name": "tile",
+   "type": "feature",
+   "names": [
+    "tile"
+   ],
+   "chunks": [
+    "product-guide.md#0008"
+   ]
+  },
+  {
+   "key": "refresh frequency",
+   "name": "refresh frequency",
+   "type": "setting",
+   "names": [
+    "refresh frequency"
+   ],
+   "chunks": [
+    "product-guide.md#0008"
+   ]
+  },
+  {
+   "key": "50 recipients",
+   "name": "50 recipients",
+   "type": "value",
+   "names": [
+    "50 recipients"
+   ],
+   "chunks": [
+    "product-guide.md#0008",
+    "product-guide.md#0009"
+   ]
+  },
+  {
+   "key": "schedule",
+   "name": "schedule",
+   "type": "feature",
+   "names": [
+    "schedule"
+   ],
+   "chunks": [
+    "product-guide.md#0009"
+   ]
+  },
+  {
+   "key": "public links",
+   "name": "Public links",
+   "type": "feature",
+   "names": [
+    "Public links"
+   ],
+   "chunks": [
+    "product-guide.md#0009"
+   ]
+  },
+  {
+   "key": "embedding",
+   "name": "Embedding",
+   "type": "feature",
+   "names": [
+    "Embedding"
+   ],
+   "chunks": [
+    "product-guide.md#0009"
+   ]
+  },
+  {
+   "key": "kestrel api",
+   "name": "Kestrel API",
+   "type": "service",
+   "names": [
+    "Kestrel API"
+   ],
+   "chunks": [
+    "product-guide.md#0009"
+   ]
+  },
+  {
+   "key": "embed token",
+   "name": "embed token",
+   "type": "feature",
+   "names": [
+    "embed token"
+   ],
+   "chunks": [
+    "product-guide.md#0009",
+    "product-guide.md#0010"
+   ]
+  },
+  {
+   "key": "24 hours",
+   "name": "24 hours",
+   "type": "value",
+   "names": [
+    "24 hours"
+   ],
+   "chunks": [
+    "product-guide.md#0010"
+   ]
+  },
+  {
+   "key": "30 days",
+   "name": "30 days",
+   "type": "value",
+   "names": [
+    "30 days"
+   ],
+   "chunks": [
+    "product-guide.md#0010"
+   ]
+  },
+  {
+   "key": "settings embedding",
+   "name": "Settings → Embedding",
+   "type": "setting",
+   "names": [
+    "Settings → Embedding"
+   ],
+   "chunks": [
+    "product-guide.md#0010"
+   ]
+  },
+  {
+   "key": "workspace export",
+   "name": "workspace export",
+   "type": "feature",
+   "names": [
+    "workspace export"
+   ],
+   "chunks": [
+    "product-guide.md#0010"
+   ]
+  },
+  {
+   "key": "settings workspace export",
+   "name": "Settings → Workspace → Export",
+   "type": "setting",
+   "names": [
+    "Settings → Workspace → Export"
+   ],
+   "chunks": [
+    "product-guide.md#0010"
+   ]
+  },
+  {
+   "key": "workspace deletion",
+   "name": "workspace deletion policy",
+   "type": "policy",
+   "names": [
+    "workspace deletion policy"
+   ],
+   "chunks": [
+    "product-guide.md#0010"
+   ]
+  },
+  {
+   "key": "refund window 30 days",
+   "name": "refund window 30 days",
+   "type": "value",
+   "names": [
+    "refund window 30 days"
+   ],
+   "chunks": [
+    "product-guide.md#0010",
+    "billing-policy-2025.md#0003"
+   ]
+  },
+  {
+   "key": "best effort",
+   "name": "Best effort",
+   "type": "value",
+   "names": [
+    "Best effort"
+   ],
+   "chunks": [
+    "product-guide.md#0011"
+   ]
+  },
+  {
+   "key": "1 business day",
+   "name": "1 business day",
+   "type": "value",
+   "names": [
+    "1 business day"
+   ],
+   "chunks": [
+    "product-guide.md#0011"
+   ]
+  },
+  {
+   "key": "8 business hours",
+   "name": "8 business hours",
+   "type": "value",
+   "names": [
+    "8 business hours"
+   ],
+   "chunks": [
+    "product-guide.md#0011"
+   ]
+  },
+  {
+   "key": "4 hours",
+   "name": "4 hours",
+   "type": "value",
+   "names": [
+    "4 hours"
+   ],
+   "chunks": [
+    "product-guide.md#0011"
+   ]
+  },
+  {
+   "key": "privacy",
+   "name": "privacy policy",
+   "type": "policy",
+   "names": [
+    "privacy policy"
+   ],
+   "chunks": [
+    "product-guide.md#0011"
+   ]
+  },
+  {
+   "key": "one month",
+   "name": "one month",
+   "type": "value",
+   "names": [
+    "one month"
+   ],
+   "chunks": [
+    "product-guide.md#0011"
+   ]
+  },
+  {
+   "key": "billing and refund",
+   "name": "Billing and Refund Policy",
+   "type": "policy",
+   "names": [
+    "Billing and Refund Policy"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0000",
+    "billing-policy-2025.md#0004",
+    "support-runbook-errors.md#0009",
+    "service-catalog.md#0002"
+   ]
+  },
+  {
+   "key": "finance",
+   "name": "Finance",
+   "type": "team",
+   "names": [
+    "Finance"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0000",
+    "billing-policy-2026.md#0000"
+   ]
+  },
+  {
+   "key": "annual billing",
+   "name": "annual billing",
+   "type": "plan",
+   "names": [
+    "annual billing"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0001"
+   ]
+  },
+  {
+   "key": "15% discount",
+   "name": "15% discount",
+   "type": "value",
+   "names": [
+    "15% discount"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0001"
+   ]
+  },
+  {
+   "key": "monthly billing",
+   "name": "monthly billing",
+   "type": "plan",
+   "names": [
+    "monthly billing"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0001"
+   ]
+  },
+  {
+   "key": "payment due within 30 days",
+   "name": "payment due within 30 days",
+   "type": "value",
+   "names": [
+    "payment due within 30 days"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0001",
+    "billing-policy-2026.md#0002"
+   ]
+  },
+  {
+   "key": "payment method",
+   "name": "Payment method",
+   "type": "setting",
+   "names": [
+    "Payment method"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0001",
+    "billing-policy-2026.md#0002"
+   ]
+  },
+  {
+   "key": "settings plan payment method",
+   "name": "Settings → Plan → Payment method",
+   "type": "setting",
+   "names": [
+    "Settings → Plan → Payment method"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0001",
+    "billing-policy-2026.md#0002"
+   ]
+  },
+  {
+   "key": "settings plan invoices",
+   "name": "Settings → Plan → Invoices",
+   "type": "setting",
+   "names": [
+    "Settings → Plan → Invoices"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0002",
+    "billing-policy-2026.md#0002"
+   ]
+  },
+  {
+   "key": "refund window 90 days",
+   "name": "refund window 90 days",
+   "type": "value",
+   "names": [
+    "refund window 90 days"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0002"
+   ]
+  },
+  {
+   "key": "corrected invoice request",
+   "name": "corrected invoice request policy",
+   "type": "policy",
+   "names": [
+    "corrected invoice request policy"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0002"
+   ]
+  },
+  {
+   "key": "seat removal",
+   "name": "seat removal policy",
+   "type": "policy",
+   "names": [
+    "seat removal policy"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0002"
+   ]
+  },
+  {
+   "key": "seat addition",
+   "name": "seat addition policy",
+   "type": "policy",
+   "names": [
+    "seat addition policy"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0002"
+   ]
+  },
+  {
+   "key": "monthly plans",
+   "name": "Monthly plans",
+   "type": "plan",
+   "names": [
+    "Monthly plans"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0003",
+    "billing-policy-2026.md#0003"
+   ]
+  },
+  {
+   "key": "annual plans",
+   "name": "Annual plans",
+   "type": "plan",
+   "names": [
+    "Annual plans",
+    "annual plans"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0003",
+    "billing-policy-2026.md#0003",
+    "billing-policy-2026.md#0004"
+   ]
+  },
+  {
+   "key": "billing kestrel.example",
+   "name": "billing@kestrel.example",
+   "type": "channel",
+   "names": [
+    "billing@kestrel.example"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0003",
+    "billing-policy-2026.md#0006"
+   ]
+  },
+  {
+   "key": "processing time 10 business days",
+   "name": "processing time 10 business days",
+   "type": "value",
+   "names": [
+    "processing time 10 business days"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0003"
+   ]
+  },
+  {
+   "key": "retry window 3 days",
+   "name": "retry window 3 days",
+   "type": "value",
+   "names": [
+    "retry window 3 days"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0003"
+   ]
+  },
+  {
+   "key": "retry window 7 days",
+   "name": "retry window 7 days",
+   "type": "value",
+   "names": [
+    "retry window 7 days"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0003"
+   ]
+  },
+  {
+   "key": "payment retry window 3 days",
+   "name": "payment retry window 3 days",
+   "type": "value",
+   "names": [
+    "payment retry window 3 days"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0004"
+   ]
+  },
+  {
+   "key": "payment retry window 7 days",
+   "name": "payment retry window 7 days",
+   "type": "value",
+   "names": [
+    "payment retry window 7 days"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0004"
+   ]
+  },
+  {
+   "key": "grace period 14 days",
+   "name": "grace period 14 days",
+   "type": "value",
+   "names": [
+    "grace period 14 days"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0004"
+   ]
+  },
+  {
+   "key": "cancel",
+   "name": "Cancel plan",
+   "type": "feature",
+   "names": [
+    "Cancel plan"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0004",
+    "billing-policy-2026.md#0005",
+    "billing-policy-2026.md#0006"
+   ]
+  },
+  {
+   "key": "settings plan cancel",
+   "name": "Settings → Plan → Cancel plan",
+   "type": "setting",
+   "names": [
+    "Settings → Plan → Cancel plan"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0004",
+    "billing-policy-2026.md#0006"
+   ]
+  },
+  {
+   "key": "paid",
+   "name": "paid plan",
+   "type": "plan",
+   "names": [
+    "paid plan"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0004",
+    "billing-policy-2026.md#0005",
+    "billing-policy-2026.md#0006"
+   ]
+  },
+  {
+   "key": "vat",
+   "name": "VAT",
+   "type": "policy",
+   "names": [
+    "VAT"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0005",
+    "billing-policy-2026.md#0006"
+   ]
+  },
+  {
+   "key": "sales tax",
+   "name": "sales tax",
+   "type": "policy",
+   "names": [
+    "sales tax"
+   ],
+   "chunks": [
+    "billing-policy-2025.md#0005",
+    "billing-policy-2026.md#0006"
+   ]
+  },
+  {
+   "key": "billing and refund policy 2026",
+   "name": "Billing and Refund Policy (2026)",
+   "type": "policy",
+   "names": [
+    "Billing and Refund Policy (2026)"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0000"
+   ]
+  },
+  {
+   "key": "billing and refund policy 2025",
+   "name": "Billing and Refund Policy (2025)",
+   "type": "policy",
+   "names": [
+    "Billing and Refund Policy (2025)"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0000"
+   ]
+  },
+  {
+   "key": "monthly",
+   "name": "Monthly",
+   "type": "plan",
+   "names": [
+    "Monthly"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0001"
+   ]
+  },
+  {
+   "key": "annual",
+   "name": "annual plan",
+   "type": "plan",
+   "names": [
+    "Annual",
+    "annual plan"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0001",
+    "billing-policy-2026.md#0006"
+   ]
+  },
+  {
+   "key": "20% discount",
+   "name": "20% discount",
+   "type": "value",
+   "names": [
+    "20% discount"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0001"
+   ]
+  },
+  {
+   "key": "payment due 30 days",
+   "name": "payment due 30 days",
+   "type": "value",
+   "names": [
+    "payment due 30 days"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0001"
+   ]
+  },
+  {
+   "key": "policy",
+   "name": "policy",
+   "type": "concept",
+   "names": [
+    "policy"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0002"
+   ]
+  },
+  {
+   "key": "invoices",
+   "name": "Invoices",
+   "type": "setting",
+   "names": [
+    "Invoices"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0002"
+   ]
+  },
+  {
+   "key": "refund window 12 months",
+   "name": "refund window 12 months",
+   "type": "value",
+   "names": [
+    "refund window 12 months"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0002"
+   ]
+  },
+  {
+   "key": "support",
+   "name": "support",
+   "type": "team",
+   "names": [
+    "support",
+    "Support"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0002",
+    "service-catalog.md#0004"
+   ]
+  },
+  {
+   "key": "refund window 60 days",
+   "name": "refund window 60 days",
+   "type": "value",
+   "names": [
+    "refund window 60 days"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0003"
+   ]
+  },
+  {
+   "key": "refund window 0 days",
+   "name": "refund window 0 days",
+   "type": "value",
+   "names": [
+    "refund window 0 days"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0004"
+   ]
+  },
+  {
+   "key": "request a refund",
+   "name": "Request a refund",
+   "type": "setting",
+   "names": [
+    "Request a refund"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0004"
+   ]
+  },
+  {
+   "key": "billing error",
+   "name": "billing error",
+   "type": "concept",
+   "names": [
+    "billing error"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0004"
+   ]
+  },
+  {
+   "key": "refund processing time 14 days",
+   "name": "refund processing time 14 days",
+   "type": "value",
+   "names": [
+    "refund processing time 14 days"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0004"
+   ]
+  },
+  {
+   "key": "failed payments",
+   "name": "Failed payments",
+   "type": "concept",
+   "names": [
+    "Failed payments"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0004"
+   ]
+  },
+  {
+   "key": "grace period",
+   "name": "grace period",
+   "type": "policy",
+   "names": [
+    "grace period"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0005"
+   ]
+  },
+  {
+   "key": "21 days",
+   "name": "21 days",
+   "type": "value",
+   "names": [
+    "21 days"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0005"
+   ]
+  },
+  {
+   "key": "refund window",
+   "name": "refund window",
+   "type": "policy",
+   "names": [
+    "refund window"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0005",
+    "support-runbook-errors.md#0010"
+   ]
+  },
+  {
+   "key": "60 days",
+   "name": "60 days",
+   "type": "value",
+   "names": [
+    "60 days"
+   ],
+   "chunks": [
+    "billing-policy-2026.md#0005"
+   ]
+  },
+  {
+   "key": "customer support",
+   "name": "Customer Support",
+   "type": "team",
+   "names": [
+    "Customer Support"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "key": "platform",
+   "name": "Platform",
+   "type": "team",
+   "names": [
+    "Platform"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0000",
+    "service-catalog.md#0000",
+    "service-catalog.md#0002",
+    "service-catalog.md#0003",
+    "service-catalog.md#0004"
+   ]
+  },
+  {
+   "key": "kst-1xxx",
+   "name": "KST-1xxx",
+   "type": "error_code",
+   "names": [
+    "KST-1xxx"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "key": "kst-2xxx",
+   "name": "KST-2xxx",
+   "type": "error_code",
+   "names": [
+    "KST-2xxx"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "key": "kst-3xxx",
+   "name": "KST-3xxx",
+   "type": "error_code",
+   "names": [
+    "KST-3xxx"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "key": "kst-4xxx",
+   "name": "KST-4xxx",
+   "type": "error_code",
+   "names": [
+    "KST-4xxx"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "key": "kst-5xxx",
+   "name": "KST-5xxx",
+   "type": "error_code",
+   "names": [
+    "KST-5xxx"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "key": "kst-6xxx",
+   "name": "KST-6xxx",
+   "type": "error_code",
+   "names": [
+    "KST-6xxx"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "key": "sign-in",
+   "name": "sign-in",
+   "type": "concept",
+   "names": [
+    "sign-in"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "key": "connectors",
+   "name": "connectors",
+   "type": "concept",
+   "names": [
+    "connectors"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "key": "queries and dashboards",
+   "name": "queries and dashboards",
+   "type": "concept",
+   "names": [
+    "queries and dashboards"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "key": "members and seats",
+   "name": "members and seats",
+   "type": "concept",
+   "names": [
+    "members and seats"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "key": "delivery and embedding",
+   "name": "delivery and embedding",
+   "type": "team",
+   "names": [
+    "delivery and embedding",
+    "Delivery and embedding"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0000",
+    "support-runbook-errors.md#0008"
+   ]
+  },
+  {
+   "key": "billing",
+   "name": "billing",
+   "type": "concept",
+   "names": [
+    "billing"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "key": "sev-1",
+   "name": "SEV-1",
+   "type": "concept",
+   "names": [
+    "SEV-1"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0001",
+    "service-catalog.md#0004"
+   ]
+  },
+  {
+   "key": "sev-2",
+   "name": "SEV-2",
+   "type": "policy",
+   "names": [
+    "SEV-2"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0001"
+   ]
+  },
+  {
+   "key": "sev-3",
+   "name": "SEV-3",
+   "type": "policy",
+   "names": [
+    "SEV-3"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0001"
+   ]
+  },
+  {
+   "key": "sev-4",
+   "name": "SEV-4",
+   "type": "policy",
+   "names": [
+    "SEV-4"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0001"
+   ]
+  },
+  {
+   "key": "15 minutes",
+   "name": "15 minutes",
+   "type": "value",
+   "names": [
+    "15 minutes"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0001"
+   ]
+  },
+  {
+   "key": "next business day",
+   "name": "Next business day",
+   "type": "value",
+   "names": [
+    "Next business day"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0001"
+   ]
+  },
+  {
+   "key": "KST-1001",
+   "name": "KST-1001",
+   "type": "error_code",
+   "names": [
+    "KST-1001"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0001"
+   ]
+  },
+  {
+   "key": "KST-1007",
+   "name": "KST-1007",
+   "type": "error_code",
+   "names": [
+    "KST-1007"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0002"
+   ]
+  },
+  {
+   "key": "KST-1012",
+   "name": "KST-1012",
+   "type": "error_code",
+   "names": [
+    "KST-1012"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0002",
+    "support-runbook-errors.md#0003"
+   ]
+  },
+  {
+   "key": "time sync",
+   "name": "time sync",
+   "type": "concept",
+   "names": [
+    "time sync"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0002"
+   ]
+  },
+  {
+   "key": "30 seconds",
+   "name": "30 seconds",
+   "type": "value",
+   "names": [
+    "30 seconds"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0002"
+   ]
+  },
+  {
+   "key": "two-factor code",
+   "name": "two-factor code",
+   "type": "feature",
+   "names": [
+    "two-factor code"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0002"
+   ]
+  },
+  {
+   "key": "identity",
+   "name": "Identity",
+   "type": "team",
+   "names": [
+    "Identity"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0003",
+    "service-catalog.md#0000",
+    "service-catalog.md#0001",
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "KST-2040",
+   "name": "KST-2040",
+   "type": "error_code",
+   "names": [
+    "KST-2040"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0003",
+    "support-runbook-errors.md#0004"
+   ]
+  },
+  {
+   "key": "KST-2044",
+   "name": "KST-2044",
+   "type": "error_code",
+   "names": [
+    "KST-2044"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0004"
+   ]
+  },
+  {
+   "key": "KST-2051",
+   "name": "KST-2051",
+   "type": "error_code",
+   "names": [
+    "KST-2051"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0004",
+    "support-runbook-errors.md#0005"
+   ]
+  },
+  {
+   "key": "data integrations",
+   "name": "Data Integrations",
+   "type": "team",
+   "names": [
+    "Data Integrations"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0004",
+    "service-catalog.md#0001",
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "KST-3012",
+   "name": "KST-3012",
+   "type": "error_code",
+   "names": [
+    "KST-3012"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0005"
+   ]
+  },
+  {
+   "key": "analytics engine",
+   "name": "Analytics Engine",
+   "type": "team",
+   "names": [
+    "Analytics Engine"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0005",
+    "support-runbook-errors.md#0006",
+    "service-catalog.md#0001",
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "query time limit",
+   "name": "query time limit",
+   "type": "value",
+   "names": [
+    "query time limit"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0005",
+    "service-catalog.md#0001"
+   ]
+  },
+  {
+   "key": "KST-3020",
+   "name": "KST-3020",
+   "type": "error_code",
+   "names": [
+    "KST-3020"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0006"
+   ]
+  },
+  {
+   "key": "KST-4012",
+   "name": "KST-4012",
+   "type": "error_code",
+   "names": [
+    "KST-4012"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0006",
+    "support-runbook-errors.md#0007"
+   ]
+  },
+  {
+   "key": "KST-4019",
+   "name": "KST-4019",
+   "type": "error_code",
+   "names": [
+    "KST-4019"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0007"
+   ]
+  },
+  {
+   "key": "KST-5031",
+   "name": "KST-5031",
+   "type": "error_code",
+   "names": [
+    "KST-5031"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0007",
+    "support-runbook-errors.md#0008"
+   ]
+  },
+  {
+   "key": "invitation link",
+   "name": "invitation link",
+   "type": "feature",
+   "names": [
+    "invitation link"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0007"
+   ]
+  },
+  {
+   "key": "7 days",
+   "name": "7 days",
+   "type": "value",
+   "names": [
+    "7 days"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0007"
+   ]
+  },
+  {
+   "key": "postroom",
+   "name": "postroom",
+   "type": "service",
+   "names": [
+    "postroom"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0008",
+    "service-catalog.md#0001",
+    "service-catalog.md#0002"
+   ]
+  },
+  {
+   "key": "KST-5038",
+   "name": "KST-5038",
+   "type": "error_code",
+   "names": [
+    "KST-5038"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0008",
+    "support-runbook-errors.md#0009"
+   ]
+  },
+  {
+   "key": "KST-6002",
+   "name": "KST-6002",
+   "type": "error_code",
+   "names": [
+    "KST-6002"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0009",
+    "support-runbook-errors.md#0010"
+   ]
+  },
+  {
+   "key": "embed token lifetime 24 hours",
+   "name": "embed token lifetime 24 hours",
+   "type": "value",
+   "names": [
+    "embed token lifetime 24 hours"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0009"
+   ]
+  },
+  {
+   "key": "embed token lifetime 30 days",
+   "name": "embed token lifetime 30 days",
+   "type": "value",
+   "names": [
+    "embed token lifetime 30 days"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0009"
+   ]
+  },
+  {
+   "key": "KST-6010",
+   "name": "KST-6010",
+   "type": "error_code",
+   "names": [
+    "KST-6010"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0010"
+   ]
+  },
+  {
+   "key": "payments core",
+   "name": "Payments Core",
+   "type": "team",
+   "names": [
+    "Payments Core"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0010",
+    "service-catalog.md#0002",
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "billing errors always refunded",
+   "name": "billing errors always refunded",
+   "type": "value",
+   "names": [
+    "billing errors always refunded"
+   ],
+   "chunks": [
+    "support-runbook-errors.md#0010"
+   ]
+  },
+  {
+   "key": "gateway",
+   "name": "gateway",
+   "type": "service",
+   "names": [
+    "gateway"
+   ],
+   "chunks": [
+    "service-catalog.md#0000"
+   ]
+  },
+  {
+   "key": "600 api requests per minute per workspace",
+   "name": "600 API requests per minute per workspace",
+   "type": "value",
+   "names": [
+    "600 API requests per minute per workspace"
+   ],
+   "chunks": [
+    "service-catalog.md#0000"
+   ]
+  },
+  {
+   "key": "http 429",
+   "name": "HTTP 429",
+   "type": "error_code",
+   "names": [
+    "HTTP 429"
+   ],
+   "chunks": [
+    "service-catalog.md#0000"
+   ]
+  },
+  {
+   "key": "auth",
+   "name": "auth",
+   "type": "service",
+   "names": [
+    "auth"
+   ],
+   "chunks": [
+    "service-catalog.md#0000",
+    "service-catalog.md#0001"
+   ]
+  },
+  {
+   "key": "#platform-help",
+   "name": "#platform-help",
+   "type": "channel",
+   "names": [
+    "#platform-help"
+   ],
+   "chunks": [
+    "service-catalog.md#0000"
+   ]
+  },
+  {
+   "key": "connector-hub",
+   "name": "connector-hub",
+   "type": "service",
+   "names": [
+    "connector-hub"
+   ],
+   "chunks": [
+    "service-catalog.md#0001"
+   ]
+  },
+  {
+   "key": "query-engine",
+   "name": "query-engine",
+   "type": "service",
+   "names": [
+    "query-engine"
+   ],
+   "chunks": [
+    "service-catalog.md#0001"
+   ]
+  },
+  {
+   "key": "scheduler",
+   "name": "scheduler",
+   "type": "service",
+   "names": [
+    "scheduler"
+   ],
+   "chunks": [
+    "service-catalog.md#0001"
+   ]
+  },
+  {
+   "key": "120-second",
+   "name": "120-second",
+   "type": "concept",
+   "names": [
+    "120-second"
+   ],
+   "chunks": [
+    "service-catalog.md#0001"
+   ]
+  },
+  {
+   "key": "messaging",
+   "name": "Messaging",
+   "type": "team",
+   "names": [
+    "Messaging"
+   ],
+   "chunks": [
+    "service-catalog.md#0002",
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "mailman",
+   "name": "mailman",
+   "type": "service",
+   "names": [
+    "mailman"
+   ],
+   "chunks": [
+    "service-catalog.md#0002"
+   ]
+  },
+  {
+   "key": "embed-svc",
+   "name": "embed-svc",
+   "type": "service",
+   "names": [
+    "embed-svc"
+   ],
+   "chunks": [
+    "service-catalog.md#0002"
+   ]
+  },
+  {
+   "key": "ledger",
+   "name": "ledger",
+   "type": "service",
+   "names": [
+    "ledger"
+   ],
+   "chunks": [
+    "service-catalog.md#0002"
+   ]
+  },
+  {
+   "key": "audit-log",
+   "name": "audit-log",
+   "type": "service",
+   "names": [
+    "audit-log"
+   ],
+   "chunks": [
+    "service-catalog.md#0002",
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "samuel okafor",
+   "name": "Samuel Okafor",
+   "type": "person",
+   "names": [
+    "Samuel Okafor"
+   ],
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "priya raman",
+   "name": "Priya Raman",
+   "type": "person",
+   "names": [
+    "Priya Raman"
+   ],
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "tomasz wójcik",
+   "name": "Tomasz Wójcik",
+   "type": "person",
+   "names": [
+    "Tomasz Wójcik"
+   ],
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "léa fontaine",
+   "name": "Léa Fontaine",
+   "type": "person",
+   "names": [
+    "Léa Fontaine"
+   ],
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "inès moreau",
+   "name": "Inès Moreau",
+   "type": "person",
+   "names": [
+    "Inès Moreau"
+   ],
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "jonas berg",
+   "name": "Jonas Berg",
+   "type": "person",
+   "names": [
+    "Jonas Berg"
+   ],
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "#oncall-platform",
+   "name": "#oncall-platform",
+   "type": "channel",
+   "names": [
+    "#oncall-platform"
+   ],
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "#oncall-identity",
+   "name": "#oncall-identity",
+   "type": "channel",
+   "names": [
+    "#oncall-identity"
+   ],
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "#oncall-data-integrations",
+   "name": "#oncall-data-integrations",
+   "type": "channel",
+   "names": [
+    "#oncall-data-integrations"
+   ],
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "#oncall-analytics",
+   "name": "#oncall-analytics",
+   "type": "channel",
+   "names": [
+    "#oncall-analytics"
+   ],
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "#oncall-messaging",
+   "name": "#oncall-messaging",
+   "type": "channel",
+   "names": [
+    "#oncall-messaging"
+   ],
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "key": "#oncall-payments",
+   "name": "#oncall-payments",
+   "type": "channel",
+   "names": [
+    "#oncall-payments"
+   ],
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "source": "seats",
+   "relation": "included_in",
+   "target": "free",
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "source": "seats",
+   "relation": "included_in",
+   "target": "starter",
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "source": "seats",
+   "relation": "included_in",
+   "target": "team",
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "source": "seats",
+   "relation": "included_in",
+   "target": "business",
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "source": "seats",
+   "relation": "included_in",
+   "target": "enterprise",
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "source": "free",
+   "relation": "has_value",
+   "target": "2 seats",
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "source": "starter",
+   "relation": "has_value",
+   "target": "5 seats",
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "source": "team",
+   "relation": "has_value",
+   "target": "20 seats",
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "source": "business",
+   "relation": "has_value",
+   "target": "100 seats",
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "source": "dashboards",
+   "relation": "included_in",
+   "target": "free",
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "source": "free",
+   "relation": "has_value",
+   "target": "3 dashboards",
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "source": "single sign-on saml",
+   "relation": "included_in",
+   "target": "business",
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "source": "single sign-on saml",
+   "relation": "included_in",
+   "target": "enterprise",
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "source": "scim user provisioning",
+   "relation": "included_in",
+   "target": "enterprise",
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "source": "audit log",
+   "relation": "included_in",
+   "target": "business",
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "source": "business",
+   "relation": "has_value",
+   "target": "audit log 90 days",
+   "chunks": [
+    "product-guide.md#0001"
+   ]
+  },
+  {
+   "source": "audit log",
+   "relation": "has_value",
+   "target": "90 days",
+   "chunks": [
+    "product-guide.md#0002"
+   ]
+  },
+  {
+   "source": "audit log",
+   "relation": "has_value",
+   "target": "1 year",
+   "chunks": [
+    "product-guide.md#0002"
+   ]
+  },
+  {
+   "source": "invitation",
+   "relation": "has_value",
+   "target": "invitation valid 7 days",
+   "chunks": [
+    "product-guide.md#0003"
+   ]
+  },
+  {
+   "source": "admin",
+   "relation": "requires",
+   "target": "owner",
+   "chunks": [
+    "product-guide.md#0003"
+   ]
+  },
+  {
+   "source": "two-factor authentication",
+   "relation": "configured_in",
+   "target": "profile security",
+   "chunks": [
+    "product-guide.md#0004"
+   ]
+  },
+  {
+   "source": "two-factor authentication",
+   "relation": "has_value",
+   "target": "time-based six-digit code",
+   "chunks": [
+    "product-guide.md#0004"
+   ]
+  },
+  {
+   "source": "backup code",
+   "relation": "has_value",
+   "target": "10 backup codes",
+   "chunks": [
+    "product-guide.md#0004"
+   ]
+  },
+  {
+   "source": "two-factor authentication",
+   "relation": "configured_in",
+   "target": "settings security",
+   "chunks": [
+    "product-guide.md#0005"
+   ]
+  },
+  {
+   "source": "single sign-on",
+   "relation": "included_in",
+   "target": "business",
+   "chunks": [
+    "product-guide.md#0005"
+   ]
+  },
+  {
+   "source": "single sign-on",
+   "relation": "included_in",
+   "target": "enterprise",
+   "chunks": [
+    "product-guide.md#0005"
+   ]
+  },
+  {
+   "source": "single sign-on",
+   "relation": "requires",
+   "target": "saml 2.0",
+   "chunks": [
+    "product-guide.md#0005"
+   ]
+  },
+  {
+   "source": "single sign-on",
+   "relation": "configured_in",
+   "target": "settings security single sign-on",
+   "chunks": [
+    "product-guide.md#0005"
+   ]
+  },
+  {
+   "source": "single sign-on",
+   "relation": "configured_in",
+   "target": "profile security",
+   "chunks": [
+    "product-guide.md#0006"
+   ]
+  },
+  {
+   "source": "verification",
+   "relation": "has_value",
+   "target": "2 business days",
+   "chunks": [
+    "product-guide.md#0006",
+    "product-guide.md#0007"
+   ]
+  },
+  {
+   "source": "reset link",
+   "relation": "has_value",
+   "target": "1 hour",
+   "chunks": [
+    "product-guide.md#0007"
+   ]
+  },
+  {
+   "source": "csv file",
+   "relation": "has_value",
+   "target": "200 mb",
+   "chunks": [
+    "product-guide.md#0007"
+   ]
+  },
+  {
+   "source": "dataset query",
+   "relation": "has_value",
+   "target": "120 seconds",
+   "chunks": [
+    "product-guide.md#0007"
+   ]
+  },
+  {
+   "source": "query",
+   "relation": "has_value",
+   "target": "120 seconds",
+   "chunks": [
+    "product-guide.md#0008"
+   ]
+  },
+  {
+   "source": "refresh frequency",
+   "relation": "requires",
+   "target": "plan",
+   "chunks": [
+    "product-guide.md#0008"
+   ]
+  },
+  {
+   "source": "dashboard",
+   "relation": "has_value",
+   "target": "50 recipients",
+   "chunks": [
+    "product-guide.md#0008"
+   ]
+  },
+  {
+   "source": "schedule",
+   "relation": "has_value",
+   "target": "50 recipients",
+   "chunks": [
+    "product-guide.md#0009"
+   ]
+  },
+  {
+   "source": "public links",
+   "relation": "included_in",
+   "target": "free",
+   "chunks": [
+    "product-guide.md#0009"
+   ]
+  },
+  {
+   "source": "embed token",
+   "relation": "has_value",
+   "target": "24 hours",
+   "chunks": [
+    "product-guide.md#0010"
+   ]
+  },
+  {
+   "source": "embed token",
+   "relation": "has_value",
+   "target": "30 days",
+   "chunks": [
+    "product-guide.md#0010"
+   ]
+  },
+  {
+   "source": "embed token",
+   "relation": "configured_in",
+   "target": "settings embedding",
+   "chunks": [
+    "product-guide.md#0010"
+   ]
+  },
+  {
+   "source": "embed token",
+   "relation": "included_in",
+   "target": "business",
+   "chunks": [
+    "product-guide.md#0010"
+   ]
+  },
+  {
+   "source": "embed token",
+   "relation": "included_in",
+   "target": "enterprise",
+   "chunks": [
+    "product-guide.md#0010"
+   ]
+  },
+  {
+   "source": "workspace export",
+   "relation": "configured_in",
+   "target": "settings workspace export",
+   "chunks": [
+    "product-guide.md#0010"
+   ]
+  },
+  {
+   "source": "workspace deletion",
+   "relation": "has_value",
+   "target": "refund window 30 days",
+   "chunks": [
+    "product-guide.md#0010"
+   ]
+  },
+  {
+   "source": "free",
+   "relation": "has_value",
+   "target": "best effort",
+   "chunks": [
+    "product-guide.md#0011"
+   ]
+  },
+  {
+   "source": "starter",
+   "relation": "has_value",
+   "target": "2 business days",
+   "chunks": [
+    "product-guide.md#0011"
+   ]
+  },
+  {
+   "source": "team",
+   "relation": "has_value",
+   "target": "1 business day",
+   "chunks": [
+    "product-guide.md#0011"
+   ]
+  },
+  {
+   "source": "business",
+   "relation": "has_value",
+   "target": "8 business hours",
+   "chunks": [
+    "product-guide.md#0011"
+   ]
+  },
+  {
+   "source": "enterprise",
+   "relation": "has_value",
+   "target": "4 hours",
+   "chunks": [
+    "product-guide.md#0011"
+   ]
+  },
+  {
+   "source": "privacy",
+   "relation": "has_value",
+   "target": "one month",
+   "chunks": [
+    "product-guide.md#0011"
+   ]
+  },
+  {
+   "source": "billing and refund",
+   "relation": "owned_by",
+   "target": "finance",
+   "chunks": [
+    "billing-policy-2025.md#0000"
+   ]
+  },
+  {
+   "source": "starter",
+   "relation": "included_in",
+   "target": "billing and refund",
+   "chunks": [
+    "billing-policy-2025.md#0000"
+   ]
+  },
+  {
+   "source": "team",
+   "relation": "included_in",
+   "target": "billing and refund",
+   "chunks": [
+    "billing-policy-2025.md#0000"
+   ]
+  },
+  {
+   "source": "business",
+   "relation": "included_in",
+   "target": "billing and refund",
+   "chunks": [
+    "billing-policy-2025.md#0000"
+   ]
+  },
+  {
+   "source": "enterprise",
+   "relation": "included_in",
+   "target": "billing and refund",
+   "chunks": [
+    "billing-policy-2025.md#0000"
+   ]
+  },
+  {
+   "source": "annual billing",
+   "relation": "has_value",
+   "target": "15% discount",
+   "chunks": [
+    "billing-policy-2025.md#0001"
+   ]
+  },
+  {
+   "source": "business",
+   "relation": "has_value",
+   "target": "payment due within 30 days",
+   "chunks": [
+    "billing-policy-2025.md#0001"
+   ]
+  },
+  {
+   "source": "enterprise",
+   "relation": "has_value",
+   "target": "payment due within 30 days",
+   "chunks": [
+    "billing-policy-2025.md#0001"
+   ]
+  },
+  {
+   "source": "payment method",
+   "relation": "configured_in",
+   "target": "settings plan payment method",
+   "chunks": [
+    "billing-policy-2025.md#0001",
+    "billing-policy-2026.md#0002"
+   ]
+  },
+  {
+   "source": "corrected invoice request",
+   "relation": "has_value",
+   "target": "refund window 90 days",
+   "chunks": [
+    "billing-policy-2025.md#0002"
+   ]
+  },
+  {
+   "source": "annual plans",
+   "relation": "has_value",
+   "target": "refund window 30 days",
+   "chunks": [
+    "billing-policy-2025.md#0003"
+   ]
+  },
+  {
+   "source": "billing kestrel.example",
+   "relation": "related_to",
+   "target": "owner",
+   "chunks": [
+    "billing-policy-2025.md#0003"
+   ]
+  },
+  {
+   "source": "billing kestrel.example",
+   "relation": "has_value",
+   "target": "processing time 10 business days",
+   "chunks": [
+    "billing-policy-2025.md#0003"
+   ]
+  },
+  {
+   "source": "billing and refund",
+   "relation": "has_value",
+   "target": "payment retry window 3 days",
+   "chunks": [
+    "billing-policy-2025.md#0004"
+   ]
+  },
+  {
+   "source": "billing and refund",
+   "relation": "has_value",
+   "target": "payment retry window 7 days",
+   "chunks": [
+    "billing-policy-2025.md#0004"
+   ]
+  },
+  {
+   "source": "billing and refund",
+   "relation": "has_value",
+   "target": "grace period 14 days",
+   "chunks": [
+    "billing-policy-2025.md#0004"
+   ]
+  },
+  {
+   "source": "cancel",
+   "relation": "configured_in",
+   "target": "settings plan cancel",
+   "chunks": [
+    "billing-policy-2025.md#0004",
+    "billing-policy-2026.md#0006"
+   ]
+  },
+  {
+   "source": "billing and refund policy 2026",
+   "relation": "replaces",
+   "target": "billing and refund policy 2025",
+   "chunks": [
+    "billing-policy-2026.md#0000"
+   ]
+  },
+  {
+   "source": "billing and refund policy 2026",
+   "relation": "owned_by",
+   "target": "finance",
+   "chunks": [
+    "billing-policy-2026.md#0000"
+   ]
+  },
+  {
+   "source": "starter",
+   "relation": "related_to",
+   "target": "billing and refund policy 2026",
+   "chunks": [
+    "billing-policy-2026.md#0000"
+   ]
+  },
+  {
+   "source": "team",
+   "relation": "related_to",
+   "target": "billing and refund policy 2026",
+   "chunks": [
+    "billing-policy-2026.md#0000"
+   ]
+  },
+  {
+   "source": "business",
+   "relation": "related_to",
+   "target": "billing and refund policy 2026",
+   "chunks": [
+    "billing-policy-2026.md#0000"
+   ]
+  },
+  {
+   "source": "enterprise",
+   "relation": "related_to",
+   "target": "billing and refund policy 2026",
+   "chunks": [
+    "billing-policy-2026.md#0000"
+   ]
+  },
+  {
+   "source": "annual",
+   "relation": "has_value",
+   "target": "20% discount",
+   "chunks": [
+    "billing-policy-2026.md#0001"
+   ]
+  },
+  {
+   "source": "team",
+   "relation": "has_value",
+   "target": "payment due 30 days",
+   "chunks": [
+    "billing-policy-2026.md#0001"
+   ]
+  },
+  {
+   "source": "business",
+   "relation": "has_value",
+   "target": "payment due 30 days",
+   "chunks": [
+    "billing-policy-2026.md#0001"
+   ]
+  },
+  {
+   "source": "enterprise",
+   "relation": "has_value",
+   "target": "payment due 30 days",
+   "chunks": [
+    "billing-policy-2026.md#0001"
+   ]
+  },
+  {
+   "source": "policy",
+   "relation": "has_value",
+   "target": "payment due within 30 days",
+   "chunks": [
+    "billing-policy-2026.md#0002"
+   ]
+  },
+  {
+   "source": "invoices",
+   "relation": "configured_in",
+   "target": "settings plan invoices",
+   "chunks": [
+    "billing-policy-2026.md#0002"
+   ]
+  },
+  {
+   "source": "support",
+   "relation": "has_value",
+   "target": "refund window 12 months",
+   "chunks": [
+    "billing-policy-2026.md#0002"
+   ]
+  },
+  {
+   "source": "annual plans",
+   "relation": "has_value",
+   "target": "refund window 60 days",
+   "chunks": [
+    "billing-policy-2026.md#0003"
+   ]
+  },
+  {
+   "source": "annual plans",
+   "relation": "has_value",
+   "target": "refund window 0 days",
+   "chunks": [
+    "billing-policy-2026.md#0004"
+   ]
+  },
+  {
+   "source": "request a refund",
+   "relation": "related_to",
+   "target": "owner",
+   "chunks": [
+    "billing-policy-2026.md#0004"
+   ]
+  },
+  {
+   "source": "billing error",
+   "relation": "has_value",
+   "target": "refund processing time 14 days",
+   "chunks": [
+    "billing-policy-2026.md#0004"
+   ]
+  },
+  {
+   "source": "grace period",
+   "relation": "has_value",
+   "target": "21 days",
+   "chunks": [
+    "billing-policy-2026.md#0005"
+   ]
+  },
+  {
+   "source": "refund window",
+   "relation": "has_value",
+   "target": "60 days",
+   "chunks": [
+    "billing-policy-2026.md#0005"
+   ]
+  },
+  {
+   "source": "cancel",
+   "relation": "configured_in",
+   "target": "settings",
+   "chunks": [
+    "billing-policy-2026.md#0005"
+   ]
+  },
+  {
+   "source": "cancel",
+   "relation": "related_to",
+   "target": "paid",
+   "chunks": [
+    "billing-policy-2026.md#0005",
+    "billing-policy-2026.md#0006"
+   ]
+  },
+  {
+   "source": "vat",
+   "relation": "related_to",
+   "target": "sales tax",
+   "chunks": [
+    "billing-policy-2026.md#0006"
+   ]
+  },
+  {
+   "source": "kst-1xxx",
+   "relation": "related_to",
+   "target": "sign-in",
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "source": "kst-2xxx",
+   "relation": "related_to",
+   "target": "connectors",
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "source": "kst-3xxx",
+   "relation": "related_to",
+   "target": "queries and dashboards",
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "source": "kst-4xxx",
+   "relation": "related_to",
+   "target": "members and seats",
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "source": "kst-5xxx",
+   "relation": "related_to",
+   "target": "delivery and embedding",
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "source": "kst-6xxx",
+   "relation": "related_to",
+   "target": "billing",
+   "chunks": [
+    "support-runbook-errors.md#0000"
+   ]
+  },
+  {
+   "source": "sev-1",
+   "relation": "has_value",
+   "target": "15 minutes",
+   "chunks": [
+    "support-runbook-errors.md#0001"
+   ]
+  },
+  {
+   "source": "sev-2",
+   "relation": "has_value",
+   "target": "1 hour",
+   "chunks": [
+    "support-runbook-errors.md#0001"
+   ]
+  },
+  {
+   "source": "sev-3",
+   "relation": "has_value",
+   "target": "next business day",
+   "chunks": [
+    "support-runbook-errors.md#0001"
+   ]
+  },
+  {
+   "source": "KST-1007",
+   "relation": "requires",
+   "target": "time sync",
+   "chunks": [
+    "support-runbook-errors.md#0002"
+   ]
+  },
+  {
+   "source": "KST-1007",
+   "relation": "has_value",
+   "target": "30 seconds",
+   "chunks": [
+    "support-runbook-errors.md#0002"
+   ]
+  },
+  {
+   "source": "KST-1012",
+   "relation": "escalate_to",
+   "target": "identity",
+   "chunks": [
+    "support-runbook-errors.md#0003"
+   ]
+  },
+  {
+   "source": "KST-1012",
+   "relation": "configured_in",
+   "target": "settings security single sign-on",
+   "chunks": [
+    "support-runbook-errors.md#0003"
+   ]
+  },
+  {
+   "source": "KST-2040",
+   "relation": "escalate_to",
+   "target": "data integrations",
+   "chunks": [
+    "support-runbook-errors.md#0004"
+   ]
+  },
+  {
+   "source": "KST-3012",
+   "relation": "escalate_to",
+   "target": "analytics engine",
+   "chunks": [
+    "support-runbook-errors.md#0005"
+   ]
+  },
+  {
+   "source": "KST-3012",
+   "relation": "has_value",
+   "target": "query time limit",
+   "chunks": [
+    "support-runbook-errors.md#0005"
+   ]
+  },
+  {
+   "source": "query time limit",
+   "relation": "has_value",
+   "target": "120 seconds",
+   "chunks": [
+    "support-runbook-errors.md#0005"
+   ]
+  },
+  {
+   "source": "KST-3020",
+   "relation": "escalate_to",
+   "target": "analytics engine",
+   "chunks": [
+    "support-runbook-errors.md#0006"
+   ]
+  },
+  {
+   "source": "KST-4012",
+   "relation": "requires",
+   "target": "plan",
+   "chunks": [
+    "support-runbook-errors.md#0006"
+   ]
+  },
+  {
+   "source": "invitation link",
+   "relation": "has_value",
+   "target": "7 days",
+   "chunks": [
+    "support-runbook-errors.md#0007"
+   ]
+  },
+  {
+   "source": "KST-4019",
+   "relation": "configured_in",
+   "target": "settings members",
+   "chunks": [
+    "support-runbook-errors.md#0007"
+   ]
+  },
+  {
+   "source": "KST-5031",
+   "relation": "raised_by",
+   "target": "postroom",
+   "chunks": [
+    "support-runbook-errors.md#0008"
+   ]
+  },
+  {
+   "source": "postroom",
+   "relation": "owned_by",
+   "target": "delivery and embedding",
+   "chunks": [
+    "support-runbook-errors.md#0008"
+   ]
+  },
+  {
+   "source": "KST-5031",
+   "relation": "escalate_to",
+   "target": "delivery and embedding",
+   "chunks": [
+    "support-runbook-errors.md#0008"
+   ]
+  },
+  {
+   "source": "KST-5038",
+   "relation": "has_value",
+   "target": "embed token lifetime 24 hours",
+   "chunks": [
+    "support-runbook-errors.md#0009"
+   ]
+  },
+  {
+   "source": "KST-5038",
+   "relation": "has_value",
+   "target": "embed token lifetime 30 days",
+   "chunks": [
+    "support-runbook-errors.md#0009"
+   ]
+  },
+  {
+   "source": "KST-5038",
+   "relation": "included_in",
+   "target": "business",
+   "chunks": [
+    "support-runbook-errors.md#0009"
+   ]
+  },
+  {
+   "source": "KST-5038",
+   "relation": "included_in",
+   "target": "enterprise",
+   "chunks": [
+    "support-runbook-errors.md#0009"
+   ]
+  },
+  {
+   "source": "billing and refund",
+   "relation": "related_to",
+   "target": "KST-6002",
+   "chunks": [
+    "support-runbook-errors.md#0009"
+   ]
+  },
+  {
+   "source": "KST-6002",
+   "relation": "escalate_to",
+   "target": "payments core",
+   "chunks": [
+    "support-runbook-errors.md#0010"
+   ]
+  },
+  {
+   "source": "KST-6010",
+   "relation": "escalate_to",
+   "target": "payments core",
+   "chunks": [
+    "support-runbook-errors.md#0010"
+   ]
+  },
+  {
+   "source": "refund window",
+   "relation": "has_value",
+   "target": "billing errors always refunded",
+   "chunks": [
+    "support-runbook-errors.md#0010"
+   ]
+  },
+  {
+   "source": "gateway",
+   "relation": "owned_by",
+   "target": "platform",
+   "chunks": [
+    "service-catalog.md#0000"
+   ]
+  },
+  {
+   "source": "gateway",
+   "relation": "has_value",
+   "target": "600 api requests per minute per workspace",
+   "chunks": [
+    "service-catalog.md#0000"
+   ]
+  },
+  {
+   "source": "http 429",
+   "relation": "raised_by",
+   "target": "gateway",
+   "chunks": [
+    "service-catalog.md#0000"
+   ]
+  },
+  {
+   "source": "auth",
+   "relation": "owned_by",
+   "target": "identity",
+   "chunks": [
+    "service-catalog.md#0000",
+    "service-catalog.md#0001"
+   ]
+  },
+  {
+   "source": "connector-hub",
+   "relation": "owned_by",
+   "target": "data integrations",
+   "chunks": [
+    "service-catalog.md#0001"
+   ]
+  },
+  {
+   "source": "query-engine",
+   "relation": "owned_by",
+   "target": "analytics engine",
+   "chunks": [
+    "service-catalog.md#0001"
+   ]
+  },
+  {
+   "source": "query-engine",
+   "relation": "has_value",
+   "target": "query time limit",
+   "chunks": [
+    "service-catalog.md#0001"
+   ]
+  },
+  {
+   "source": "query time limit",
+   "relation": "related_to",
+   "target": "120-second",
+   "chunks": [
+    "service-catalog.md#0001"
+   ]
+  },
+  {
+   "source": "scheduler",
+   "relation": "owned_by",
+   "target": "analytics engine",
+   "chunks": [
+    "service-catalog.md#0001"
+   ]
+  },
+  {
+   "source": "postroom",
+   "relation": "owned_by",
+   "target": "analytics engine",
+   "chunks": [
+    "service-catalog.md#0001"
+   ]
+  },
+  {
+   "source": "postroom",
+   "relation": "owned_by",
+   "target": "messaging",
+   "chunks": [
+    "service-catalog.md#0002"
+   ]
+  },
+  {
+   "source": "postroom",
+   "relation": "replaces",
+   "target": "mailman",
+   "chunks": [
+    "service-catalog.md#0002"
+   ]
+  },
+  {
+   "source": "embed-svc",
+   "relation": "owned_by",
+   "target": "platform",
+   "chunks": [
+    "service-catalog.md#0002"
+   ]
+  },
+  {
+   "source": "ledger",
+   "relation": "owned_by",
+   "target": "payments core",
+   "chunks": [
+    "service-catalog.md#0002"
+   ]
+  },
+  {
+   "source": "ledger",
+   "relation": "requires",
+   "target": "billing and refund",
+   "chunks": [
+    "service-catalog.md#0002"
+   ]
+  },
+  {
+   "source": "audit-log",
+   "relation": "owned_by",
+   "target": "identity",
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "source": "audit-log",
+   "relation": "included_in",
+   "target": "business",
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "source": "audit-log",
+   "relation": "included_in",
+   "target": "enterprise",
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "source": "platform",
+   "relation": "led_by",
+   "target": "samuel okafor",
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "source": "identity",
+   "relation": "led_by",
+   "target": "priya raman",
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "source": "data integrations",
+   "relation": "led_by",
+   "target": "tomasz wójcik",
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "source": "analytics engine",
+   "relation": "led_by",
+   "target": "léa fontaine",
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "source": "messaging",
+   "relation": "led_by",
+   "target": "inès moreau",
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "source": "payments core",
+   "relation": "led_by",
+   "target": "jonas berg",
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "source": "platform",
+   "relation": "on_call_channel",
+   "target": "#oncall-platform",
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "source": "identity",
+   "relation": "on_call_channel",
+   "target": "#oncall-identity",
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "source": "data integrations",
+   "relation": "on_call_channel",
+   "target": "#oncall-data-integrations",
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "source": "analytics engine",
+   "relation": "on_call_channel",
+   "target": "#oncall-analytics",
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "source": "messaging",
+   "relation": "on_call_channel",
+   "target": "#oncall-messaging",
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "source": "payments core",
+   "relation": "on_call_channel",
+   "target": "#oncall-payments",
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "source": "data integrations",
+   "relation": "escalate_to",
+   "target": "platform",
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "source": "messaging",
+   "relation": "escalate_to",
+   "target": "platform",
+   "chunks": [
+    "service-catalog.md#0003"
+   ]
+  },
+  {
+   "source": "platform",
+   "relation": "related_to",
+   "target": "sev-1",
+   "chunks": [
+    "service-catalog.md#0004"
+   ]
+  },
+  {
+   "source": "support",
+   "relation": "related_to",
+   "target": "sev-1",
+   "chunks": [
+    "service-catalog.md#0004"
+   ]
+  }
+ ],
+ "merges": [
+  {
+   "key": "free",
+   "names": [
+    "Free",
+    "Free plan"
+   ]
+  },
+  {
+   "key": "seats",
+   "names": [
+    "seats",
+    "Seats"
+   ]
+  },
+  {
+   "key": "single sign-on",
+   "names": [
+    "single sign-on",
+    "Single sign-on"
+   ]
+  },
+  {
+   "key": "annual plans",
+   "names": [
+    "Annual plans",
+    "annual plans"
+   ]
+  },
+  {
+   "key": "annual",
+   "names": [
+    "Annual",
+    "annual plan"
+   ]
+  },
+  {
+   "key": "support",
+   "names": [
+    "support",
+    "Support"
+   ]
+  },
+  {
+   "key": "delivery and embedding",
+   "names": [
+    "delivery and embedding",
+    "Delivery and embedding"
+   ]
+  }
+ ],
+ "type_conflicts": [
+  {
+   "key": "single sign-on",
+   "types": [
+    "feature",
+    "policy"
+   ]
+  },
+  {
+   "key": "verification",
+   "types": [
+    "policy",
+    "concept"
+   ]
+  },
+  {
+   "key": "connector",
+   "types": [
+    "concept",
+    "feature"
+   ]
+  },
+  {
+   "key": "embed token",
+   "types": [
+    "feature",
+    "concept"
+   ]
+  },
+  {
+   "key": "vat",
+   "types": [
+    "policy",
+    "concept"
+   ]
+  },
+  {
+   "key": "sales tax",
+   "types": [
+    "policy",
+    "concept"
+   ]
+  },
+  {
+   "key": "sev-1",
+   "types": [
+    "concept",
+    "policy"
+   ]
+  },
+  {
+   "key": "analytics engine",
+   "types": [
+    "team",
+    "service"
+   ]
+  }
+ ],
+ "cost": {
+  "chunks": 42,
+  "failed": 0,
+  "llm_calls": 42,
+  "input_tokens": 37028,
+  "output_tokens": 13301,
+  "seconds": 302.3
+ }
+}

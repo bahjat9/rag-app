@@ -13,11 +13,18 @@ export const SettingsSchema = z
     overlapPercent: z.number().int().min(0).max(50),
     topK: z.number().int().min(1).max(20),
     minParagraphLength: z.number().int().min(0).max(200),
+    // V3: which retrievers run; their ranked lists are fused with RRF.
+    retrievers: z
+      .object({ dense: z.boolean(), bm25: z.boolean(), graph: z.boolean() })
+      .strict()
+      .refine((r) => r.dense || r.bm25 || r.graph, "Switch on at least one retriever.")
+      .default({ dense: true, bm25: true, graph: false }),
   })
   .strict();
 export type Settings = z.infer<typeof SettingsSchema>;
 
-export const DEFAULT_SETTINGS: Settings = { chunkSize: 800, overlapPercent: 10, topK: 5, minParagraphLength: 20 };
+export const DEFAULT_SETTINGS: Settings = { chunkSize: 800, overlapPercent: 10, topK: 5, minParagraphLength: 20, retrievers: { dense: true, bm25: true, graph: false } };
+export type Retrievers = Settings["retrievers"];
 
 const FILE = path.join(process.cwd(), "data", "settings.json");
 
