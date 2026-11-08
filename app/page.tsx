@@ -2,15 +2,16 @@
 
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import type { AskResponse } from "@/lib/schema";
-import { call, json, type Chunk, type QuestionSet, type Settings } from "./ui/common";
+import { call, GraphPathView, json, RetrieverToggles, sourcesText, type Chunk, type QuestionSet, type Settings } from "./ui/common";
 import { EvalTab } from "./ui/EvalTab";
+import { GraphTab } from "./ui/GraphTab";
 import { WordsTab } from "./ui/WordsTab";
 
 type Doc = { id: string; bytes: number; modified: string; index: "ready" | "missing" | "stale"; chunks: number | null };
 const kb = (b: number) => (b > 1e6 ? `${(b / 1e6).toFixed(1)} MB` : `${Math.round(b / 1000)} kB`);
 
 export default function Home() {
-  const [tab, setTab] = useState<"ask" | "eval" | "words">("ask");
+  const [tab, setTab] = useState<"ask" | "eval" | "words" | "graph">("ask");
   const [sets, setSets] = useState<QuestionSet[]>([]);
   const [docs, setDocs] = useState<Doc[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
@@ -86,7 +87,7 @@ export default function Home() {
     try {
       const s = await call<Settings>("/api/settings", json("PUT", draft));
       const reindex = settings && (s.chunkSize !== settings.chunkSize || s.overlapPercent !== settings.overlapPercent || s.minParagraphLength !== settings.minParagraphLength);
-      setNotice({ kind: "ok", text: reindex ? "Settings saved. The chunks changed: re-index the documents." : "Settings saved (top-k only: no re-indexing needed)." });
+      setNotice({ kind: "ok", text: reindex ? "Settings saved. The chunks changed: re-index the documents (and rebuild the graph)." : "Settings saved (top-k / retrievers only: no re-indexing needed)." });
       await refresh();
     } catch (e) {
       setNotice({ kind: "error", text: (e as Error).message });
@@ -100,7 +101,7 @@ export default function Home() {
       <header className="topbar">
         <div>
           <h1>Ask the docs</h1>
-          <p className="muted">RAG V2 – question answering with references, evaluation on two corpora, words analytics</p>
+          <p className="muted">RAG V3 – hybrid retrieval (dense + BM25 + concept graph, fused with RRF), evaluation on two corpora</p>
         </div>
         <nav className="tabs">
           <button className={tab === "ask" ? "tab active" : "tab"} onClick={() => setTab("ask")}>
@@ -111,6 +112,9 @@ export default function Home() {
           </button>
           <button className={tab === "words" ? "tab active" : "tab"} onClick={() => setTab("words")}>
             Words
+          </button>
+          <button className={tab === "graph" ? "tab active" : "tab"} onClick={() => setTab("graph")}>
+            Graph
           </button>
         </nav>
       </header>
@@ -187,6 +191,10 @@ export default function Home() {
                   Min paragraph length
                   <input type="number" min={0} max={200} value={draft.minParagraphLength} onChange={(e) => setDraft({ ...draft, minParagraphLength: Number(e.target.value) })} />
                 </label>
+                <div className="field">
+                  Retrievers (fused with RRF)
+                  <RetrieverToggles value={draft.retrievers ?? { dense: true, bm25: false, graph: false }} onChange={(r) => setDraft({ ...draft, retrievers: r })} />
+                </div>
                 <button onClick={saveSettings}>Save settings</button>
                 <p className="small muted">
                   Chunk size, overlap and min paragraph change the chunks → re-index. Top-k only changes the search. all-MiniLM-L6-v2 reads at most 256 tokens (~1,000 characters): longer chunks are truncated when embedded.
@@ -200,6 +208,7 @@ export default function Home() {
           {tab === "ask" && <AskPanel selected={selected} />}
           {tab === "eval" && <EvalTab settings={settings} sets={sets} />}
           {tab === "words" && <WordsTab sets={sets} selected={selected} />}
+          {tab === "graph" && <GraphTab sets={sets} settings={settings} />}
         </div>
       </div>
     </main>
@@ -267,7 +276,7 @@ function AskPanel({ selected }: { selected: string[] }) {
                   <button className="ref" onClick={() => openChunk(c.id)}>
                     [{c.rank}] {c.id}
                   </button>
-                  <span className="small muted"> similarity {c.score.toFixed(3)} · characters {c.start}–{c.end}</span>
+                  <span className="small muted"> found by {sourcesText(c.sources) || "dense"} · RRF {c.score.toFixed(4)} · characters {c.start}–{c.end}</span>
                   <p className="preview">{c.text.slice(0, 220)}…</p>
                 </li>
               ))}
@@ -281,14 +290,16 @@ function AskPanel({ selected }: { selected: string[] }) {
               {result.retrieved.map((h) => (
                 <li key={h.id}>
                   <button className="link" onClick={() => openChunk(h.id)}>{h.id}</button>{" "}
-                  <span className="small muted">score {h.score.toFixed(3)}{result.citations.some((c) => c.id === h.id) ? " · cited" : ""}</span>
+                  <span className="small muted">RRF {h.score.toFixed(4)} · {sourcesText(h.sources)}{result.citations.some((c) => c.id === h.id) ? " · cited" : ""}</span>
                 </li>
               ))}
             </ol>
           </details>
+          <GraphPathView graph={result.graph} openChunk={openChunk} />
           <p className="meta small">
-            {result.model} + {result.embeddingModel} · {result.promptVersion} · chunk {result.settings.chunkSize}/{result.settings.overlapPercent}% · top-{result.settings.topK} ·
-            retrieval {result.latency.retrieval_ms} ms · generation {result.latency.generation_ms} ms
+            {Object.entries(result.settings.retrievers).filter(([, on]) => on).map(([x]) => x).join(" + ")} · {result.model} + {result.embeddingModel} · {result.promptVersion} · chunk {result.settings.chunkSize}/{result.settings.overlapPercent}% · top-{result.settings.topK} ·
+            retrieval {result.latency.retrieval_ms} ms
+            {result.latency.per_retriever_ms && ` (${Object.entries(result.latency.per_retriever_ms).filter(([, v]) => v != null).map(([k, v]) => `${k} ${v}`).join(", ")})`} · generation {result.latency.generation_ms} ms
             {result.usage && ` · tokens in ${result.usage.input_tokens} / out ${result.usage.output_tokens}`}
           </p>
         </div>

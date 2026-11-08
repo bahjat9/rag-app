@@ -1,9 +1,63 @@
-# Ask the docs – RAG V2
+# Ask the docs – RAG V3
 
 A web application where a user asks a question about a document corpus and receives a **grounded** answer,
 with **references** to the passages it was built from. Built for *AI Systems Integration and Operations* (BCS S5 2026):
-RAG project **V1 – naive RAG app** (tag `v1`) and **V2 – two corpora, a first evaluation, words analytics** (tag `v2`).
+RAG project **V1 – naive RAG app** (tag `v1`), **V2 – two corpora, a first evaluation, words analytics** (tag `v2`) and
+**V3 – hybrid retrieval: dense + BM25 + concept graph, fused with RRF** (tag `v3`).
 Design choices, results and known failures: [`REPORT.md`](./REPORT.md).
+
+## V3 at a glance
+
+| V3 requirement | Where |
+|---|---|
+| BM25 keyword retriever, both corpora | `lib/bm25.ts`; index `data/index/<doc>__bm25__<size>_<overlap>_<minpara>.json` (built with the same chunks as the dense index, rebuilt when the document changes) |
+| Concept graph on Kestrel: LLM extraction of (entity, relation, entity) triples at indexing time, fixed schema, Zod validation, provenance, entity resolution, cost | `lib/graph.ts`; graph file `data/graph/graph__<docs>__<size>_<overlap>_<minpara>.json`; *Graph* tab; `cli graph build / stats` |
+| Graph retriever returns a ranked list of chunks | `graphSearch` in `lib/graph.ts` |
+| RRF fusion of the retrievers switched on, from the UI **and** the eval command | `lib/retrieve.ts`; *Retrieval settings → Retrievers* and the *Evaluation* form; `cli eval --retrievers dense,bm25,graph` |
+| Each reference shows which retriever(s) found it and at what rank | *Ask* tab: “found by dense #3 · bm25 #1”; eval rows: rank of each quote in each retriever's own list |
+| Graph path in the UI: entities found in the question, edges followed, chunks they came from | *Ask* tab (*Graph path*), *Graph* tab (*Try the graph retriever*) |
+| Configurations dense / dense+BM25 (both corpora) / dense+BM25+graph (Kestrel), hit@k and recall@k for k = 1, 3, 5, 10, overall and per type | `eval/runs/*-dense.json`, `*-dense-bm25.json`, `*-dense-bm25-graph.json`; `eval/RESULTS.md` |
+| Two new two_hop questions on Kestrel (q11, q12), added, nothing edited | `eval/kestrel.questions.jsonl` |
+| Extraction quality: 10 random triples graded correct / wrong / unsupported | *Graph* tab → *Extraction quality*, `cli graph sample`; `eval/graph-triples.json` |
+| Cost per question per configuration (LLM calls, tokens, latency) | `cost` in every run summary; printed by `cli eval`; graph build cost in `cli graph stats` |
+
+### Switch the retrievers
+
+- **UI:** *Retrieval settings* (left) → *Retrievers (fused with RRF)*: tick dense, BM25, graph → *Save settings*. No re-indexing
+  needed. The *Evaluation* form has its own checkboxes (they only apply to that run).
+- **Terminal:** `--retrievers dense`, `--retrievers dense,bm25`, `--retrievers dense,bm25,graph` (any combination; default = saved settings).
+
+With one retriever on, the order is that retriever's order. With several, each returns its top 20 and the lists are
+fused with Reciprocal Rank Fusion: `score = Σ 1 / (60 + rank)`. The graph needs a built graph for the selected documents
+(otherwise it returns nothing and the Ask tab says so).
+
+### Build the graph (Kestrel)
+
+```sh
+node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts graph build --set kestrel
+node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts graph stats --set kestrel     # numbers, merges, failures, cost
+node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts graph ask --set kestrel "Error KST-5031 on scheduled reports: which team?"
+node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts graph sample --set kestrel    # 10 random triples to grade
+```
+
+or the *Graph* tab → *Build the graph*. One LLM call per chunk (42 chunks with 800 / 10 % / 20), paced with
+`LLM_BATCH_DELAY_MS`. Each chunk's extraction is saved as soon as it returns: after a quota error, run the same
+command again and it resumes. `--retry-failed` re-runs the chunks whose output failed validation twice; `--rebuild`
+starts from scratch. The graph is tied to the chunk settings: after changing chunk size / overlap / min paragraph, re-index and rebuild.
+
+### Run the V3 evaluation
+
+```sh
+node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts eval --set kestrel --retrievers dense
+node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts eval --set kestrel --retrievers dense,bm25
+node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts eval --set kestrel --retrievers dense,bm25,graph
+node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts eval --set vellora --retrievers dense
+node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts eval --set vellora --retrievers dense,bm25
+node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts results     # -> eval/RESULTS.md
+```
+
+Add `--answers` to also measure the generation cost per question (one LLM call each). Retrieval itself makes no
+LLM call: the graph is searched by matching entity names in the question; its LLM cost is paid once, at build time.
 
 ## V2 at a glance
 
@@ -112,14 +166,17 @@ instead of downloading it.
 | `GET /api/documents` | – | documents + index status for the current settings |
 | `POST /api/documents` | multipart `file` (.md/.txt) | added documents |
 | `DELETE /api/documents?id=` | – | deletes the document and its indexes |
-| `GET/PUT /api/settings` | `{chunkSize, overlapPercent, topK, minParagraphLength}` | settings |
+| `GET/PUT /api/settings` | `{chunkSize, overlapPercent, topK, minParagraphLength, retrievers: {dense, bm25, graph}}` | settings |
 | `POST /api/index` | `{docs: [...]}` | chunks per document, time |
 | `POST /api/ask` | `{question, docs: [...]}` | `{found, answer, citations, retrieved, warnings, usage, latency, …}` |
 | `GET /api/chunks?id=doc#0012[&cfg=800_10_20]` | – | chunk text and position (current settings, or another configuration) |
-| `POST /api/search` | `{question, docs, topK?}` | retrieval only: top-k chunks and scores |
+| `POST /api/search` | `{question, docs, topK?}` | retrieval only: fused top-k chunks, the retriever(s) and rank behind each, each retriever's own list, graph path |
+| `GET /api/graph?set=` | – | graph stats, cost, entities, edges, merges, type conflicts, failed chunks |
+| `POST /api/graph` | `{set, rebuild?, retryFailed?}` | build / resume the graph |
+| `GET/POST/PATCH /api/graph/triples` | – / `{set, force?}` / `{n, grade, note}` | the 10 sampled triples / draw them / grade one |
 | `GET /api/sets` | – | question sets, their documents and questions |
 | `GET /api/eval` | – | every run summary + results table (Markdown) |
-| `POST /api/eval` | `{set, chunkSize?, overlapPercent?, minParagraphLength?, topK?, answers?, label?}` | run the evaluation |
+| `POST /api/eval` | `{set, retrievers?, chunkSize?, overlapPercent?, minParagraphLength?, topK?, answers?, label?}` | run the evaluation |
 | `GET /api/eval/run?file=` | – | one run with its rows, answers and grades |
 | `POST /api/eval/grade` | `{file, id, grade: correct\|partial\|wrong\|unsupported\|null, note}` | save a hand grade |
 | `GET/POST/PATCH /api/nocontext` | `{set}` / `{file, id, flag}` | list / run the no-context test / correct a flag by hand |

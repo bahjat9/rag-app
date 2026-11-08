@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { call, cfgOf, json, pct, useChunkModal, type QuestionSet, type Settings } from "./common";
+import { call, cfgOf, json, pct, RetrieverToggles, retrieverTag, useChunkModal, type QuestionSet, type Retrievers, type Settings } from "./common";
 
 const KS = ["1", "3", "5", "10"] as const;
 const GRADES = ["correct", "partial", "wrong", "unsupported"] as const;
@@ -25,6 +25,9 @@ type Summary = {
   answers: boolean;
   llm_model: string | null;
   duration_ms: number;
+  retrievers?: string;
+  graph_in_topk_questions?: number;
+  cost?: { retrieval_ms_avg: number; per_retriever_ms_avg: Record<string, number | null>; llm_calls_per_question: number; tokens_per_question: number | null; generation_ms_avg: number | null };
 };
 type Row = {
   id: string;
@@ -37,7 +40,11 @@ type Row = {
   recall: Record<string, number> | null;
   partial: Record<string, boolean> | null;
   top_score: number;
-  retrieved: { id: string; score: number }[];
+  retrieved: { id: string; score: number; sources?: string[] }[];
+  quote_by_retriever?: Partial<Record<"dense" | "bm25" | "graph", (number | null)[]>>;
+  graph_in_topk?: number;
+  graph_only_in_topk?: number;
+  graph_seeds?: string[];
   answer?: { found: boolean; answer: string; citations: string[]; warnings: string[]; chunks: { id: string; score: number; text: string }[]; error?: string };
   grade?: (typeof GRADES)[number] | null;
   grade_note?: string;
@@ -52,11 +59,20 @@ export function EvalTab({ settings, sets }: { settings: Settings | null; sets: Q
   const [open, setOpen] = useState<Run | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
-  const [form, setForm] = useState({ set: "kestrel", chunkSize: 800, overlapPercent: 10, minParagraphLength: 20, topK: 5, answers: false, label: "" });
+  const [form, setForm] = useState<{ set: string; chunkSize: number; overlapPercent: number; minParagraphLength: number; topK: number; retrievers: Retrievers; answers: boolean; label: string }>({
+    set: "kestrel",
+    chunkSize: 800,
+    overlapPercent: 10,
+    minParagraphLength: 20,
+    topK: 5,
+    retrievers: { dense: true, bm25: true, graph: false },
+    answers: false,
+    label: "",
+  });
   const { openChunk, modal } = useChunkModal();
 
   useEffect(() => {
-    if (settings) setForm((f) => ({ ...f, ...settings }));
+    if (settings) setForm((f) => ({ ...f, ...settings, retrievers: settings.retrievers ?? f.retrievers }));
   }, [settings]);
   useEffect(() => {
     if (sets.length && !sets.some((s) => s.id === form.set)) setForm((f) => ({ ...f, set: sets[0].id }));
@@ -104,7 +120,7 @@ export function EvalTab({ settings, sets }: { settings: Settings | null; sets: Q
         <p className="small muted">
           Runs every question of a set through retrieval (top 10) and checks, for k = 1, 3, 5, 10, whether the chunks contain the evidence quotes of the question. Unanswerable questions are left out of
           the rates. The configuration below only applies to this run (the saved settings are not changed); missing indexes are built. Same as{" "}
-          <code>npm run cli -- eval --set {form.set} --chunk {form.chunkSize} --overlap {form.overlapPercent} --k {form.topK}{form.answers ? " --answers" : ""}</code>.
+          <code>npm run cli -- eval --set {form.set} --retrievers {retrieverTag(form.retrievers).replace(/\+/g, ",")} --chunk {form.chunkSize} --overlap {form.overlapPercent} --k {form.topK}{form.answers ? " --answers" : ""}</code>.
         </p>
         <div className="formgrid">
           <label>
@@ -120,6 +136,10 @@ export function EvalTab({ settings, sets }: { settings: Settings | null; sets: Q
           <label>Min paragraph<input type="number" min={0} max={200} value={form.minParagraphLength} onChange={(e) => setForm({ ...form, minParagraphLength: Number(e.target.value) })} /></label>
           <label>Top-k (answers)<input type="number" min={1} max={20} value={form.topK} onChange={(e) => setForm({ ...form, topK: Number(e.target.value) })} /></label>
           <label>Label<input type="text" maxLength={60} value={form.label} placeholder="e.g. A (baseline)" onChange={(e) => setForm({ ...form, label: e.target.value })} /></label>
+          <div className="field">
+            Retrievers (RRF)
+            <RetrieverToggles value={form.retrievers} onChange={(r) => setForm({ ...form, retrievers: r })} />
+          </div>
           <label className="check">
             <input type="checkbox" checked={form.answers} onChange={(e) => setForm({ ...form, answers: e.target.checked })} /> also generate the answers (LLM, for hand grading)
           </label>
@@ -135,7 +155,7 @@ export function EvalTab({ settings, sets }: { settings: Settings | null; sets: Q
         <h2>All runs</h2>
         <table>
           <thead>
-            <tr><th>Date</th><th>Set</th><th>Label</th><th>Chunk / overlap / min</th><th>hit@1</th><th>hit@3</th><th>hit@5</th><th>hit@10</th><th>recall@5</th><th>MRR</th><th>Answers</th><th></th></tr>
+            <tr><th>Date</th><th>Set</th><th>Label</th><th>Retrievers</th><th>Chunk / overlap / min</th><th>hit@1</th><th>hit@3</th><th>hit@5</th><th>hit@10</th><th>recall@5</th><th>MRR</th><th>Answers</th><th></th></tr>
           </thead>
           <tbody>
             {runs.map((r) => (
@@ -143,6 +163,7 @@ export function EvalTab({ settings, sets }: { settings: Settings | null; sets: Q
                 <td className="small">{r.ts.replace("T", " ").slice(0, 16)}</td>
                 <td>{r.set}</td>
                 <td>{r.label}</td>
+                <td className="small">{r.retrievers ?? "dense"}</td>
                 <td>{r.settings.chunkSize} / {r.settings.overlapPercent} % / {r.settings.minParagraphLength}</td>
                 {KS.map((k) => <td key={k}>{pct(r.at[k].hit, 0)}</td>)}
                 <td>{pct(r.at["5"].recall, 0)}</td>
@@ -151,7 +172,7 @@ export function EvalTab({ settings, sets }: { settings: Settings | null; sets: Q
                 <td><button className="link" onClick={() => openRun(r.file)}>open</button></td>
               </tr>
             ))}
-            {!runs.length && <tr><td colSpan={12} className="muted">No run yet.</td></tr>}
+            {!runs.length && <tr><td colSpan={13} className="muted">No run yet.</td></tr>}
           </tbody>
         </table>
         {markdown && (
@@ -202,7 +223,7 @@ function RunView({ run, sets, onOpenChunk, onGraded, onClose }: { run: Run; sets
         <button className="link" onClick={onClose}>close</button>
       </div>
       <p className="small muted">
-        {s.embedding_model} · chunk {s.settings.chunkSize} · overlap {s.settings.overlapPercent} % · min paragraph {s.settings.minParagraphLength} · {s.answerable} answerable / {s.questions} questions ·{" "}
+        <strong>{s.retrievers ?? "dense"}</strong> · {s.embedding_model} · chunk {s.settings.chunkSize} · overlap {s.settings.overlapPercent} % · min paragraph {s.settings.minParagraphLength} · {s.answerable} answerable / {s.questions} questions ·{" "}
         {(s.duration_ms / 1000).toFixed(1)} s · file <code>eval/runs/{s.file}</code>
       </p>
       <table>
@@ -218,10 +239,19 @@ function RunView({ run, sets, onOpenChunk, onGraded, onClose }: { run: Run; sets
       <p className="small">
         MRR {s.mrr.toFixed(3)} · average best similarity: answerable {s.answerable_avg_top_score?.toFixed(3) ?? "–"} / unanswerable {s.unanswerable_avg_top_score?.toFixed(3) ?? "–"}
       </p>
-      <h3>Per question type (hit rate)</h3>
+      {s.cost && (
+        <p className="small">
+          Cost per question: retrieval {s.cost.retrieval_ms_avg} ms (
+          {Object.entries(s.cost.per_retriever_ms_avg).filter(([, v]) => v != null).map(([k, v]) => `${k} ${v} ms`).join(", ")}) · LLM calls {s.cost.llm_calls_per_question}
+          {s.cost.tokens_per_question != null && ` · ${s.cost.tokens_per_question} tokens`}
+          {s.cost.generation_ms_avg != null && ` · generation ${s.cost.generation_ms_avg} ms`}
+          {s.graph_in_topk_questions != null && ` · graph chunks in the fused top-${s.settings.topK}: ${s.graph_in_topk_questions}/${s.answerable} answerable questions`}
+        </p>
+      )}
+      <h3>Per question type</h3>
       <table>
         <thead>
-          <tr><th>Type</th><th>n</th>{KS.map((k) => <th key={k}>hit@{k}</th>)}<th>recall@5</th></tr>
+          <tr><th>Type</th><th>n</th>{KS.map((k) => <th key={k}>hit@{k}</th>)}{KS.map((k) => <th key={k}>recall@{k}</th>)}</tr>
         </thead>
         <tbody>
           {Object.entries(s.by_type).map(([t, v]) => (
@@ -229,7 +259,7 @@ function RunView({ run, sets, onOpenChunk, onGraded, onClose }: { run: Run; sets
               <td>{t}</td>
               <td>{v.n}</td>
               {KS.map((k) => <td key={k}>{Math.round(v.at[k].hit * v.n)}/{v.n}</td>)}
-              <td>{pct(v.at["5"].recall, 0)}</td>
+              {KS.map((k) => <td key={k}>{pct(v.at[k].recall, 0)}</td>)}
             </tr>
           ))}
         </tbody>
@@ -238,7 +268,7 @@ function RunView({ run, sets, onOpenChunk, onGraded, onClose }: { run: Run; sets
       <h3>Questions</h3>
       <table>
         <thead>
-          <tr><th>Id</th><th>Type</th><th>Question</th><th>Rank of each quote</th><th>@1</th><th>@3</th><th>@5</th><th>@10</th><th>Top score</th><th>Top 3 retrieved</th></tr>
+          <tr><th>Id</th><th>Type</th><th>Question</th><th>Rank of each quote (fused){rows.some((r) => r.quote_by_retriever) && <div className="small muted">and in each retriever&apos;s own list</div>}</th><th>@1</th><th>@3</th><th>@5</th><th>@10</th><th>Top score</th><th>Top 3 retrieved</th></tr>
         </thead>
         <tbody>
           {rows.map((r) => (
@@ -246,7 +276,17 @@ function RunView({ run, sets, onOpenChunk, onGraded, onClose }: { run: Run; sets
               <td>{r.id}</td>
               <td className="small">{r.type}</td>
               <td>{r.question}</td>
-              <td>{r.answerable ? r.quote_ranks.map((x) => x ?? "–").join(", ") : <span className="muted">unanswerable</span>}</td>
+              <td>
+                {r.answerable ? r.quote_ranks.map((x) => x ?? "–").join(", ") : <span className="muted">unanswerable</span>}
+                {r.answerable && r.quote_by_retriever && (
+                  <div className="small muted">
+                    {Object.entries(r.quote_by_retriever).map(([name, ranks]) => (
+                      <div key={name}>{name}: {ranks!.map((x) => x ?? "–").join(", ")}</div>
+                    ))}
+                    {r.graph_seeds && <div>graph seeds: {r.graph_seeds.join(", ") || "none"}</div>}
+                  </div>
+                )}
+              </td>
               {KS.map((k) => (
                 <td key={k} className={r.hit === null ? "muted" : r.hit[k] ? "good" : r.partial?.[k] ? "warn" : "bad"}>
                   {r.hit === null ? "n/a" : r.hit[k] ? (r.recall![k] < 1 ? `${Math.round(r.recall![k] * 100)}%` : "✓") : r.partial?.[k] ? "½" : "✗"}
@@ -255,14 +295,16 @@ function RunView({ run, sets, onOpenChunk, onGraded, onClose }: { run: Run; sets
               <td>{r.top_score.toFixed(3)}</td>
               <td className="small">
                 {r.retrieved.slice(0, 3).map((h) => (
-                  <div key={h.id}><button className="link small" onClick={() => onOpenChunk(h.id, cfg)}>{h.id}</button> {h.score.toFixed(2)}</div>
+                  <div key={h.id}>
+                    <button className="link small" onClick={() => onOpenChunk(h.id, cfg)}>{h.id}</button> {h.sources ? <span className="muted">{h.sources.join(" ")}</span> : h.score.toFixed(2)}
+                  </div>
                 ))}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <p className="small muted">✓ all quotes in the top k · NN% some quotes · ½ only half of a quote (cut by a chunk boundary) · ✗ missed.</p>
+      <p className="small muted">Top score = best dense cosine. “dense#3” = rank 3 in the dense list before fusion. ✓ all quotes in the top k · NN% some quotes · ½ only half of a quote (cut by a chunk boundary) · ✗ missed.</p>
 
       {graded && (
         <>

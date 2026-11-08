@@ -71,3 +71,13 @@ tr.selected td { background: #f0f5ff; }
 .gradecard p { margin: 6px 0; }
 .gradeopt { margin-right: 10px; font-size: 0.9em; }
 input.note { flex: 1; min-width: 200px; }
+
+/* V3 */
+.retrievers { display: flex; gap: 12px; flex-wrap: wrap; margin: 4px 0; }
+label.inline { display: inline-flex; align-items: center; gap: 4px; font-weight: normal; }
+.field { display: flex; flex-direction: column; gap: 2px; }
+.chip.static { display: inline-block; border-radius: 6px; cursor: default; }
+.graphpath { margin: 12px 0; }
+.graphpath table { width: 100%; border-collapse: collapse; }
+.graphpath td, .graphpath th { border-bottom: 1px solid #e3e8f0; padding: 3px 6px; text-align: left; vertical-align: top; }
+.graphpath .link { margin-right: 6px; }
