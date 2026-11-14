@@ -24,6 +24,19 @@ http
         content = JSON.stringify({ knows: /dishwasher|warranty|marmeladov/.test(q), answer: "(mock) a guess from general knowledge" });
       } else if (schemaName === "judge") {
         content = JSON.stringify({ verdict: /does not know|guess/.test(user) ? "wrong" : "abstained", reason: "(mock judge)" });
+      } else if (schemaName === "study_quiz" || schemaName === "study_flashcards" || /study material/.test(sys)) {
+        // one item per excerpt from its first sentence; the first quiz item is deliberately broken
+        const n = Number((user.match(/(?:quiz of|Write) (\d+)/) || [])[1]) || 3;
+        const cards = schemaName === "study_flashcards" || /flashcard/.test(user.split("</documents>").pop());
+        const items = ids.slice(0, n + 1).map(([, id, text], i) => {
+          const sentence = (text.replace(/\s+/g, " ").match(/[^.!?]{25,200}[.!?]/) || [text.slice(0, 120)])[0].trim();
+          const word = (sentence.match(/[A-Za-z]{5,}/g) || ["passage"]).pop();
+          if (cards) return { front: `What does the passage say about "${word}"?`, back: sentence, chunk_id: id };
+          if (i === 0) return { type: "multiple_choice", question: "Broken item: answer not in options?", options: ["A", "B", "C", "D"], answer: "E", explanation: "-", chunk_id: id };
+          if (i % 2) return { type: "true_false", question: sentence, options: ["True", "False"], answer: "True", explanation: sentence, chunk_id: id };
+          return { type: "multiple_choice", question: `Which word appears in: "${sentence.slice(0, 80)}…"?`, options: [word, "banana", "volcano", "trumpet"], answer: word, explanation: sentence, chunk_id: id };
+        });
+        content = JSON.stringify({ items });
       } else if (schemaName === "graph_extraction") {
         // crude pattern extraction, only to test the graph pipeline offline
         const text = ids[0]?.[2] || "";

@@ -56,5 +56,8 @@ export const AskResponseSchema = z.object({
   usage: z.object({ input_tokens: z.number(), output_tokens: z.number(), total_tokens: z.number() }).nullable(),
   latency: z.object({ retrieval_ms: z.number(), generation_ms: z.number(), total_ms: z.number(), per_retriever_ms: z.record(z.string(), z.number().nullable()).optional() }),
   promptVersion: z.string(),
+  // V4
+  traceId: z.string(),
+  redactions: z.record(z.string(), z.number()),
 });
 export type AskResponse = z.infer<typeof AskResponseSchema>;

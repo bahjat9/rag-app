@@ -3,7 +3,8 @@
 import { useState } from "react";
 
 export type Retrievers = { dense: boolean; bm25: boolean; graph: boolean };
-export type Settings = { chunkSize: number; overlapPercent: number; topK: number; minParagraphLength: number; retrievers?: Retrievers };
+export type Settings = { chunkSize: number; overlapPercent: number; topK: number; minParagraphLength: number; retrievers?: Retrievers; redactPII?: boolean };
+export const traceIdOf = (e: unknown) => (e as { traceId?: string })?.traceId;
 export const RETRIEVERS = ["dense", "bm25", "graph"] as const;
 export const retrieverTag = (r?: Retrievers) => (r ? RETRIEVERS.filter((x) => r[x]).join("+") : "dense");
 export type Source = { retriever: "dense" | "bm25" | "graph"; rank: number; score: number; matched?: string[] };
@@ -31,7 +32,8 @@ export async function call<T>(url: string, init?: RequestInit): Promise<T> {
     throw new Error("Network error: the server is not reachable.");
   }
   const data = await res.json().catch(() => null);
-  if (!res.ok) throw new Error(`${data?.error ?? `Request failed (HTTP ${res.status}).`} (HTTP ${res.status})`);
+  // V4: the error keeps the id of the request's trace, so the UI can open it ("what happened?")
+  if (!res.ok) throw Object.assign(new Error(data?.error ?? `Request failed (HTTP ${res.status}).`), { traceId: data?.traceId as string | undefined, status: res.status });
   return data as T;
 }
 

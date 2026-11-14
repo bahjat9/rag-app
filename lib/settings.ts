@@ -19,11 +19,13 @@ export const SettingsSchema = z
       .strict()
       .refine((r) => r.dense || r.bm25 || r.graph, "Switch on at least one retriever.")
       .default({ dense: true, bm25: true, graph: false }),
+    // V4: replace personal data by placeholders before anything is sent to the LLM or traced
+    redactPII: z.boolean().default(true),
   })
   .strict();
 export type Settings = z.infer<typeof SettingsSchema>;
 
-export const DEFAULT_SETTINGS: Settings = { chunkSize: 800, overlapPercent: 10, topK: 5, minParagraphLength: 20, retrievers: { dense: true, bm25: true, graph: false } };
+export const DEFAULT_SETTINGS: Settings = { chunkSize: 800, overlapPercent: 10, topK: 5, minParagraphLength: 20, retrievers: { dense: true, bm25: true, graph: false }, redactPII: true };
 export type Retrievers = Settings["retrievers"];
 
 const FILE = path.join(process.cwd(), "data", "settings.json");

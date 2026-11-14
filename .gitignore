@@ -8,3 +8,5 @@ AGENTS.md
 data/index/
 # local model cache
 .cache/
+# V4: traces stay on this machine (personal use, 30-day retention)
+data/traces/

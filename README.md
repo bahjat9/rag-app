@@ -1,12 +1,81 @@
-# Ask the docs – RAG V3
+# Ask the docs – RAG final release (V4)
 
-A web application where a user asks a question about a document corpus and receives a **grounded** answer,
-with **references** to the passages it was built from. Built for *AI Systems Integration and Operations* (BCS S5 2026):
-RAG project **V1 – naive RAG app** (tag `v1`), **V2 – two corpora, a first evaluation, words analytics** (tag `v2`) and
-**V3 – hybrid retrieval: dense + BM25 + concept graph, fused with RRF** (tag `v3`).
+Ask questions about your own documents (.md / .txt) and get an answer **with the passages it comes from**.
+Turn documents into a **quiz or flashcards**. Open **"What happened?"** on any answer to see every step it went
+through. Personal data (e-mails, phone numbers, names…) is **hidden from the AI provider**.
+
+Built for *AI Systems Integration and Operations* (BCS S5 2026), versions tagged `v1` → `v2` → `v3` → `final`.
 Design choices, results and known failures: [`REPORT.md`](./REPORT.md).
 
-## V3 at a glance
+## Install and run (first time)
+
+You need **Node.js 20.9 or newer** (`node -v`) and a free **Gemini API key** (https://aistudio.google.com/apikey).
+
+```sh
+git clone https://github.com/bahjat9/rag-app
+cd rag-app
+npm install
+cp .env.example .env.local        # Windows (PowerShell): Copy-Item .env.example .env.local
+```
+
+Open `.env.local` and paste your key after `LLM_API_KEY=` (nothing else is required). Then:
+
+```sh
+npm run dev
+```
+
+and open **http://localhost:3044**.
+
+The first time you prepare a document, the app downloads its small language model for embeddings (~25 MB, needs
+internet, once) into `.cache/`. Your API key stays in `.env.local`, which is never committed.
+
+> Windows: if the folder path contains `&` (e.g. `AI Systems Integration & Operations`), `npm run …` fails.
+> Run `node node_modules/next/dist/bin/next dev --port 3044` instead (same for the other scripts: see `package.json`).
+
+## Using the app
+
+1. **Your documents** (left): tick the documents to use, or **Quick select** a corpus. Add your own with **+ Add .md / .txt files**.
+   A document must be **prepared** once (cut into passages and indexed on your computer): click **Prepare**.
+2. **Ask**: type a question, press Enter. The answer comes with **Where this comes from**: click a passage to read it.
+   If the documents do not contain the answer, the app says so instead of guessing.
+3. **What happened? (details)** under each answer: the steps of that request (search by meaning, by exact words, the
+   AI call), with time, tokens and cost, and how much personal data was hidden.
+4. **Study**: a quiz (multiple choice, true/false, short answer) or flashcards from the selected documents, with a
+   number of items, a difficulty and an optional topic. Every item links to its source passage. Check your answers to get a score.
+5. **Activity**: every question, quiz and preparation run, with its trace, plus metrics (answered / not found / errors,
+   p50 / p95 latency, tokens and cost per question, per document, per day).
+6. **Privacy** (left): hiding personal data is on by default.
+7. **Developer tools** (top right): the evaluation, words analytics, concept graph and retrieval settings of V2 / V3.
+
+## V4 at a glance
+
+| V4 requirement | Where |
+|---|---|
+| Clean-up: easy to install and run, natural to use | this README; simple main screen (Ask / Study / Activity), developer tools hidden by default, step-by-step guidance, progress messages, plain-language errors with "What happened?" |
+| **A.** A trace for every question and every indexing run, one span per step | `lib/trace.ts` (traces in `data/traces/<day>.jsonl`, never committed); spans recorded in `lib/rag.ts`, `lib/retrieve.ts`, `lib/store.ts` (indexing), `lib/graph.ts` (graph build), `lib/study.ts` |
+| **A.** From the answer to its trace | **What happened? (details)** button under every answer, quiz and error; `GET /api/traces?id=` |
+| **A.** Optional metrics page | **Activity** tab, `GET /api/metrics` (computed from the traces only) |
+| **B.** New feature: study artifacts | **Study** tab, `lib/study.ts`, `POST /api/study`, `cli study` |
+| **C.** Responsible AI: personal data redaction | `lib/redact.ts`; applied to every LLM call (answers, quizzes, graph build, no-context test) and to the traces; **Privacy** switch; test cases `eval/redaction-cases.jsonl`, `cli redact-check` |
+
+### Traces
+
+Every question, quiz, indexing run and graph build writes one trace: the steps (spans) with their duration, the chunk
+ids each retriever found, the LLM call (model, tokens in/out, cost, attempts) and the outcome (answered / not found /
+invalid / error). The question and answer are stored **after** redaction; documents are never copied into a trace
+(chunk ids and sizes only); the API key never is. Traces are kept 30 days (`TRACE_RETENTION_DAYS`), on this computer only.
+
+### Command line (no server needed)
+
+```sh
+npm run cli -- study --set kestrel --kind quiz --count 5 --difficulty medium --types multiple_choice,true_false
+npm run cli -- study --set kestrel --kind flashcards --count 5 --topic "refunds"
+npm run cli -- redact-check
+```
+
+`study` prints the items and saves them to `eval/study/` for checking by hand. All V2 / V3 commands still work (below).
+
+## V3 at a glance (hybrid retrieval)
 
 | V3 requirement | Where |
 |---|---|
@@ -170,6 +239,9 @@ instead of downloading it.
 | `POST /api/index` | `{docs: [...]}` | chunks per document, time |
 | `POST /api/ask` | `{question, docs: [...]}` | `{found, answer, citations, retrieved, warnings, usage, latency, …}` |
 | `GET /api/chunks?id=doc#0012[&cfg=800_10_20]` | – | chunk text and position (current settings, or another configuration) |
+| `GET /api/traces?id=` / `GET /api/traces?kind=&limit=` | – | one trace / the latest traces (V4) |
+| `GET /api/metrics` | – | metrics computed from the traces (V4) |
+| `POST /api/study` | `{docs, kind: quiz\|flashcards, count, difficulty, types?, topic?}` | quiz / flashcards, each item with its chunk (V4) |
 | `POST /api/search` | `{question, docs, topK?}` | retrieval only: fused top-k chunks, the retriever(s) and rank behind each, each retriever's own list, graph path |
 | `GET /api/graph?set=` | – | graph stats, cost, entities, edges, merges, type conflicts, failed chunks |
 | `POST /api/graph` | `{set, rebuild?, retryFailed?}` | build / resume the graph |
@@ -190,7 +262,7 @@ instead of downloading it.
 |---|---|---|
 | Empty question, question > 500 characters | clear message, no model call | 400 |
 | No document selected | "Select at least one document" | 400 |
-| Document not indexed with the current settings (new doc, settings changed, file changed) | "Click Index selected documents" | 409 |
+| Document not prepared (new doc, settings changed, file changed) | "Click Prepare in the documents panel first"; the Ask and Study buttons stay disabled until it is done | 409 |
 | Unknown document / chunk | not found | 404 |
 | Not a `.md`/`.txt`, binary content, bad file name (path traversal blocked) | "Only .md and .txt files" | 415 |
 | File > 2 MB | "The file is too large" | 413 |
@@ -202,6 +274,12 @@ instead of downloading it.
 | Provider 429 / 5xx / timeout | safe message, no provider detail | 429 / 502 / 504 |
 | Missing key or model | "LLM is not configured" | 500 |
 | Embedding model cannot load | "embedding model could not be loaded" | 500 |
+| *V4* AI provider unreachable (no internet, wrong URL) | "The AI provider cannot be reached right now…" + **What happened?** | 502 |
+| *V4* Any failed question / quiz / preparation | the error message has a **What happened?** link to its trace (the failing step is red) | – |
+| *V4* Quiz: an item points to a passage it was not given, a multiple-choice answer that is not one of the options, a true/false answer that is not True/False, a duplicate | the item is dropped; "Only N of the M requested items could be built" | 200 |
+| *V4* Quiz: an answer that shares no word with its passage | kept, marked **(check this one)** | 200 |
+| *V4* Quiz: no usable item at all | "The model did not return any usable question… Try again, ask for fewer items, or pick other documents" | 502 |
+| *V4* Documents with no passage long enough for a quiz | "These documents have no passage long enough…" | 400 |
 
-Every question is logged to `logs/queries.jsonl` (settings, models, retrieved ids and scores, citations, tokens,
-latency, status) without the API key.
+Every question is logged to `logs/queries.jsonl` (trace id, documents, model, tokens, latency, status: no question
+text, no API key), and traced in `data/traces/` (V4).
