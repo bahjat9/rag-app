@@ -1,0 +1,63 @@
+{
+  "request": {
+    "docs": [
+      "crime-and-punishment.txt"
+    ],
+    "kind": "quiz",
+    "count": 3,
+    "difficulty": "easy",
+    "types": "multiple_choice",
+    "topic": null
+  },
+  "kind": "quiz",
+  "items": [
+    {
+      "n": 1,
+      "type": "multiple_choice",
+      "question": "What is the primary reason Dounia was awake all night before making her decision?",
+      "options": [
+        "She was reading a book",
+        "She was praying and walking up and down the room",
+        "She was waiting for Pyotr Petrovitch",
+        "She was cleaning the house"
+      ],
+      "answer": "She was praying and walking up and down the room",
+      "explanation": "The text states that Dounia did not sleep all night, walking up and down the room and praying fervently before deciding.",
+      "chunk": {
+        "id": "crime-and-punishment.txt#0117",
+        "doc": "crime-and-punishment.txt"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    }
+  ],
+  "requested": 3,
+  "dropped": [
+    {
+      "reason": "question type not asked for",
+      "n": 2
+    }
+  ],
+  "warnings": [
+    "Only 1 of the 3 requested item(s) could be built and checked."
+  ],
+  "chunks_used": [
+    "crime-and-punishment.txt#0117",
+    "crime-and-punishment.txt#0437",
+    "crime-and-punishment.txt#0756",
+    "crime-and-punishment.txt#1076",
+    "crime-and-punishment.txt#1396"
+  ],
+  "usage": {
+    "input_tokens": 1307,
+    "output_tokens": 409,
+    "total_tokens": 1716
+  },
+  "cost_usd": 0.00094,
+  "llm_ms": 2833,
+  "traceId": "8e2f89cb-f54f-4abd-b65d-6588df5c67e9",
+  "grades": {
+    "correct": 1
+  }
+}

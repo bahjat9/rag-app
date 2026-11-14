@@ -1,0 +1,10 @@
+{"id": "r01", "text": "My name is Anna Keller and my e-mail is anna.keller@acme.com.", "must_hide": ["Anna Keller", "anna.keller@acme.com"], "must_keep": []}
+{"id": "r02", "text": "Call me on +33 6 12 34 56 78 or 06 12 34 56 78 about KST-2044.", "must_hide": ["+33 6 12 34 56 78", "06 12 34 56 78"], "must_keep": ["KST-2044"]}
+{"id": "r03", "text": "Add both 203.0.113.10 and 203.0.113.11 to the allowlist; queries stop after 120 seconds.", "must_hide": [], "must_keep": ["203.0.113.10", "203.0.113.11", "120 seconds"]}
+{"id": "r04", "text": "My card 4111 1111 1111 1111 was declined, IBAN FR76 3000 6000 0112 3456 7890 189.", "must_hide": ["4111 1111 1111 1111", "FR76 3000 6000 0112 3456 7890 189"], "must_keep": []}
+{"id": "r05", "text": "Invoice INV-2026-00042 of 1234 5678 9012 3456 EUR, dated 2026-11-08, 20 % discount, 14 days.", "must_hide": [], "must_keep": ["INV-2026-00042", "1234 5678 9012 3456", "2026-11-08", "20 %", "14 days"]}
+{"id": "r06", "text": "Escalate to Analytics Engine; its lead is Léa Fontaine on #oncall-analytics.", "must_hide": ["Léa Fontaine"], "must_keep": ["Analytics Engine", "#oncall-analytics"]}
+{"id": "r07", "text": "Please ask Mme Dupont or Dr. Watson, and write to billing@kestrel.example.", "must_hide": ["Dupont", "Watson", "billing@kestrel.example"], "must_keep": []}
+{"id": "r08", "text": "Error E47 on the Vellora Duo: descale the machine every 3 months (1.8 litres tank).", "must_hide": [], "must_keep": ["E47", "1.8 litres", "3 months"]}
+{"id": "r09", "text": "Hi, I'm Marc Petit from Lyon, my colleague Sarah also has the issue.", "must_hide": ["Marc Petit", "Sarah"], "must_keep": [], "note": "known limit: names not in a list and not after a title / 'my name is' are not detected"}
+{"id": "r10", "text": "je m'appelle Élodie Martin, mon numéro est 07.45.12.34.56", "must_hide": ["Élodie Martin", "07.45.12.34.56"], "must_keep": []}

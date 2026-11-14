@@ -1,0 +1,139 @@
+{
+  "request": {
+    "docs": [
+      "product-guide.md",
+      "billing-policy-2025.md",
+      "billing-policy-2026.md",
+      "support-runbook-errors.md",
+      "service-catalog.md"
+    ],
+    "kind": "quiz",
+    "count": 5,
+    "difficulty": "medium",
+    "types": "multiple_choice,true_false",
+    "topic": null
+  },
+  "kind": "quiz",
+  "items": [
+    {
+      "n": 1,
+      "type": "multiple_choice",
+      "question": "What is the requirement for a member to become the new Owner of a workspace?",
+      "options": [
+        "They must have Viewer permissions",
+        "They must already be an Admin of the workspace",
+        "They must have been an Editor for at least 30 days",
+        "They must be a member of the Identity team"
+      ],
+      "answer": "They must already be an Admin of the workspace",
+      "explanation": "To transfer ownership, the new Owner must already be an Admin of the workspace.",
+      "chunk": {
+        "id": "product-guide.md#0003",
+        "doc": "product-guide.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 2,
+      "type": "true_false",
+      "question": "A pending invitation to join a workspace consumes a seat from the current plan.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": "False",
+      "explanation": "Pending invitations do not use a seat, as a seat is only used once the person accepts the invitation.",
+      "chunk": {
+        "id": "product-guide.md#0003",
+        "doc": "product-guide.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 3,
+      "type": "multiple_choice",
+      "question": "What happens if a query takes longer than 120 seconds to execute?",
+      "options": [
+        "The query is automatically retried once",
+        "The system prompts for a higher tier subscription",
+        "The query is stopped",
+        "The query is processed in the background"
+      ],
+      "answer": "The query is stopped",
+      "explanation": "Any query has a time limit of 120 seconds, and queries that take longer are stopped.",
+      "chunk": {
+        "id": "product-guide.md#0008",
+        "doc": "product-guide.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 4,
+      "type": "true_false",
+      "question": "If a workspace payment fails and is not resolved within 60 days, the workspace is deleted.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": "False",
+      "explanation": "If the amount is unpaid after 60 days, the workspace is suspended but not deleted, and returns to normal once payment succeeds.",
+      "chunk": {
+        "id": "billing-policy-2026.md#0005",
+        "doc": "billing-policy-2026.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 5,
+      "type": "multiple_choice",
+      "question": "What should a support agent advise if a user encounters a KST-1012 SSO error?",
+      "options": [
+        "Escalate the issue to the Platform team",
+        "Ask the Admin to update the identity provider metadata",
+        "Request the user to change their browser settings",
+        "Have the user recreate their account"
+      ],
+      "answer": "Ask the Admin to update the identity provider metadata",
+      "explanation": "The support action for KST-1012 is to ask a workspace Admin to upload the new identity provider metadata.",
+      "chunk": {
+        "id": "support-runbook-errors.md#0003",
+        "doc": "support-runbook-errors.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    }
+  ],
+  "requested": 5,
+  "dropped": [],
+  "warnings": [],
+  "chunks_used": [
+    "product-guide.md#0003",
+    "product-guide.md#0008",
+    "billing-policy-2025.md#0001",
+    "billing-policy-2026.md#0000",
+    "billing-policy-2026.md#0005",
+    "support-runbook-errors.md#0003",
+    "support-runbook-errors.md#0009",
+    "service-catalog.md#0003"
+  ],
+  "usage": {
+    "input_tokens": 1946,
+    "output_tokens": 981,
+    "total_tokens": 2927
+  },
+  "cost_usd": 0.001958,
+  "llm_ms": 7865,
+  "traceId": "4fd827f7-9e13-4731-b432-841928a0967a",
+  "grades": {
+    "correct": 5
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "request": {
+    "docs": [
+      "product-guide.md",
+      "billing-policy-2025.md",
+      "billing-policy-2026.md",
+      "support-runbook-errors.md",
+      "service-catalog.md"
+    ],
+    "kind": "quiz",
+    "count": 5,
+    "difficulty": "medium",
+    "types": "multiple_choice,true_false",
+    "topic": null
+  },
+  "kind": "quiz",
+  "items": [
+    {
+      "n": 1,
+      "type": "multiple_choice",
+      "question": "What happens to a member's dashboard when they are removed from a workspace?",
+      "options": [
+        "The dashboards are automatically deleted.",
+        "The dashboards are transferred to the Admin who removed them.",
+        "The dashboards remain accessible to the removed member.",
+        "The dashboards are archived for 30 days."
+      ],
+      "answer": "The dashboards are transferred to the Admin who removed them.",
+      "explanation": "When members are removed, their dashboards are not deleted but are transferred to the Admin who performed the action.",
+      "chunk": {
+        "id": "product-guide.md#0004",
+        "doc": "product-guide.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 2,
+      "type": "true_false",
+      "question": "If a workspace removes a seat, the reduction takes effect immediately and the customer receives a pro-rated credit for the current period.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": "False",
+      "explanation": "Seats can be removed at any time, but the reduction takes effect only at the next renewal and no credit is provided for the current period.",
+      "chunk": {
+        "id": "billing-policy-2025.md#0002",
+        "doc": "billing-policy-2025.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 3,
+      "type": "multiple_choice",
+      "question": "What is the consequence if a report's recipient mail server rejects the message three times?",
+      "options": [
+        "The report generation is permanently paused.",
+        "The recipient is removed from the schedule and the creator is notified.",
+        "The system sends a support ticket to the Platform team.",
+        "The schedule is automatically deleted."
+      ],
+      "answer": "The recipient is removed from the schedule and the creator is notified.",
+      "explanation": "If a mail server rejects a report three times, the recipient is removed from the schedule and the creator receives a notification.",
+      "chunk": {
+        "id": "product-guide.md#0009",
+        "doc": "product-guide.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 4,
+      "type": "true_false",
+      "question": "The time limit for a dataset query can be increased by Support if a user requests it.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": "False",
+      "explanation": "The 120-second query time limit is the same on every plan and cannot be raised.",
+      "chunk": {
+        "id": "support-runbook-errors.md#0005",
+        "doc": "support-runbook-errors.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    }
+  ],
+  "requested": 5,
+  "dropped": [
+    {
+      "reason": "question type not asked for",
+      "n": 1
+    }
+  ],
+  "warnings": [
+    "Only 4 of the 5 requested item(s) could be built and checked."
+  ],
+  "chunks_used": [
+    "product-guide.md#0004",
+    "product-guide.md#0009",
+    "billing-policy-2025.md#0002",
+    "billing-policy-2026.md#0001",
+    "support-runbook-errors.md#0000",
+    "support-runbook-errors.md#0005",
+    "support-runbook-errors.md#0010",
+    "service-catalog.md#0004"
+  ],
+  "usage": {
+    "input_tokens": 1841,
+    "output_tokens": 717,
+    "total_tokens": 2558
+  },
+  "cost_usd": 0.001536,
+  "llm_ms": 2939,
+  "traceId": "6fdd9846-2eaf-4ee9-b497-f79e002d8b3f",
+  "grades": {
+    "correct": 4
+  }
+}

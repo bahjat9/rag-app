@@ -1,6 +1,156 @@
 # REPORT – RAG project
 
-> V3 sections first, then V2, then the V1 report.
+> V4 (final release) first, then V3, V2 and V1.
+
+# V4 – final release
+
+## V4 – what we built
+
+| Part | What | Where |
+|---|---|---|
+| Clean-up | Simple main screen for a non-programmer: **Ask**, **Study**, **Activity**; the V2/V3 tools (evaluation, words, graph, retrieval settings) moved behind a **Developer tools** switch. Step-by-step guidance when nothing is ready, progress messages, "Prepare" instead of "index", plain-language errors, each with a **What happened?** link. README rewritten as a first-time install guide. | `app/page.tsx`, `README.md` |
+| A. Observable | One trace per question, indexing run, graph build and quiz, one span per step; **What happened? (details)** under every answer; **Activity** tab with the list of traces and the optional metrics page. | `lib/trace.ts`, `app/ui/TraceView.tsx`, `app/ui/ActivityTab.tsx` |
+| B. New feature | **Study artifacts**: quiz (multiple choice, true/false, short answer) or flashcards from the selected documents; number, difficulty, optional topic; every item links to its source passage; interactive quiz with a score. | `lib/study.ts`, `app/ui/StudyTab.tsx` |
+| C. Responsible AI | **Personal data redaction**: e-mails, phone numbers, card and bank numbers and names are replaced by placeholders before any text is sent to the LLM provider or written to a trace, and put back locally in what the user reads. | `lib/redact.ts` |
+
+## V4 – A. Traces
+
+**What we trace.** A question: the whole retrieval and each retriever (dense, BM25, graph) with the chunk ids it
+returned, the redaction step (how many items of which kind, never the values), the LLM call (model, tokens in/out,
+cost, number of calls including the retry), the answer check (citations kept or removed, warnings) and the restore
+step; the trace also stores the outcome (answered / not found / invalid / error), the question and the answer **after
+redaction**, the selected documents and the settings. An indexing run: per document, read (size only), chunk (count),
+embed, save, BM25. A graph build: one span per chunk extraction with its tokens. A quiz: chunk selection, redaction,
+LLM call, item checks (kept / dropped and why).
+
+**Never in a trace:** the API key, whole documents (chunk ids and sizes only, never chunk text), personal data (see C),
+and the words of the question that BM25 matched (they are words of the question). The person names found by the graph
+retriever are written as `[PERSON]`.
+
+**Where, how long, who.** JSON lines in `data/traces/<YYYY-MM-DD>.jsonl`, one file per day, deleted after 30 days
+(`TRACE_RETENTION_DAYS`) when a new trace is written. The folder is in `.gitignore`. Traces stay on the laptop; only
+the app itself (localhost) reads them, through `/api/traces` and `/api/metrics`. A failing trace write never breaks the
+request.
+
+**From the answer to the trace.** The API returns the trace id with every answer (and with every error); the UI
+button **What happened? (details)** opens a timeline of the steps in plain language, each step expandable.
+
+**Metrics page (optional, done).** The **Activity** tab computes everything from the traces: number of questions and
+outcomes (answered / not found / invalid / error), p50 and p95 latency of the whole request and of each step, tokens
+and cost per question, per indexed document (indexing is local: 0 tokens; documents cost tokens only through the graph
+build) and per day. Cost = tokens × price per million tokens from `.env.local` (default: paid list price of
+gemini-3.1-flash-lite; 0 on the free tier).
+
+**Other options considered.** Langfuse or Arize Phoenix (self-hosted: a second service and a database to run on a
+laptop, the "easy to install" goal suffers); a hosted tool (traces, i.e. questions and chunk ids, would leave the
+machine: against part C); OpenTelemetry SDK (heavy for one process and still needs a backend to view the spans);
+SQLite (one more native dependency on Windows). JSON lines are enough for one user and are easy to read and delete.
+
+**A trace we opened** (question "What does error KST-2044 mean and how do I fix it?", trace `1e641182`): *Answered*,
+4.82 s, 1 AI call, 1,334 tokens (1,207 in / 127 out), $0.00049 at the paid price. The steps show where the time goes:
+the search took 2.6 s (search by meaning 1.8 s: it was the first question after starting the app, the local embedding
+model was loading; BM25 0.7 s) and the AI model 2.2 s. The redaction step replaced 1 e-mail address found in the
+passages before sending them. The LLM step lists the 5 passages sent and the 1 it cited
+(`support-runbook-errors.md#0004`, the KST-2044 entry); each id opens the passage. Nothing in the trace shows the
+document text or the e-mail address.
+
+## V4 – B. Study artifacts
+
+**How it works.** One LLM call per quiz: the app picks the passages (with a topic: the passages dense + BM25 return for
+that topic; without: passages spread evenly over the selected documents, from a random start, skipping passages under
+250 characters), hides personal data, asks the model for JSON (checked with Zod), then checks every item against the
+passages it was given: the passage id must be one of them, a multiple-choice question needs 2-4 different options with
+the answer among them, a true/false answer must be True or False, no duplicates. Bad items are dropped and counted; an
+item whose answer shares no word with its passage is kept but marked **check this one**.
+
+**Traced:** spans `study.pick_chunks`, `redact.prompt`, `llm.generate` (tokens, cost), `study.check` (kept, dropped and
+why).
+
+**Cost per use (gemini-3.1-flash-lite, our runs below):** one LLM call per quiz; 2,170–2,560 tokens and 2.7–2.9 s
+for 5 items, 3,474 tokens and 5.8 s for 15 items. At the paid list price that is $0.001–0.0015 per quiz of 5
+($0.0036 for 15); on the free tier it costs 0.
+
+**Failures:** invalid JSON → retried once, then "the AI model returned an answer the app could not check"; some
+invalid items → dropped, "Only N of the M requested items could be built"; no valid item → clear error and "try
+again, ask for fewer items, or pick other documents"; provider unreachable → message + **What happened?**.
+
+**Checked.** Five runs with `npm run cli -- study …`, every item checked by hand against the passage it points to,
+grades saved in `eval/study/` (`cli study-grade`):
+
+| # | Documents | Request | Items kept | Correct / partial / wrong / unsupported | What we found |
+|---|---|---|---|---|---|
+| 1 | Kestrel (5 docs) | quiz, 5, medium, multiple choice + true/false | **4 / 5** (1 dropped: type not asked for) | 4 / 0 / 0 / 0 | Good distractors; the true/false items test exactly the rule changes (seat removal, query time limit). |
+| 2 | Kestrel | flashcards, 5, topic "refunds" | 5 / 5 | 5 / 0 / 0 / 0 | The topic works: every card is about refunds, from both policies, and keeps 2025 and 2026 apart. `billing@kestrel.example` was hidden from the model and restored on the card. |
+| 3 | Vellora manual | quiz, 5, hard, short answer | 5 / 5 | 3 / 1 / 0 / 1 | "Hard" mostly gives error-code procedures. #3 (E43) asks *why* the grinder must run, which the manual does not say (unsupported); #5 says the warranty is "void" where the manual says "not covered" (partial). |
+| 4 | Crime and Punishment | quiz, 3, easy | **1 / 3** (2 dropped: type not asked for) | 1 / 0 / 0 / 0 | The one question is correct; the model ignored "multiple choice only" twice. |
+| 5 | service-catalog.md only (6 passages) | quiz, 15 | 15 / 15 | 14 / 0 / 1 / 0 | 15 questions from 6 passages without repeats. #7 says Payments Core is "responsible for the Billing and Refund Policy rules": the catalog says its service *applies* them; the policy's owner is Finance (wrong). #4 (120 seconds) was flagged "check this one" by mistake. |
+
+Overall 27 / 29 kept items fully correct, 1 partial, 1 wrong, 1 unsupported; no invented item.
+
+**What we changed after these runs (measured):**
+1. *Dropped items* (runs 1 and 4: the model used a question type that was not asked for, so the user got 4 / 5 and
+   1 / 3). The prompt now says "every item's type MUST be one of…", and the app asks for 2 extra items and cuts after
+   the checks. Re-run of 1 (Kestrel, quiz, 5): **5 / 5 kept, 0 dropped**, 5 / 5 correct (new Owner must be an Admin,
+   pending invitations use no seat, 120-second limit, suspended not deleted after 60 days, KST-1012 action).
+   Re-run of 4 (Crime and Punishment, quiz, 3, easy): **3 / 3 kept, 0 dropped**, 3 / 3 correct (Luzhin's
+   rank "counsellor", Zossimov's gold watch, the "ordinary / extraordinary" article). A first try of the re-run of 1
+   hit a provider timeout: the user got "The AI provider…" with **What happened?**; the trace shows the LLM step in red. That message
+   said "cannot be reached" for a timeout: the SDK calls its timeout error `APIConnectionTimeoutError`, which our
+   mapping read as a connection error; fixed (timeout checked first, "took too long" message).
+2. *False "check this one"* (run 5 #4: "120 seconds" vs "120-second" in the passage). The grounding check now uses
+   the BM25 tokenizer (hyphenated words also split) and ignores a final "s": this item is no longer flagged.
+
+## V4 – C. Personal data redaction
+
+**Detection (rules, no extra service, no extra LLM call):** e-mail addresses; phone numbers (international and French,
+at least 9 digits); payment card numbers (13-19 digits that pass the Luhn check); IBANs; person names: the `person`
+entities of our concept graph, the names listed in `data/pii-names.txt`, a name after a title (Mr, Mrs, Dr, Mme…), after
+"my name is" / "je m'appelle", or a full name after "I'm" / "I am".
+
+**Where it applies:** to everything that leaves the machine (the question and the passages of every answer, the
+passages of a quiz, the passages sent for graph extraction, the questions of the no-context test) and to everything
+written to a trace. Retrieval runs on the original question: it is local (local embeddings, BM25, graph).
+
+**Placeholders, restored locally.** `anna.keller@acme.com` becomes `[EMAIL_1]`; the same value always gets the same
+placeholder within a request, so the model can still answer ("[PERSON_1] leads Analytics Engine"); the app puts the
+real values back before showing the answer. The mapping lives only in memory during the request.
+
+**Checked:** `npm run cli -- redact-check` runs `eval/redaction-cases.jsonl` (10 cases: what must be hidden and what
+must stay, e.g. error codes, the documented IP addresses 203.0.113.10/11, invoice numbers, dates, prices): **9 / 10
+pass**. The failing case is the known limit: a first name alone ("my colleague Sarah") is not detected. On the corpus:
+the Kestrel e-mail addresses (billing@, privacy@) and the 6 team leads of the service catalog are hidden; in *Crime and
+Punishment* the titled names (Mr. Luzhin…) are hidden too (harmless false positives: restored in the answer).
+
+## V4 – decision log (new entries)
+
+| # | Decision | Options considered | Picked | Why |
+|---|---|---|---|---|
+| 26 | Clean-up | keep every control on screen · hide them | Ask / Study / Activity for the user; V2-V3 tools behind "Developer tools" | The user knows the documents, not RAG; the tools stay one click away for the evaluation. |
+| 27 | Trace storage | Langfuse / Phoenix · hosted tool · OpenTelemetry · SQLite · JSON lines | JSON lines per day in `data/traces/`, 30 days | One user, one laptop: no extra service, nothing leaves the machine, easy to delete. |
+| 28 | Trace content | full prompt and chunks · ids and counts | ids, sizes, counts, tokens; question/answer after redaction | Documents and personal data must not be copied into logs. |
+| 29 | Personal data in traces | store as is · drop the question · store redacted | redacted question and answer, no mapping | A trace must still explain the request without exposing anyone. |
+| 30 | Cost | tokens only · tokens × price | tokens × configurable price (0 on the free tier) | Shows what the same use would cost on a paid plan. |
+| 31 | New feature | study · concept map · conversation · reranking… | study artifacts | Useful for a non-programmer, one LLM call, every item checkable against its passage. |
+| 32 | Quiz passages | random · retrieval by topic | evenly spread (random start), or retrieval when a topic is given | Covers the whole document by default; the topic reuses our V3 retrieval. |
+| 33 | Quiz checks | trust the model · check | Zod + item checks (passage id, options, answer), drop and count | The model sometimes points to wrong passages or gives an answer outside the options. |
+| 34 | Responsible-AI feature | injection scanner · redaction | personal data redaction | Questions and passages leave the machine on every call; traces keep copies. |
+| 35 | Detection | regex · NER library · LLM | rules + names from the graph and a list | No extra download or LLM call (an LLM call would send the data out to detect it). |
+| 36 | Redaction style | delete · mask · reversible placeholders | reversible placeholders, mapping in memory | The answer still names the person / address for the user; the provider never sees it. |
+
+## V4 – known failures (updated)
+
+| Failure | Example | What happens | Idea |
+|---|---|---|---|
+| A first name alone, or a name in no list | "my colleague Sarah" | not hidden | a small NER model run locally |
+| Fictional names after a title | Crime and Punishment "Mr. Luzhin" | hidden, then restored: the model reasons on `[PERSON_1]` | turn redaction off per corpus |
+| Postal addresses, dates of birth | – | not detected | more rules |
+| Quiz quality depends on the passages | a passage cut in the middle of a sentence | the question can be vague | section-aware chunking |
+| Grounding check is lexical | an answer paraphrased with other words | marked "check this one" although correct | ask the model to quote the passage |
+| Traces are per laptop | – | no team view | fine for one user |
+
+---
+
+# V3 report
 
 ## V3 – results table
 

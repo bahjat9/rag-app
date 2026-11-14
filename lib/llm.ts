@@ -59,8 +59,11 @@ export async function llmJson<T extends z.ZodTypeAny>(
   user: string,
   schema: T,
   name: string,
-): Promise<{ data: z.infer<T>; usage: Usage | null }> {
+): Promise<{ data: z.infer<T>; usage: Usage | null; calls: number }> {
   const c = getClient();
+  // V4: tokens of every attempt are added up, so traces show the real cost of a retry
+  let total: Usage | null = null;
+  let calls = 0;
   let mode = process.env.LLM_STRUCTURED_OUTPUT === "prompt" || promptOnly.has(name) ? "prompt" : "json_schema";
   const jsonSchema = providerSchema(z.toJSONSchema(schema)) as Record<string, unknown>;
   let lastError: unknown;
@@ -87,23 +90,35 @@ export async function llmJson<T extends z.ZodTypeAny>(
       }
       throw toAppError(error);
     }
+    calls++;
     const choice = completion.choices[0];
     const u = completion.usage;
-    const usage = u ? { input_tokens: u.prompt_tokens, output_tokens: u.completion_tokens, total_tokens: u.total_tokens } : null;
+    if (u) {
+      total = total ?? { input_tokens: 0, output_tokens: 0, total_tokens: 0 };
+      total.input_tokens += u.prompt_tokens;
+      total.output_tokens += u.completion_tokens;
+      total.total_tokens += u.total_tokens;
+    }
     try {
       if (choice?.finish_reason === "length") throw new Error("cut off");
       const parsed = schema.safeParse(JSON.parse(stripFence(choice?.message?.content ?? "")));
       if (!parsed.success) throw new Error("schema mismatch: " + parsed.error.message);
-      return { data: parsed.data, usage };
+      return { data: parsed.data, usage: total, calls };
     } catch (error) {
       lastError = error;
       console.warn(`[llm] invalid output (attempt ${attempt + 1}):`, (error as Error).message);
     }
   }
-  throw new AppError("invalid_model_output", undefined, String(lastError));
+  throw Object.assign(new AppError("invalid_model_output", undefined, String(lastError)), { usage: total, calls });
+}
+
+/** Tokens and calls spent by a failed llmJson (attached to its error), for the traces. */
+export function usageOfError(error: unknown): { usage: Usage | null; calls: number } {
+  const e = error as { usage?: Usage | null; calls?: number };
+  return { usage: e?.usage ?? null, calls: e?.calls ?? 0 };
 }
 
 /** Grounded generation: the RAG answer, checked against LlmAnswerSchema. */
-export async function generateAnswer(userPrompt: string): Promise<{ data: LlmAnswer; usage: Usage | null }> {
+export async function generateAnswer(userPrompt: string): Promise<{ data: LlmAnswer; usage: Usage | null; calls: number }> {
   return llmJson(SYSTEM_PROMPT, userPrompt, LlmAnswerSchema, "rag_answer");
 }

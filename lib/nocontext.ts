@@ -9,6 +9,7 @@ import { z } from "zod";
 import { AppError } from "./errors";
 import { llmJson, llmModel } from "./llm";
 import { withPacing } from "./pace";
+import { newRedactor } from "./redact";
 import { EVAL_DIR, getSet, loadQuestions } from "./questions";
 
 export const NOCONTEXT_DIR = path.join(EVAL_DIR, "no-context");
@@ -61,7 +62,8 @@ export async function runNoContext(setId: string, onProgress?: (done: number, to
       flag: null,
     };
     try {
-      const { data: a } = await withPacing(() => llmJson(NC_SYSTEM, `Question: ${q.question}`, NcAnswerSchema, "no_context_answer"));
+      const red = await newRedactor(true); // V4: the question leaves the machine without personal data
+      const { data: a } = await withPacing(() => llmJson(NC_SYSTEM, `Question: ${red.redact(q.question)}`, NcAnswerSchema, "no_context_answer"));
       row.answer = a.answer;
       row.knows = a.knows;
       const { data: j } = await withPacing(() =>

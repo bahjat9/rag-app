@@ -1,0 +1,96 @@
+{
+  "request": {
+    "docs": [
+      "crime-and-punishment.txt"
+    ],
+    "kind": "quiz",
+    "count": 3,
+    "difficulty": "easy",
+    "types": "multiple_choice",
+    "topic": null
+  },
+  "kind": "quiz",
+  "items": [
+    {
+      "n": 1,
+      "type": "multiple_choice",
+      "question": "What is the professional rank of Pyotr Petrovitch Luzhin?",
+      "options": [
+        "A clerk",
+        "A counsellor",
+        "A solicitor",
+        "An inspector"
+      ],
+      "answer": "A counsellor",
+      "explanation": "The text states that Pyotr Petrovitch Luzhin is already of the rank of a counsellor.",
+      "chunk": {
+        "id": "crime-and-punishment.txt#0111",
+        "doc": "crime-and-punishment.txt"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 2,
+      "type": "multiple_choice",
+      "question": "What object did Zossimov pull out of his waistcoat-pocket?",
+      "options": [
+        "A silver cigarette case",
+        "A notebook",
+        "A huge gold watch",
+        "A pair of spectacles"
+      ],
+      "answer": "A huge gold watch",
+      "explanation": "Zossimov pulled a huge gold watch in a round hunter's case from his waistcoat-pocket.",
+      "chunk": {
+        "id": "crime-and-punishment.txt#0431",
+        "doc": "crime-and-punishment.txt"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 3,
+      "type": "multiple_choice",
+      "question": "How does Raskolnikov's article categorize men?",
+      "options": [
+        "Into poor and rich",
+        "Into good and evil",
+        "Into ordinary and extraordinary",
+        "Into weak and strong"
+      ],
+      "answer": "Into ordinary and extraordinary",
+      "explanation": "Porfiry explains that in Raskolnikov's article, all men are divided into ordinary and extraordinary categories.",
+      "chunk": {
+        "id": "crime-and-punishment.txt#0751",
+        "doc": "crime-and-punishment.txt"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    }
+  ],
+  "requested": 3,
+  "dropped": [],
+  "warnings": [],
+  "chunks_used": [
+    "crime-and-punishment.txt#0111",
+    "crime-and-punishment.txt#0431",
+    "crime-and-punishment.txt#0751",
+    "crime-and-punishment.txt#1071",
+    "crime-and-punishment.txt#1391"
+  ],
+  "usage": {
+    "input_tokens": 1388,
+    "output_tokens": 685,
+    "total_tokens": 2073
+  },
+  "cost_usd": 0.001375,
+  "llm_ms": 20270,
+  "traceId": "c964c571-ec37-4062-8374-4de5feb3e8aa",
+  "grades": {
+    "correct": 3
+  }
+}

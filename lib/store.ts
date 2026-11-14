@@ -10,7 +10,9 @@ import { chunkText } from "./chunker";
 import { readDoc, hashText, checkDocId } from "./docs";
 import { dot, embed, embeddingModelName } from "./embeddings";
 import { AppError } from "./errors";
+import { buildBm25 } from "./bm25";
 import { indexKey, type Settings } from "./settings";
+import { startTrace, type Tracer } from "./trace";
 
 export const INDEX_DIR = path.join(process.cwd(), "data", "index");
 
@@ -62,13 +64,44 @@ export async function indexStatus(doc: string, s: Settings): Promise<"ready" | "
   return idx.docHash === hashText(text) ? "ready" : "stale";
 }
 
-/** Phase 1 - indexing: document -> chunks -> embeddings -> stored. */
-export async function buildIndex(doc: string, s: Settings): Promise<{ chunks: number; ms: number }> {
+/**
+ * Phase 1 - indexing: document -> chunks -> embeddings -> stored (+ the BM25 index, V3).
+ * V4: every indexing run is traced. Pass the tracer of a multi-document run; without one, the
+ * document gets its own "index" trace.
+ */
+export async function buildIndex(doc: string, s: Settings, tracer?: Tracer): Promise<{ chunks: number; ms: number }> {
   checkDocId(doc);
+  const own = tracer ? null : startTrace("index", { docs: [doc], settings: { chunkSize: s.chunkSize, overlapPercent: s.overlapPercent, minParagraphLength: s.minParagraphLength } });
+  const t = (tracer ?? own)!;
+  try {
+    const res = await t.span("index.document", () => buildIndexSteps(doc, s, t), { doc });
+    if (own) {
+      own.setOutput({ chunks: res.chunks });
+      await own.end("ok");
+    }
+    return res;
+  } catch (error) {
+    if (own) await own.end("error", error);
+    throw error;
+  }
+}
+
+async function buildIndexSteps(doc: string, s: Settings, t: Tracer): Promise<{ chunks: number; ms: number }> {
   const started = Date.now();
-  const text = await readDoc(doc);
-  const { chunks } = chunkText(text, s);
-  const vectors = await embed(chunks.map((c) => c.text));
+  const text = await t.span("index.read", async (sp) => {
+    const x = await readDoc(doc);
+    sp.set({ chars: x.length }); // the size only: a trace never holds a whole document
+    return x;
+  }, { doc });
+  const { chunks } = await t.span("index.chunk", (sp) => {
+    const c = chunkText(text, s);
+    sp.set({ chunks: c.chunks.length });
+    return c;
+  }, { doc });
+  const vectors = await t.span("index.embed", async (sp) => {
+    sp.set({ model: embeddingModelName(), chunks: chunks.length });
+    return embed(chunks.map((c) => c.text));
+  }, { doc });
   const data: IndexFile = {
     doc,
     docHash: hashText(text),
@@ -85,10 +118,16 @@ export async function buildIndex(doc: string, s: Settings): Promise<{ chunks: nu
       vector: vectors[i].map((x) => Math.round(x * 1e6) / 1e6),
     })),
   };
-  await fs.mkdir(INDEX_DIR, { recursive: true });
-  const file = indexFile(doc, s);
-  await fs.writeFile(file, JSON.stringify(data), "utf8");
-  cache.set(file, data);
+  await t.span("index.save", async () => {
+    await fs.mkdir(INDEX_DIR, { recursive: true });
+    const file = indexFile(doc, s);
+    await fs.writeFile(file, JSON.stringify(data), "utf8");
+    cache.set(file, data);
+  }, { doc });
+  await t.span("index.bm25", (sp) => {
+    sp.set({ chunks: data.chunks.length });
+    return buildBm25(doc, s, data.chunks.map((c) => ({ id: c.id, text: c.text })));
+  }, { doc });
   return { chunks: data.chunks.length, ms: Date.now() - started };
 }
 
@@ -116,7 +155,7 @@ export async function allChunks(docs: string[], s: Settings): Promise<Omit<Store
       out.push(rest);
     }
   }
-  if (missing.length) throw new AppError("index_missing", `Not indexed with the current settings: ${missing.join(", ")}. Click "Index selected documents".`);
+  if (missing.length) throw new AppError("index_missing", `Not prepared yet: ${missing.join(", ")}. Click "Prepare" in the documents panel first.`);
   return out;
 }
 
@@ -144,7 +183,7 @@ export async function search(question: string, docs: string[], s: Settings): Pro
     else indexes.push((await loadIndex(d, s))!);
   }
   if (missing.length) {
-    throw new AppError("index_missing", `Not indexed with the current settings: ${missing.join(", ")}. Click "Index selected documents".`);
+    throw new AppError("index_missing", `Not prepared yet: ${missing.join(", ")}. Click "Prepare" in the documents panel first.`);
   }
   const [q] = await embed([question]);
   const scored: Hit[] = [];

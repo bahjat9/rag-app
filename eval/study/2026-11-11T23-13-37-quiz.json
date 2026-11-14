@@ -1,0 +1,339 @@
+{
+  "request": {
+    "docs": [
+      "service-catalog.md"
+    ],
+    "kind": "quiz",
+    "count": 15,
+    "difficulty": "medium",
+    "types": "multiple_choice",
+    "topic": null
+  },
+  "kind": "quiz",
+  "items": [
+    {
+      "n": 1,
+      "type": "multiple_choice",
+      "question": "What is the consequence for an API request that exceeds the rate limit in Kestrel?",
+      "options": [
+        "The request is delayed by one minute",
+        "The request receives HTTP 429",
+        "The request is automatically blocked for the workspace",
+        "The request is redirected to the Platform team"
+      ],
+      "answer": "The request receives HTTP 429",
+      "explanation": "The catalog states that requests above the 600 requests per minute limit receive HTTP 429.",
+      "chunk": {
+        "id": "service-catalog.md#0000",
+        "doc": "service-catalog.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 2,
+      "type": "multiple_choice",
+      "question": "Which team owns the service responsible for issuing session tokens?",
+      "options": [
+        "Platform",
+        "Analytics Engine",
+        "Identity",
+        "Data Integrations"
+      ],
+      "answer": "Identity",
+      "explanation": "The Identity team manages the service that issues session tokens used by every other service.",
+      "chunk": {
+        "id": "service-catalog.md#0000",
+        "doc": "service-catalog.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 3,
+      "type": "multiple_choice",
+      "question": "What are the two fixed IP addresses used for outgoing connections by the Data Integrations service?",
+      "options": [
+        "203.0.113.10 and 203.0.113.11",
+        "192.0.2.1 and 192.0.2.2",
+        "198.51.100.5 and 198.51.100.6",
+        "203.0.113.5 and 203.0.113.8"
+      ],
+      "answer": "203.0.113.10 and 203.0.113.11",
+      "explanation": "The Data Integrations service specifies these two fixed addresses for all outgoing connections.",
+      "chunk": {
+        "id": "service-catalog.md#0001",
+        "doc": "service-catalog.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 4,
+      "type": "multiple_choice",
+      "question": "How long is the query time limit enforced by the Analytics Engine?",
+      "options": [
+        "60 seconds",
+        "120 seconds",
+        "300 seconds",
+        "600 seconds"
+      ],
+      "answer": "120 seconds",
+      "explanation": "The Analytics Engine enforces a 120-second time limit for dataset queries.",
+      "chunk": {
+        "id": "service-catalog.md#0001",
+        "doc": "service-catalog.md"
+      },
+      "check": true,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 5,
+      "type": "multiple_choice",
+      "question": "When does the Messaging service remove a recipient from a schedule?",
+      "options": [
+        "After one rejected email",
+        "After two rejections",
+        "After three rejections",
+        "After five rejections"
+      ],
+      "answer": "After three rejections",
+      "explanation": "The Messaging service automatically removes a recipient after three bounced emails.",
+      "chunk": {
+        "id": "service-catalog.md#0002",
+        "doc": "service-catalog.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 6,
+      "type": "multiple_choice",
+      "question": "Which service replaced mailman in November 2025?",
+      "options": [
+        "Messaging",
+        "postroom",
+        "Analytics Engine",
+        "Platform"
+      ],
+      "answer": "postroom",
+      "explanation": "The documentation notes that postroom replaced the older mailman service.",
+      "chunk": {
+        "id": "service-catalog.md#0002",
+        "doc": "service-catalog.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 7,
+      "type": "multiple_choice",
+      "question": "Which team is responsible for the Billing and Refund Policy rules?",
+      "options": [
+        "Identity",
+        "Payments Core",
+        "Platform",
+        "Messaging"
+      ],
+      "answer": "Payments Core",
+      "explanation": "The Payments Core team applies the grace period and read-only rules defined in the Billing and Refund Policy.",
+      "chunk": {
+        "id": "service-catalog.md#0002",
+        "doc": "service-catalog.md"
+      },
+      "check": false,
+      "grade": "wrong",
+      "note": "ledger applies the billing rules; the policy owner is Finance"
+    },
+    {
+      "n": 8,
+      "type": "multiple_choice",
+      "question": "Which plans are eligible for the recording of security-relevant events?",
+      "options": [
+        "All plans",
+        "Business and Enterprise plans",
+        "Professional and Business plans",
+        "Enterprise plans only"
+      ],
+      "answer": "Business and Enterprise plans",
+      "explanation": "Security-relevant events are recorded for workspaces specifically on Business and Enterprise plans.",
+      "chunk": {
+        "id": "service-catalog.md#0003",
+        "doc": "service-catalog.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 9,
+      "type": "multiple_choice",
+      "question": "Which team does not operate on a 24/7 on-call rotation?",
+      "options": [
+        "Platform",
+        "Payments Core",
+        "Messaging",
+        "Analytics Engine"
+      ],
+      "answer": "Messaging",
+      "explanation": "The Messaging team operates on a weekday schedule of 08:00–20:00 rather than 24/7.",
+      "chunk": {
+        "id": "service-catalog.md#0003",
+        "doc": "service-catalog.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 10,
+      "type": "multiple_choice",
+      "question": "Who can page the lead of a team that works limited hours for a non-SEV-1 incident?",
+      "options": [
+        "Support",
+        "The Platform on-call engineer",
+        "The engineering lead",
+        "No one is authorized to page them for non-SEV-1 incidents"
+      ],
+      "answer": "No one is authorized to page them for non-SEV-1 incidents",
+      "explanation": "Outside of working hours, teams with weekday shifts can only be paged by the Platform on-call for SEV-1 incidents.",
+      "chunk": {
+        "id": "service-catalog.md#0003",
+        "doc": "service-catalog.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 11,
+      "type": "multiple_choice",
+      "question": "What must Support use to identify the service involved in an incident?",
+      "options": [
+        "The error code and the Support Runbook",
+        "The workspace ID",
+        "The on-call channel history",
+        "The platform-help channel"
+      ],
+      "answer": "The error code and the Support Runbook",
+      "explanation": "Support identifies the service by following the steps provided in the Support Runbook using the error code.",
+      "chunk": {
+        "id": "service-catalog.md#0004",
+        "doc": "service-catalog.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 12,
+      "type": "multiple_choice",
+      "question": "What action is required for SEV-1 incidents beyond posting in the team's channel?",
+      "options": [
+        "Emailing the engineering lead",
+        "Creating a ticket in the catalog",
+        "Paging the on-call engineer via the paging tool",
+        "Updating the internal documentation"
+      ],
+      "answer": "Paging the on-call engineer via the paging tool",
+      "explanation": "For SEV-1 incidents, posting in the channel is insufficient; Support must also page the on-call engineer.",
+      "chunk": {
+        "id": "service-catalog.md#0004",
+        "doc": "service-catalog.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 13,
+      "type": "multiple_choice",
+      "question": "What happens if a team is outside its working hours during an incident?",
+      "options": [
+        "Support waits until the next shift",
+        "The incident is automatically closed",
+        "The incident is escalated to the Platform on-call",
+        "Support pages the engineering lead directly"
+      ],
+      "answer": "The incident is escalated to the Platform on-call",
+      "explanation": "If the owning team is outside its working hours, the issue is escalated to the Platform on-call.",
+      "chunk": {
+        "id": "service-catalog.md#0004",
+        "doc": "service-catalog.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 14,
+      "type": "multiple_choice",
+      "question": "What is required to finalize a change in service ownership?",
+      "options": [
+        "Agreement from the Platform team only",
+        "Approval from Support and the engineering lead",
+        "Agreement of both engineering leads and a catalog update in the same week",
+        "A notification sent to the #platform-help channel"
+      ],
+      "answer": "Agreement of both engineering leads and a catalog update in the same week",
+      "explanation": "Ownership changes require both engineering leads to agree and the catalog to be updated in that same week.",
+      "chunk": {
+        "id": "service-catalog.md#0004",
+        "doc": "service-catalog.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 15,
+      "type": "multiple_choice",
+      "question": "Who is responsible for the on-call rotation of a service?",
+      "options": [
+        "The Support team",
+        "The Platform team",
+        "The owning team",
+        "The engineering lead"
+      ],
+      "answer": "The owning team",
+      "explanation": "The owning team is responsible for the service's on-call rotation, alerts, and runbook entries.",
+      "chunk": {
+        "id": "service-catalog.md#0000",
+        "doc": "service-catalog.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    }
+  ],
+  "requested": 15,
+  "dropped": [],
+  "warnings": [
+    "1 item(s) marked \"check this one\": their answer shares no word with the passage they point to."
+  ],
+  "chunks_used": [
+    "service-catalog.md#0000",
+    "service-catalog.md#0001",
+    "service-catalog.md#0002",
+    "service-catalog.md#0003",
+    "service-catalog.md#0004"
+  ],
+  "usage": {
+    "input_tokens": 1312,
+    "output_tokens": 2162,
+    "total_tokens": 3474
+  },
+  "cost_usd": 0.003571,
+  "llm_ms": 5770,
+  "traceId": "e9cc4cc8-c737-4e2a-b07f-32140e09d4e5",
+  "grades": {
+    "correct": 14,
+    "wrong": 1
+  }
+}

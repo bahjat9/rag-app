@@ -1,0 +1,116 @@
+{
+  "request": {
+    "docs": [
+      "vellora-duo-espresso-machine.txt"
+    ],
+    "kind": "quiz",
+    "count": 5,
+    "difficulty": "hard",
+    "types": "short_answer",
+    "topic": null
+  },
+  "kind": "quiz",
+  "items": [
+    {
+      "n": 1,
+      "type": "short_answer",
+      "question": "What is the consequence of failing to descale the machine regularly according to the warranty terms?",
+      "options": [],
+      "answer": "Damage is not covered by the warranty",
+      "explanation": "Limescale buildup reduces heater efficiency and coffee temperature, and the manufacturer explicitly states that damage caused by limescale is not covered by the warranty.",
+      "chunk": {
+        "id": "vellora-duo-espresso-machine.txt#0009",
+        "doc": "vellora-duo-espresso-machine.txt"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 2,
+      "type": "short_answer",
+      "question": "If the espresso machine shows error E27, what specific steps must be taken to resolve the pressure issue while the grinder is in operation?",
+      "options": [],
+      "answer": "Set the grind adjuster three steps coarser",
+      "explanation": "Error E27 indicates the brewing pressure is above 15 bar, and the manual instructs to set the grind adjuster three steps coarser while the grinder is running.",
+      "chunk": {
+        "id": "vellora-duo-espresso-machine.txt#0020",
+        "doc": "vellora-duo-espresso-machine.txt"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 3,
+      "type": "short_answer",
+      "question": "If you receive error code E43, why is it necessary to run the grinder while resetting the adjuster to position 5?",
+      "options": [],
+      "answer": "The adjuster was turned while the grinder was not running",
+      "explanation": "Error E43 occurs because the grind adjuster was turned while the machine was idle, necessitating that it be turned back to position 5 while the grinder is active.",
+      "chunk": {
+        "id": "vellora-duo-espresso-machine.txt#0025",
+        "doc": "vellora-duo-espresso-machine.txt"
+      },
+      "check": false,
+      "grade": "unsupported",
+      "note": "the manual gives the cause, not why the grinder must run"
+    },
+    {
+      "n": 4,
+      "type": "short_answer",
+      "question": "What is the required action if error E86 prevents the control panel buttons from responding?",
+      "options": [],
+      "answer": "Press and hold the menu button for five seconds",
+      "explanation": "Error E86 indicates the child lock is active, which is disabled by pressing and holding the menu button for five seconds.",
+      "chunk": {
+        "id": "vellora-duo-espresso-machine.txt#0036",
+        "doc": "vellora-duo-espresso-machine.txt"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 5,
+      "type": "short_answer",
+      "question": "Under what condition is the two-year warranty for the Vellora Duo void regarding grinder damage?",
+      "options": [],
+      "answer": "If foreign objects are found in the grinder",
+      "explanation": "The two-year warranty does not cover damage resulting from foreign objects found in the grinder.",
+      "chunk": {
+        "id": "vellora-duo-espresso-machine.txt#0041",
+        "doc": "vellora-duo-espresso-machine.txt"
+      },
+      "check": false,
+      "grade": "partial",
+      "note": "says void, the manual says not covered"
+    }
+  ],
+  "requested": 5,
+  "dropped": [],
+  "warnings": [],
+  "chunks_used": [
+    "vellora-duo-espresso-machine.txt#0004",
+    "vellora-duo-espresso-machine.txt#0009",
+    "vellora-duo-espresso-machine.txt#0015",
+    "vellora-duo-espresso-machine.txt#0020",
+    "vellora-duo-espresso-machine.txt#0025",
+    "vellora-duo-espresso-machine.txt#0031",
+    "vellora-duo-espresso-machine.txt#0036",
+    "vellora-duo-espresso-machine.txt#0041"
+  ],
+  "usage": {
+    "input_tokens": 1874,
+    "output_tokens": 630,
+    "total_tokens": 2504
+  },
+  "cost_usd": 0.001414,
+  "llm_ms": 2877,
+  "traceId": "f575da30-41ca-4b0e-8e63-034f7cdc84c0",
+  "grades": {
+    "correct": 3,
+    "unsupported": 1,
+    "partial": 1
+  }
+}

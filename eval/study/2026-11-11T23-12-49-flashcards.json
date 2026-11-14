@@ -1,0 +1,118 @@
+{
+  "request": {
+    "docs": [
+      "product-guide.md",
+      "billing-policy-2025.md",
+      "billing-policy-2026.md",
+      "support-runbook-errors.md",
+      "service-catalog.md"
+    ],
+    "kind": "flashcards",
+    "count": 5,
+    "difficulty": "medium",
+    "types": "multiple_choice",
+    "topic": "refunds"
+  },
+  "kind": "flashcards",
+  "items": [
+    {
+      "n": 1,
+      "type": "flashcard",
+      "question": "What happens if a customer requests a refund for an annual plan under the 2026 policy within 60 days of purchase?",
+      "options": [],
+      "answer": "The refund is pro-rated from the date of the request based on the number of unused full months of the annual period.",
+      "explanation": "",
+      "chunk": {
+        "id": "billing-policy-2026.md#0003",
+        "doc": "billing-policy-2026.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 2,
+      "type": "flashcard",
+      "question": "According to the 2025 policy, what is the deadline for receiving a full refund on an annual plan?",
+      "options": [],
+      "answer": "The request must be made within 30 days of the purchase or renewal date.",
+      "explanation": "",
+      "chunk": {
+        "id": "billing-policy-2025.md#0003",
+        "doc": "billing-policy-2025.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 3,
+      "type": "flashcard",
+      "question": "Under the 2026 policy, what are the two ways a workspace Owner can submit a refund request?",
+      "options": [],
+      "answer": "Either via Settings → Plan → Request a refund or by email to billing@kestrel.example.",
+      "explanation": "",
+      "chunk": {
+        "id": "billing-policy-2026.md#0004",
+        "doc": "billing-policy-2026.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 4,
+      "type": "flashcard",
+      "question": "In the 2026 policy, how long after a refund request is approved are funds typically returned to the original payment method?",
+      "options": [],
+      "answer": "Processed within 14 days.",
+      "explanation": "",
+      "chunk": {
+        "id": "billing-policy-2026.md#0004",
+        "doc": "billing-policy-2026.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    },
+    {
+      "n": 5,
+      "type": "flashcard",
+      "question": "Are charges resulting from a billing error on Kestrel Analytics' side refundable?",
+      "options": [],
+      "answer": "Yes, these are always refunded in full, regardless of the plan or the date of the request.",
+      "explanation": "",
+      "chunk": {
+        "id": "billing-policy-2025.md#0003",
+        "doc": "billing-policy-2025.md"
+      },
+      "check": false,
+      "grade": "correct",
+      "note": ""
+    }
+  ],
+  "requested": 5,
+  "dropped": [],
+  "warnings": [],
+  "chunks_used": [
+    "billing-policy-2025.md#0003",
+    "billing-policy-2025.md#0000",
+    "billing-policy-2026.md#0004",
+    "billing-policy-2026.md#0000",
+    "billing-policy-2026.md#0003",
+    "billing-policy-2026.md#0006",
+    "billing-policy-2026.md#0005",
+    "billing-policy-2025.md#0004"
+  ],
+  "usage": {
+    "input_tokens": 1743,
+    "output_tokens": 427,
+    "total_tokens": 2170
+  },
+  "cost_usd": 0.001076,
+  "llm_ms": 2688,
+  "traceId": "1a4d8b3a-2af5-48cd-9a52-81516cb5da5a",
+  "grades": {
+    "correct": 5
+  }
+}

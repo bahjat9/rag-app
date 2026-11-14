@@ -9,6 +9,7 @@ import { bm25Search } from "./bm25";
 import { graphSearch, type GraphPath } from "./graph";
 import { allChunks, search, type Hit } from "./store";
 import type { Retrievers, Settings } from "./settings";
+import type { Tracer } from "./trace";
 
 export const RRF_K = 60;
 /** How deep each retriever's list goes before fusion. */
@@ -36,9 +37,11 @@ export function parseRetrievers(text: string): Retrievers {
   return { dense: parts.has("dense"), bm25: parts.has("bm25"), graph: parts.has("graph") };
 }
 
-export async function retrieve(question: string, docs: string[], s: Settings, topK = s.topK): Promise<Retrieval> {
+export async function retrieve(question: string, docs: string[], s: Settings, topK = s.topK, tracer?: Tracer): Promise<Retrieval> {
   const r = s.retrievers;
   const t0 = Date.now();
+  const at = () => tracer?.elapsed() ?? 0; // span offsets, relative to the trace
+  const a0 = at();
   const chunks = await allChunks(docs, s); // throws if a document is not indexed
   const byId = new Map(chunks.map((c) => [c.id, c]));
   const ms: Retrieval["ms"] = { dense: null, bm25: null, graph: null, total: 0 };
@@ -51,16 +54,21 @@ export async function retrieve(question: string, docs: string[], s: Settings, to
 
   if (r.dense) {
     const t = Date.now();
+    const a = at();
     const hits = await search(question, docs, { ...s, topK: PER_RETRIEVER });
     ms.dense = Date.now() - t;
+    tracer?.addSpan("retrieve.dense", a, ms.dense, { top: hits.slice(0, 5).map((h) => `${h.id} (${h.score.toFixed(3)})`) });
     lists.dense = hits.map((h) => ({ id: h.id, rank: h.rank }));
     hits.forEach((h) => note(h.id, { retriever: "dense", rank: h.rank, score: h.score }));
   }
   if (r.bm25) {
     const t = Date.now();
     const chunksOf = async (d: string) => chunks.filter((c) => c.doc === d).map((c) => ({ id: c.id, text: c.text }));
+    const a = at();
     const hits = await bm25Search(question, docs, s, PER_RETRIEVER, chunksOf);
     ms.bm25 = Date.now() - t;
+    // matched words are NOT traced: they are words of the question, which can be personal data
+    tracer?.addSpan("retrieve.bm25", a, ms.bm25, { top: hits.slice(0, 5).map((h) => `${h.id} (${h.score.toFixed(2)})`) });
     lists.bm25 = hits.map((h) => ({ id: h.id, rank: h.rank }));
     hits.forEach((h) => note(h.id, { retriever: "bm25", rank: h.rank, score: h.score, matched: h.matched }));
   }
@@ -68,8 +76,11 @@ export async function retrieve(question: string, docs: string[], s: Settings, to
   let graph_available: boolean | null = null;
   if (r.graph) {
     const t = Date.now();
+    const a = at();
     const g = await graphSearch(question, docs, s, PER_RETRIEVER);
     ms.graph = Date.now() - t;
+    // person names found in the question are not traced
+    tracer?.addSpan("retrieve.graph", a, ms.graph, { available: g.available, seeds: g.path.seeds.map((x) => (x.type === "person" ? "[PERSON]" : x.name)), edges: g.path.edges.length, top: g.hits.slice(0, 5).map((h) => h.id) });
     path = g.path;
     graph_available = g.available;
     lists.graph = g.hits.map((h) => ({ id: h.id, rank: h.rank }));
@@ -83,5 +94,9 @@ export async function retrieve(question: string, docs: string[], s: Settings, to
     .slice(0, topK);
   const hits: FusedHit[] = fused.map((f, i) => ({ ...byId.get(f.id)!, score: Math.round(f.rrf * 1e5) / 1e5, rank: i + 1, sources: f.sources }));
   ms.total = Date.now() - t0;
+  tracer?.addSpan("retrieve", a0, ms.total, {
+    retrievers: retrieverTag(r),
+    hits: hits.map((h) => `${h.id} ← ${h.sources.map((x) => `${x.retriever}#${x.rank}`).join(" ")}`),
+  });
   return { hits, lists, path, graph_available, ms };
 }

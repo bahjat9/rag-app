@@ -20,11 +20,13 @@ import { promises as fs } from "fs";
 import path from "path";
 import { z } from "zod";
 import { AppError } from "./errors";
-import { llmJson, llmModel } from "./llm";
+import { llmJson, llmModel, usageOfError } from "./llm";
 import { withPacing } from "./pace";
 import { hashText, readDoc } from "./docs";
 import { indexKey, type Settings } from "./settings";
+import { newRedactor } from "./redact";
 import { allChunks } from "./store";
+import { startTrace, type Tracer } from "./trace";
 
 export const ENTITY_TYPES = ["error_code", "service", "team", "person", "channel", "plan", "feature", "role", "policy", "setting", "value", "concept"] as const;
 export const RELATION_TYPES = [
@@ -189,6 +191,20 @@ async function chunkHeadings(doc: string, s: Settings): Promise<{ start: number;
 
 /** Build (or resume) the graph for these documents and chunk settings. */
 export async function buildGraph(docs: string[], s: Settings, opts: { rebuild?: boolean; retryFailed?: boolean } = {}, onProgress?: (done: number, total: number) => void) {
+  // V4: the build is traced (one span per LLM extraction, with its tokens and cost)
+  const tracer = startTrace("graph_build", { docs, rebuild: !!opts.rebuild, retryFailed: !!opts.retryFailed, redactPII: s.redactPII, llm_model: llmModel() });
+  try {
+    const stats = await buildGraphTraced(docs, s, opts, tracer, onProgress);
+    tracer.setOutput({ entities: stats.entities, relations: stats.relations, failed: stats.cost.failed });
+    await tracer.end("ok");
+    return { ...stats, traceId: tracer.id };
+  } catch (error) {
+    await tracer.end("error", error);
+    throw Object.assign(error as object, { traceId: tracer.id });
+  }
+}
+
+async function buildGraphTraced(docs: string[], s: Settings, opts: { rebuild?: boolean; retryFailed?: boolean }, tracer: Tracer, onProgress?: (done: number, total: number) => void) {
   const chunks = await allChunks(docs, s); // the documents must be indexed with these settings
   const file = graphFile(s, docs);
   let g = opts.rebuild ? null : await loadGraph(s, docs);
@@ -209,11 +225,27 @@ export async function buildGraph(docs: string[], s: Settings, opts: { rebuild?: 
     const x: ChunkExtraction = { ok: false, input_tokens: 0, output_tokens: 0, calls: 0, ms: 0 };
     try {
       const sections = [...new Set((heads.get(c.doc) ?? []).filter((p) => p.start < c.end && p.end > c.start).map((p) => p.path).filter(Boolean))];
-      const user = `<document>${c.doc}</document>\n<sections>\n${sections.join("\n")}\n</sections>\n<excerpt id="${c.id}">\n${c.text}\n</excerpt>`;
-      const { data, usage } = await withPacing(() => llmJson(EXTRACT_SYSTEM, user, ExtractionSchema, "graph_extraction"));
+      // V4 Part C: personal data replaced before the chunk leaves the machine, names restored after
+      const red = await newRedactor(s.redactPII);
+      const user = `<document>${c.doc}</document>\n<sections>\n${sections.map((x) => red.redact(x)).join("\n")}\n</sections>\n<excerpt id="${c.id}">\n${red.redact(c.text)}\n</excerpt>`;
+      const { data, usage, calls } = await tracer.span("graph.extract", async (sp) => {
+        try {
+          const res = await withPacing(() => llmJson(EXTRACT_SYSTEM, user, ExtractionSchema, "graph_extraction"));
+          sp.llm(llmModel(), res.usage, res.calls);
+          sp.set({ entities: res.data.entities.length, relations: res.data.relations.length, redacted: red.total });
+          return res;
+        } catch (error) {
+          const u = usageOfError(error);
+          sp.llm(llmModel(), u.usage, u.calls);
+          throw error;
+        }
+      }, { doc: c.doc, chunk: c.id });
       x.ok = true;
-      x.extraction = data;
-      x.calls = 1;
+      x.extraction = {
+        entities: data.entities.map((e) => ({ ...e, name: red.restore(e.name) })),
+        relations: data.relations.map((r) => ({ ...r, source: red.restore(r.source), target: red.restore(r.target) })),
+      };
+      x.calls = calls;
       x.input_tokens = usage?.input_tokens ?? 0;
       x.output_tokens = usage?.output_tokens ?? 0;
     } catch (error) {
@@ -235,7 +267,10 @@ export async function buildGraph(docs: string[], s: Settings, opts: { rebuild?: 
     await fs.writeFile(file, JSON.stringify(g), "utf8");
     onProgress?.(++done, chunks.length);
   }
-  assemble(g);
+  await tracer.span("graph.assemble", (sp) => {
+    assemble(g!);
+    sp.set({ entities: g!.nodes.length, relations: g!.edges.length, merges: g!.merges.length });
+  });
   recost(g);
   g.model = llmModel() || g.model;
   g.built_at = new Date().toISOString();

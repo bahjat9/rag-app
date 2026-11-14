@@ -35,6 +35,7 @@ import { llmModel } from "./llm";
 import { withPacing } from "./pace";
 import { EVAL_DIR, getSet, loadQuestions, type Question } from "./questions";
 import { answerFromHits } from "./rag";
+import { newRedactor } from "./redact";
 import { retrieve, retrieverTag, type RetrieverName } from "./retrieve";
 import { getSettings, SettingsSchema, type Settings } from "./settings";
 import { allChunks, ensureIndexes, type Hit } from "./store";
@@ -185,6 +186,7 @@ export async function runEval(input: EvalOptions, onProgress?: (done: number, to
     minParagraphLength: opts.minParagraphLength ?? saved.minParagraphLength,
     topK: opts.topK ?? saved.topK,
     retrievers: opts.retrievers ?? saved.retrievers,
+    redactPII: saved.redactPII,
   });
   const started = Date.now();
   await ensureIndexes(set.docs, settings); // builds the indexes this configuration needs
@@ -224,7 +226,8 @@ export async function runEval(input: EvalOptions, onProgress?: (done: number, to
       const used = topk;
       const chunks = used.map((h) => ({ id: h.id, score: Number(h.score.toFixed(4)), text: h.text }));
       try {
-        const a = await withPacing(() => answerFromHits(q.question, used));
+        const red = await newRedactor(settings.redactPII);
+        const a = await withPacing(() => answerFromHits(q.question, used, { redactor: red }));
         row.answer = { found: a.found, answer: a.answer, citations: a.citations.map((c) => c.id), warnings: a.warnings, chunks, usage: a.usage, generation_ms: a.generation_ms };
       } catch (error) {
         // One failed generation (quota, timeout...) must not lose the whole run.
