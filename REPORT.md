@@ -121,6 +121,25 @@ pass**. The failing case is the known limit: a first name alone ("my colleague S
 the Kestrel e-mail addresses (billing@, privacy@) and the 6 team leads of the service catalog are hidden; in *Crime and
 Punishment* the titled names (Mr. Luzhin…) are hidden too (harmless false positives: restored in the answer).
 
+**Why these 10 cases:** 6 "hostile" texts with personal data written the way a user of our corpora would write it
+(name + e-mail, French and international phones, card + IBAN, a team lead from the Kestrel catalog, titled names, a
+French introduction) and 3 "harmless" texts full of things that *look* like personal data but must stay because the
+answer needs them: IP addresses, error codes, invoice numbers, a 16-digit amount that fails the Luhn check, dates,
+quantities. The last one (r09) is built to fail, to show the limit.
+
+**False positives / false negatives:** false negatives = first names alone and names in no list (r09, "Sarah");
+postal addresses and dates of birth are not detected at all. False positives = fictional names after a title
+(Mr. Luzhin), which only make the model reason on `[PERSON_1]`; no error code, IP or amount of our test set is hidden.
+
+**Cost and latency:** 0 tokens and no extra call (rules only). Measured on our indexes (1685 passages, 200 prompts of
+5 passages): **0.13 ms p50, 0.17 ms p95** per prompt; the `redact.prompt` step in each trace shows the same order of
+magnitude (0–1 ms), negligible next to the LLM call (2.2 s in the trace shown above).
+
+**Side effects on the pipeline:** retrieval runs on the original question (local), so a question about a person still
+finds the passages; for the graph, each passage is redacted before extraction and the entity names are restored
+locally afterwards, so the graph keeps the real names; an answer that needs a name gets it back from the local
+mapping, with the same placeholder for the same person in the whole request.
+
 ## V4 – decision log (new entries)
 
 | # | Decision | Options considered | Picked | Why |
