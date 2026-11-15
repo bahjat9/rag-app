@@ -1,0 +1,157 @@
+{
+  "at": "2026-11-15T11:45:01.472Z",
+  "model": "gemini-3.1-flash-lite",
+  "agreement": {
+    "old_rule": 6,
+    "new": 14,
+    "total": 16
+  },
+  "ai_calls": 13,
+  "tokens": 6123,
+  "rows": [
+    {
+      "id": "g01",
+      "human": "correct",
+      "old_rule": "wrong",
+      "new": "correct",
+      "by": "ai",
+      "feedback": "Your answer is correct as one day is equivalent to the 24-hour default lifetime.",
+      "ms": 5933
+    },
+    {
+      "id": "g02",
+      "human": "partly",
+      "old_rule": "correct",
+      "new": "partly",
+      "by": "ai",
+      "feedback": "You provided the correct number, but you did not include the unit of time.",
+      "ms": 911
+    },
+    {
+      "id": "g03",
+      "human": "wrong",
+      "old_rule": "wrong",
+      "new": "wrong",
+      "by": "ai",
+      "feedback": "The default lifetime is 24 hours, whereas 30 days is the maximum possible duration for specific plans.",
+      "ms": 893
+    },
+    {
+      "id": "g04",
+      "human": "correct",
+      "old_rule": "correct",
+      "new": "correct",
+      "by": "rule",
+      "feedback": "Same words as the expected answer.",
+      "ms": 0
+    },
+    {
+      "id": "g05",
+      "human": "partly",
+      "old_rule": "wrong",
+      "new": "correct",
+      "by": "ai",
+      "feedback": "You correctly identified that the service is responsible for sending emails, which the document confirms is called postroom.",
+      "ms": 20446
+    },
+    {
+      "id": "g06",
+      "human": "correct",
+      "old_rule": "wrong",
+      "new": "correct",
+      "by": "ai",
+      "feedback": "Your answer correctly identifies the 60-day window for refund requests.",
+      "ms": 915
+    },
+    {
+      "id": "g07",
+      "human": "wrong",
+      "old_rule": "correct",
+      "new": "wrong",
+      "by": "ai",
+      "feedback": "Annual plans can be refunded if requested within 60 days, not 6 days.",
+      "ms": 1009
+    },
+    {
+      "id": "g08",
+      "human": "correct",
+      "old_rule": "wrong",
+      "new": "correct",
+      "by": "ai",
+      "feedback": "Your answer correctly identifies that a workspace admin is responsible for removing a member.",
+      "ms": 6132
+    },
+    {
+      "id": "g09",
+      "human": "wrong",
+      "old_rule": "wrong",
+      "new": "wrong",
+      "by": "ai",
+      "feedback": "The excerpt states that an Admin of the workspace must remove a member, not the Owner.",
+      "ms": 916
+    },
+    {
+      "id": "g10",
+      "human": "correct",
+      "old_rule": "correct",
+      "new": "correct",
+      "by": "rule",
+      "feedback": "Same words as the expected answer.",
+      "ms": 0
+    },
+    {
+      "id": "g11",
+      "human": "correct",
+      "old_rule": "wrong",
+      "new": "correct",
+      "by": "ai",
+      "feedback": "You correctly identified the range of 7 to 14 grams.",
+      "ms": 820
+    },
+    {
+      "id": "g12",
+      "human": "partly",
+      "old_rule": "correct",
+      "new": "partly",
+      "by": "ai",
+      "feedback": "You only provided the upper limit of the range; the strength setting uses between 7 and 14 grams.",
+      "ms": 896
+    },
+    {
+      "id": "g13",
+      "human": "wrong",
+      "old_rule": "correct",
+      "new": "partly",
+      "by": "ai",
+      "feedback": "You mentioned milk, but you did not include the required detail about it being cold and around 5 degrees Celsius.",
+      "ms": 957
+    },
+    {
+      "id": "g14",
+      "human": "correct",
+      "old_rule": "wrong",
+      "new": "correct",
+      "by": "ai",
+      "feedback": "Your answer accurately captures that the change takes effect at the next renewal.",
+      "ms": 1186
+    },
+    {
+      "id": "g15",
+      "human": "wrong",
+      "old_rule": "wrong",
+      "new": "wrong",
+      "by": "rule",
+      "feedback": "No answer given.",
+      "ms": 0
+    },
+    {
+      "id": "g16",
+      "human": "wrong",
+      "old_rule": "wrong",
+      "new": "wrong",
+      "by": "ai",
+      "feedback": "Your answer did not address the question regarding when the billing switch takes effect.",
+      "ms": 31923
+    }
+  ]
+}

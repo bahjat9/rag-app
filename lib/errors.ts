@@ -48,7 +48,7 @@ const MESSAGE: Record<ErrorCode, string> = {
   llm_timeout: "The AI model took too long to answer. Please try again.",
   embedding_failed: "The local language model could not be loaded. The first run needs internet to download it (~25 MB); check the terminal where the app runs.",
   internal_error: "Something went wrong. Try again; if it keeps failing, open \"What happened?\" or look at the terminal where the app runs.",
-  not_configured: "The AI model is not configured: put your API key in .env.local (LLM_API_KEY), see the README, then restart the app.",
+  not_configured: "The AI model is not configured: set LLM_URL, LLM_API_KEY and LLM_MODEL in .env.local (see .env.example and the README), then restart the app.",
 };
 
 export class AppError extends Error {

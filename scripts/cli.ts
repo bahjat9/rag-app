@@ -9,14 +9,17 @@
 //        the retrievers fused with RRF (default: the saved settings); --answers also generates the
 //        answers (LLM calls) for hand grading.
 //   graph build --set kestrel [--rebuild] [--retry-failed]
+//   graph build --docs my-notes.md,other.txt   graph of any added documents (only the ones without a graph)
 //        LLM extraction of the concept graph (resumable: run it again after a quota error)
 //   graph stats --set kestrel            entities, relations, merges, type conflicts, cost
 //   graph sample --set kestrel [--force] draw 10 random triples into eval/graph-triples.json (grade them by hand)
 //   graph ask --set kestrel "question"   graph retrieval only: seeds, edges followed, chunks
+//   (stats and ask also take --docs a.md,b.txt instead of --set)
 //   study --set kestrel [--docs a.md,b.md] [--kind quiz|flashcards] [--count 5] [--difficulty easy|medium|hard]
 //         [--types multiple_choice,true_false,short_answer] [--topic "refunds"]
 //        V4: generate a quiz or flashcards (one LLM call), print it, save it to eval/study/ for checking
 //   study-grade --file <eval/study file> --grades c,c,p,u,w [--notes "a|b|..."]   V4: save hand grades
+//   grade-check   V4: short-answer grader vs our hand grades (eval/grading-cases.jsonl)
 //   redact-check                         V4: run the personal-data redaction test cases (eval/redaction-cases.jsonl)
 //   nocontext --set kestrel|vellora      ask every question to the LLM without retrieval
 //   results                              print the results table of every run (Markdown) and write eval/RESULTS.md
@@ -25,13 +28,15 @@ import path from "path";
 import { EVAL_DIR } from "../lib/questions";
 import { KS, listRuns, resultsMarkdown, runEval } from "../lib/evaluate";
 import { runNoContext } from "../lib/nocontext";
-import { buildGraph, graphSearch, graphStats, loadGraph, sampleTriples } from "../lib/graph";
+import { buildGraph, buildGraphForDocs, graphForDocs, graphSearch, graphStats, loadGraph, sampleTriples } from "../lib/graph";
 import { getSet } from "../lib/questions";
 import { parseRetrievers } from "../lib/retrieve";
-import { generateStudy } from "../lib/study";
+import { generateStudy, gradeAnswer } from "../lib/study";
 import { knownNames, Redactor } from "../lib/redact";
 import { getSettings } from "../lib/settings";
 import { ensureIndexes } from "../lib/store";
+import { getTrace } from "../lib/trace";
+import { llmModel } from "../lib/llm";
 
 function args(argv: string[]) {
   const out: Record<string, string | boolean> = {};
@@ -78,14 +83,20 @@ async function main() {
     console.log(`saved eval/no-context/${summary.file} (check the flags by hand in the Evaluation tab)`);
   } else if (command === "graph") {
     const sub = rest[0];
-    const set = await getSet(typeof a.set === "string" ? a.set : "kestrel");
     const settings = await getSettings();
-    if (sub === "build") {
+    const userDocs = typeof a.docs === "string" ? a.docs.split(",").map((x) => x.trim()).filter(Boolean) : null;
+    const set = userDocs ? { id: "docs", name: "documents", file: "", docs: userDocs } : await getSet(typeof a.set === "string" ? a.set : "kestrel");
+    if (sub === "build" && userDocs) {
+      await ensureIndexes(userDocs, settings);
+      const r = await buildGraphForDocs(userDocs, settings, { rebuild: a.rebuild === true, retryFailed: a["retry-failed"] === true });
+      console.log(`built: ${r.built.join(", ") || "-"} | already had a graph: ${r.already.join(", ") || "-"}`);
+      console.log(JSON.stringify(r.stats, null, 2));
+    } else if (sub === "build") {
       await ensureIndexes(set.docs, settings);
       const st = await buildGraph(set.docs, settings, { rebuild: a.rebuild === true, retryFailed: a["retry-failed"] === true }, progress);
       console.log(`\n${JSON.stringify(st, null, 2)}`);
     } else if (sub === "stats") {
-      const g = await loadGraph(settings, set.docs);
+      const g = userDocs ? await graphForDocs(settings, userDocs) : await loadGraph(settings, set.docs);
       if (!g) throw new Error("No graph yet: run graph build first.");
       console.log(JSON.stringify(graphStats(g), null, 2));
       console.log("merges (entity resolution):");
@@ -98,7 +109,7 @@ async function main() {
       for (const x of t.triples) console.log(`  ${x.n}. (${x.source}) -[${x.relation}]-> (${x.target})   from ${x.chunk}`);
       console.log("saved eval/graph-triples.json: grade each one correct / wrong / unsupported (Graph tab, or in the file)");
     } else if (sub === "ask") {
-      const question = rest.slice(1).filter((x) => !x.startsWith("--") && x !== a.set).join(" ");
+      const question = rest.slice(1).filter((x) => !x.startsWith("--") && x !== a.set && x !== a.docs).join(" ");
       const r = await graphSearch(question, set.docs, settings, 10);
       if (!r.available) throw new Error("No graph for these documents: run graph build first.");
       console.log("seeds:", r.path.seeds.map((x) => `${x.name} (${x.type}, matched "${x.matched}")`).join(", ") || "none");
@@ -148,6 +159,44 @@ async function main() {
     data.grades = counts;
     await fs.writeFile(file, JSON.stringify(data, null, 2) + "\n", "utf8");
     console.log(`${path.basename(file)}: ${JSON.stringify(counts)}`);
+  } else if (command === "grade-check") {
+    // V4 Study polish: how well are short answers graded? eval/grading-cases.jsonl = answers we graded
+    // by hand (correct / partly / wrong). Compares 3 graders: the old substring rule, the new rule
+    // alone, and the new grader (rule, else AI against the passage). Saves eval/grading-results.json.
+    const cases = (await fs.readFile(path.join(EVAL_DIR, "grading-cases.jsonl"), "utf8")).split("\n").filter((l) => l.trim()).map((l) => JSON.parse(l));
+    const norm = (x: string) => x.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
+    const oldRule = (e: string, g: string) => {
+      const x = norm(e);
+      const y = norm(g);
+      return !!y && (x === y || x.includes(y) || y.includes(x)) ? "correct" : "wrong";
+    };
+    const rows = [];
+    let okOld = 0;
+    let okNew = 0;
+    let aiCalls = 0;
+    let tokens = 0;
+    let aiMs = 0;
+    for (const c of cases) {
+      const t0 = Date.now();
+      const g = await gradeAnswer({ question: c.question, expected: c.expected, given: c.given, chunkId: c.chunk });
+      const ms = Date.now() - t0;
+      const tr = g.traceId ? await getTrace(g.traceId) : null;
+      if (g.by === "ai") {
+        aiCalls++;
+        aiMs += ms;
+        tokens += (tr?.totals.input_tokens ?? 0) + (tr?.totals.output_tokens ?? 0);
+      }
+      const old = oldRule(c.expected, c.given);
+      // the old rule only knew right / wrong: "partly" counts as agreeing with neither
+      if (old === c.human) okOld++;
+      if (g.verdict === c.human) okNew++;
+      rows.push({ id: c.id, human: c.human, old_rule: old, new: g.verdict, by: g.by, feedback: g.feedback, ms });
+      console.log(`${c.id}  human ${c.human.padEnd(7)}  old ${old.padEnd(7)} ${old === c.human ? " " : "x"}  new ${g.verdict.padEnd(7)} ${g.verdict === c.human ? " " : "x"} (${g.by}, ${ms} ms)  ${g.feedback}`);
+    }
+    console.log(`\nagreement with our hand grades: old rule ${okOld}/${cases.length} · new grader ${okNew}/${cases.length}`);
+    console.log(`AI calls ${aiCalls}/${cases.length} (the others decided by the rule, 0 tokens) · ${tokens} tokens · avg ${aiCalls ? Math.round(aiMs / aiCalls) : 0} ms per AI grade · model ${llmModel()}`);
+    await fs.writeFile(path.join(EVAL_DIR, "grading-results.json"), JSON.stringify({ at: new Date().toISOString(), model: llmModel(), agreement: { old_rule: okOld, new: okNew, total: cases.length }, ai_calls: aiCalls, tokens, rows }, null, 2) + "\n", "utf8");
+    console.log("saved eval/grading-results.json");
   } else if (command === "redact-check") {
     // V4 Part C: run the redaction test cases (eval/redaction-cases.jsonl) and report what is hidden / kept
     const cases = (await fs.readFile(path.join(EVAL_DIR, "redaction-cases.jsonl"), "utf8")).split("\n").filter(Boolean).map((l) => JSON.parse(l));

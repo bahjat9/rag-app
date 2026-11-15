@@ -100,6 +100,45 @@ Overall 27 / 29 kept items fully correct, 1 partial, 1 wrong, 1 unsupported; no 
 2. *False "check this one"* (run 5 #4: "120 seconds" vs "120-second" in the passage). The grounding check now uses
    the BM25 tokenizer (hyphenated words also split) and ignores a final "s": this item is no longer flagged.
 
+## V4 – B. Study, pushed further (after the 15 Nov message)
+
+A quiz that is generated once, scored with a substring test and then lost is the "basic quiz" of the message. What
+we added, and why each piece:
+
+| What | How | Why |
+|---|---|---|
+| **Saved decks** | every quiz / set of cards is a JSON file in `data/decks/` (not committed, like the traces); **My decks** lists them with the last / best score or the cards due | studying happens over several days, not in one click |
+| **Scores and mistakes** | every "Check my answers" is saved (score, which questions were missed); **Practise my mistakes** asks only those (not scored) | the user sees progress and works on weak points; no extra AI call |
+| **Grading short answers** | a rule first (empty → wrong; every word of the expected answer present → right: 0 tokens), otherwise one AI call that compares the answer with the expected answer **and the passage**, returns correct / partly / wrong + one sentence of feedback (Zod-checked, personal data hidden, traced as `study_grade`) | the old substring test accepted "6" for "60 days" and "milk" for "cold milk, around 5 °C", and refused "one day" for "24 hours" |
+| **Spaced repetition** | Leitner boxes: "I knew it" → next box, due after 1, 2, 4, 8, 16 days; "I didn't know" → box 1 | the cards you miss come back often; 10 lines of code we can explain (SM-2, Anki's algorithm, was more than we needed) |
+| **Export** | flashcards → Anki (tab-separated file, 3rd field = source passage); quiz → Print / PDF with the answer key on the last page | the material can leave the app |
+
+**How good is the grader?** `npm run cli -- grade-check` runs `eval/grading-cases.jsonl`: 16 answers we wrote and
+graded by hand for 7 questions of the Kestrel and Vellora corpora (paraphrases, a number in words, a missing unit, a
+partial range, a wrong role, an empty answer, a prompt injection in the answer) and compares three graders.
+
+Results (gemini-3.1-flash-lite, 15 Nov, saved in `eval/grading-results.json`):
+
+| Grader | Agrees with our hand grade |
+|---|---|
+| old substring test (right / wrong only) | **6 / 16** |
+| new: rule, then AI with the passage | **14 / 16** |
+
+- The old test was wrong in both directions: it accepted "6" for "60 days", "24" for "24 hours", "14 grams" for
+  "between 7 and 14 grams" and "milk" for "cold milk, around 5 °C", and refused "one day", "sixty days", "a workspace
+  admin", "7 to 14 g" and "when the yearly plan renews".
+- The new grader got all of these right, gave "partly" for the missing unit (g02) and the half range (g12), resisted
+  the prompt injection written in the answer (g16: wrong) and its feedback is useful ("30 days is the maximum
+  possible duration for specific plans, the default is 24 hours").
+- **Its 2 disagreements are both too lenient:** g05 "the service that sends the e-mails" → correct (we said partly:
+  the question asks for the name, postroom); g13 "milk" → partly (we said wrong). A student can get a little more
+  credit than deserved; we did not see the opposite (a right answer refused).
+- **Cost and latency:** 3 of the 16 answers were decided by the rule (0 tokens, 0 ms). 13 AI calls, 6,123 tokens in
+  total, about 470 tokens per grade (≈ $0.0002 at the paid price, 0 on the free tier). Median 0.96 s per AI grade;
+  4 calls took 6 to 32 s (free-tier slowness / retries), which is why the quiz says "Grading…" while it waits.
+- **Known limit of the rule:** "not postroom" contains every word of "postroom", so the rule would say right without
+  asking the AI. Rare in practice; the fix would be to send negations to the AI.
+
 ## V4 – C. Personal data redaction
 
 **Detection (rules, no extra service, no extra LLM call):** e-mail addresses; phone numbers (international and French,
@@ -166,6 +205,36 @@ mapping, with the same placeholder for the same person in the whole request.
 | Quiz quality depends on the passages | a passage cut in the middle of a sentence | the question can be vague | section-aware chunking |
 | Grounding check is lexical | an answer paraphrased with other words | marked "check this one" although correct | ask the model to quote the passage |
 | Traces are per laptop | – | no team view | fine for one user |
+
+## V4 – update (15 Nov): concept graph of any document, any LLM
+
+**Concept graph for the user's own documents.** Until now the graph was built per question set (Kestrel), from the
+developer tools. Now the **Concept graph** tab (main screen) works on the documents selected on the left: it shows
+which of them already have a graph, **Build the concept graph** sends only the documents without one to the LLM (they
+get their own graph file), the user **explores** it (concepts, their relations, the passages behind each relation) and
+ticks **Use the graph when answering questions**. At question time, every graph that covers a selected document is
+used, merged in memory with the same entity resolution as inside one graph. The extraction schema got generic types
+(organization, place, product, event; part_of, member_of, located_in) so a manual or a novel can be extracted too; the
+Kestrel graph was not rebuilt (its extractions are cached), so the V3 numbers do not change (re-run: dense + bm25 +
+graph MRR **0.753**, as in the V3 table). Tested with a small uploaded handbook (1 passage, 1 LLM call): 11
+concepts, 8 relations, the question "…KST-7001?" seeds the graph on KST-7001 and follows 4 edges.
+
+**Any LLM.** The app reads `LLM_URL`, `LLM_API_KEY`, `LLM_MODEL` from `.env.local` / `.env` (any OpenAI-compatible
+endpoint; `LLM_BASE_URL`, the old name, still works). Checked: a local endpoint without key works; a remote URL without
+key gives the "not configured" message; an endpoint that refuses JSON-schema output (400 or 422) is detected and the
+format is asked in the prompt instead; `<think>` blocks of reasoning models are removed before the Zod check.
+
+| # | Decision | Options considered | Picked | Why |
+|---|---|---|---|---|
+| 37 | Graph of uploaded documents | one graph for all documents · one per document · one per group built together | one per group built together, merged at question time | Adding a document never re-sends the documents that already have a graph (quota), and the Kestrel graph stays as evaluated in V3. |
+| 38 | Schema for any document | keep the Kestrel schema · free types · Kestrel + a few generic types | Kestrel + generic types | Still a fixed schema checked with Zod, but a manual or a novel is not forced into "service" / "team". |
+| 39 | LLM configuration | Gemini only · `LLM_URL` / `LLM_API_KEY` / `LLM_MODEL` | the three variables, any OpenAI-compatible endpoint | The teacher must be able to plug in his own model; nothing in the code is specific to Google. |
+| 40 | Keep the study material | regenerate each time · save | save every deck (JSON file per deck, local) | Scores, mistakes and spaced repetition need the items to stay the same; no database for one user. |
+| 41 | Grade short answers | substring test · AI only · rule then AI | rule for the obvious cases, AI with the passage otherwise | The substring test was wrong on paraphrases and accepted partial numbers; the rule avoids paying a call when the answer is literally right. |
+| 42 | Spaced repetition | none · SM-2 · Leitner | Leitner, 5 boxes, 1-2-4-8-16 days | Simple to explain and to check; the user only says "knew it / didn't". |
+| 43 | Practising mistakes | new AI quiz on the same topic · re-ask the missed items | re-ask the missed items, not scored | No AI call, and it is exactly what the user got wrong. |
+
+Known limit: a graph is not rebuilt automatically when its document changes; build it again ("rebuild from scratch", developer tools) after editing a document.
 
 ---
 

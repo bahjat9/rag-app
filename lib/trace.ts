@@ -22,7 +22,7 @@ const RETENTION_DAYS = Number(process.env.TRACE_RETENTION_DAYS) || 30;
 const PRICE_IN = Number(process.env.LLM_PRICE_INPUT_PER_M ?? 0.25);
 const PRICE_OUT = Number(process.env.LLM_PRICE_OUTPUT_PER_M ?? 1.5);
 
-export type TraceKind = "ask" | "index" | "graph_build" | "study";
+export type TraceKind = "ask" | "index" | "graph_build" | "study" | "study_grade";
 export type Outcome = "answered" | "abstained" | "invalid" | "error" | "ok";
 
 export type LlmCall = { model: string; input_tokens: number; output_tokens: number; cost_usd: number; attempts: number };

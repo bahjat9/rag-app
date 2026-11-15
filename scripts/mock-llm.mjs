@@ -17,9 +17,16 @@ http
       const q = (user.split("Question:").pop() || "").toLowerCase();
       const found = !/cost|price|watts|smartphone|tea/.test(q);
       const sys = (body.messages || []).find((m) => m.role === "system")?.content || "";
-      const schemaName = body.response_format?.json_schema?.name || (/knowledge graph/.test(sys) ? "graph_extraction" : undefined);
+      const schemaName = body.response_format?.json_schema?.name || (/knowledge graph/.test(sys) ? "graph_extraction" : /grade a student/.test(sys) ? "study_grade" : undefined);
       let content;
-      if (schemaName === "no_context_answer") {
+      if (schemaName === "study_grade") {
+        // crude: shares a word with the expected answer -> partly, otherwise wrong (not a real grader)
+        const tag = (t) => ((user.match(new RegExp(`<${t}>([\\s\\S]*?)</${t}>`)) || [])[1] || "").toLowerCase();
+        const exp = tag("expected_answer").split(/\W+/).filter((w) => w.length > 2);
+        const got = tag("student_answer");
+        const verdict = exp.some((w) => got.includes(w)) && !/ignore/.test(got) ? "partly" : "wrong";
+        content = JSON.stringify({ verdict, feedback: `(mock) ${verdict}` });
+      } else if (schemaName === "no_context_answer") {
         // pretend the model "knows" generic questions only
         content = JSON.stringify({ knows: /dishwasher|warranty|marmeladov/.test(q), answer: "(mock) a guess from general knowledge" });
       } else if (schemaName === "judge") {

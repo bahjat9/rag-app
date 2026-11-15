@@ -1,4 +1,6 @@
-// The only module that talks to the LLM (OpenAI-compatible SDK; Gemini by default).
+// The only module that talks to the LLM. Any OpenAI-compatible chat endpoint, configured in .env.local
+// (or .env): LLM_URL (base URL of the API), LLM_API_KEY, LLM_MODEL. Gemini is only the default of
+// .env.example; a local or self-hosted model works the same way.
 import "server-only";
 import OpenAI from "openai";
 import { z } from "zod";
@@ -12,12 +14,20 @@ export function llmModel(): string {
   return process.env.LLM_MODEL || "";
 }
 
+/** LLM_URL (LLM_BASE_URL is still read, so an older .env.local keeps working). */
+export function llmUrl(): string {
+  return process.env.LLM_URL || process.env.LLM_BASE_URL || "";
+}
+
 function getClient(): OpenAI {
-  if (!process.env.LLM_API_KEY || !process.env.LLM_BASE_URL || !process.env.LLM_MODEL) throw new AppError("not_configured");
+  // the key may only be left empty for a server on this machine (Ollama, LM Studio...)
+  const local = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])[:/]/.test(llmUrl());
+  if (!llmUrl() || !process.env.LLM_MODEL || (!process.env.LLM_API_KEY && !local)) throw new AppError("not_configured");
   if (!client) {
     client = new OpenAI({
-      baseURL: process.env.LLM_BASE_URL,
-      apiKey: process.env.LLM_API_KEY,
+      baseURL: llmUrl(),
+      // a local server (Ollama, LM Studio, vLLM...) often needs no key: the SDK still wants a value
+      apiKey: process.env.LLM_API_KEY || "no-key",
       timeout: Number(process.env.LLM_TIMEOUT_MS) || 30000,
       maxRetries: 1,
     });
@@ -26,6 +36,8 @@ function getClient(): OpenAI {
 }
 
 function stripFence(t: string): string {
+  // reasoning models (DeepSeek-R1, Qwen3...) may put their thinking before the JSON
+  t = t.replace(/<think>[\s\S]*?<\/think>/gi, "");
   const m = t.trim().match(/^```(?:json)?\s*([\s\S]*?)\s*```$/i);
   return m ? m[1] : t.trim();
 }
@@ -79,10 +91,12 @@ export async function llmJson<T extends z.ZodTypeAny>(
         ...(mode === "json_schema" ? { response_format: { type: "json_schema" as const, json_schema: { name, strict: true, schema: jsonSchema } } } : {}),
       });
     } catch (error) {
-      // The provider refused the schema itself (400): ask for the format in the prompt instead
-      // (same Zod check after). Happens once per call, does not use a retry.
-      if (mode === "json_schema" && (error as { status?: number })?.status === 400) {
-        console.warn(`[llm] provider rejected the JSON schema of "${name}" (400): falling back to the format in the prompt`);
+      // The provider refused the schema itself (400, or 422 on some self-hosted servers that do not
+      // support response_format): ask for the format in the prompt instead (same Zod check after).
+      // Happens once per call, does not use a retry.
+      const status = (error as { status?: number })?.status;
+      if (mode === "json_schema" && (status === 400 || status === 422)) {
+        console.warn(`[llm] provider rejected the JSON schema of "${name}" (${status}): falling back to the format in the prompt`);
         mode = "prompt";
         promptOnly.add(name); // remember it for the next calls with this schema
         attempt--;
@@ -95,9 +109,9 @@ export async function llmJson<T extends z.ZodTypeAny>(
     const u = completion.usage;
     if (u) {
       total = total ?? { input_tokens: 0, output_tokens: 0, total_tokens: 0 };
-      total.input_tokens += u.prompt_tokens;
-      total.output_tokens += u.completion_tokens;
-      total.total_tokens += u.total_tokens;
+      total.input_tokens += u.prompt_tokens ?? 0;
+      total.output_tokens += u.completion_tokens ?? 0;
+      total.total_tokens += u.total_tokens ?? (u.prompt_tokens ?? 0) + (u.completion_tokens ?? 0);
     }
     try {
       if (choice?.finish_reason === "length") throw new Error("cut off");

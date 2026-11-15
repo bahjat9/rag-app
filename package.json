@@ -8,7 +8,7 @@
     "start": "next start --port 3044",
     "typecheck": "tsc --noEmit",
     "eval": "npm run cli -- eval",
-    "cli": "node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts"
+    "cli": "node --env-file-if-exists=.env --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts"
   },
   "dependencies": {
     "@huggingface/transformers": "^3.8.1",
