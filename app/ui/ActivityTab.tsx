@@ -28,7 +28,7 @@ type Metrics = {
   prices: { input_per_m: number; output_per_m: number };
   retention_days: number;
 };
-const KIND: Record<string, string> = { ask: "Question", index: "Prepare documents", graph_build: "Build graph", study: "Quiz / cards" };
+const KIND: Record<string, string> = { ask: "Question", index: "Prepare documents", graph_build: "Build graph", study: "Quiz / cards", study_grade: "Grade an answer" };
 const ms = (x: number | null) => (x == null ? "–" : x >= 1000 ? `${(x / 1000).toFixed(2)} s` : `${x} ms`);
 
 export function ActivityTab() {
@@ -118,6 +118,7 @@ export function ActivityTab() {
             <option value="">Everything</option>
             <option value="ask">Questions</option>
             <option value="study">Quizzes / cards</option>
+            <option value="study_grade">Graded answers</option>
             <option value="index">Preparing documents</option>
             <option value="graph_build">Graph builds</option>
           </select>

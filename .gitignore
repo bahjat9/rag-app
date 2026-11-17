@@ -10,3 +10,5 @@ data/index/
 .cache/
 # V4: traces stay on this machine (personal use, 30-day retention)
 data/traces/
+# V4: saved quizzes / flashcards (the user's own study data, like the traces)
+data/decks/

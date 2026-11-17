@@ -15,7 +15,7 @@ const kb = (b: number) => (b > 1e6 ? `${(b / 1e6).toFixed(1)} MB` : `${Math.roun
 
 export default function Home() {
   const [tab, setTab] = useState<"ask" | "study" | "activity" | "eval" | "words" | "graph">("ask");
-  const [dev, setDev] = useState(false); // developer tools: evaluation, words, graph, retrieval settings
+  const [dev, setDev] = useState(false); // developer tools: evaluation, words, retrieval settings
   const [sets, setSets] = useState<QuestionSet[]>([]);
   const [docs, setDocs] = useState<Doc[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
@@ -34,7 +34,7 @@ export default function Home() {
   }, []);
   function toggleDev(on: boolean) {
     setDev(on);
-    if (!on && ["eval", "words", "graph"].includes(tab)) setTab("ask");
+    if (!on && ["eval", "words"].includes(tab)) setTab("ask");
     try {
       localStorage.setItem("devtools", on ? "1" : "0");
     } catch {
@@ -122,8 +122,9 @@ export default function Home() {
   const tabs: [typeof tab, string][] = [
     ["ask", "Ask"],
     ["study", "Study"],
+    ["graph", "Concept graph"],
     ["activity", "Activity"],
-    ...(dev ? ([["eval", "Evaluation"], ["words", "Words"], ["graph", "Graph"]] as [typeof tab, string][]) : []),
+    ...(dev ? ([["eval", "Evaluation"], ["words", "Words"]] as [typeof tab, string][]) : []),
   ];
 
   return (
@@ -139,7 +140,7 @@ export default function Home() {
               {label}
             </button>
           ))}
-          <label className="inline small devtoggle" title="Evaluation, words analytics, concept graph and retrieval settings">
+          <label className="inline small devtoggle" title="Evaluation, words analytics and retrieval settings">
             <input type="checkbox" checked={dev} onChange={(e) => toggleDev(e.target.checked)} /> Developer tools
           </label>
         </nav>
@@ -269,7 +270,21 @@ export default function Home() {
           {tab === "activity" && <ActivityTab />}
           {tab === "eval" && dev && <EvalTab settings={settings} sets={sets} />}
           {tab === "words" && dev && <WordsTab sets={sets} selected={selected} />}
-          {tab === "graph" && dev && <GraphTab sets={sets} settings={settings} />}
+          {tab === "graph" && settings && (
+            <GraphTab
+              sets={sets}
+              settings={settings}
+              selected={selected}
+              docInfo={docs}
+              dev={dev}
+              onUseGraph={(on) =>
+                saveSettings(
+                  { ...settings, retrievers: { dense: true, bm25: true, ...settings.retrievers, graph: on } },
+                  on ? "The concept graph is now used to answer questions." : "The concept graph is no longer used to answer questions.",
+                )
+              }
+            />
+          )}
         </div>
       </div>
       {trace && <TraceModal id={trace} onClose={() => setTrace(null)} />}

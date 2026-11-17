@@ -115,3 +115,22 @@ button.secondary { background: white; color: #245dcc; border-color: #245dcc; }
 .doclist li .link.danger { font-size: 1.1em; }
 .formgrid { align-items: start; }
 .formgrid label > input, .formgrid label > select { height: auto; }
+
+/* concept graph: the concept whose relations are shown */
+tr.focus td { background: rgba(80, 120, 255, 0.08); }
+.relations { margin-top: 0.75rem; }
+.relations li { margin: 0.25rem 0; }
+
+/* study: partly right short answer; print / PDF of a quiz (only the quiz and its answer key) */
+.gradecard.partlyans { border-color: #f0d58a; background: #fffbea; }
+.printonly { display: none; }
+@media print {
+  .noprint, .topbar, aside, .notice, .modal, nextjs-portal { display: none !important; }
+  .layout { display: block; }
+  .panel { border: none; box-shadow: none; padding: 0; }
+  .gradecard { break-inside: avoid; background: none !important; border-color: #ccc !important; }
+  .printonly { display: block; }
+  span.printonly { display: inline; }
+  .answerkey { break-before: page; }
+  .gradeopt input { display: none; }
+}

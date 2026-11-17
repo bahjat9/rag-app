@@ -48,6 +48,7 @@ const LABEL: Record<string, string> = {
   "graph.assemble": "Merge the concepts into the graph",
   "study.pick_chunks": "Pick the passages to study",
   "study.check": "Check every question against its passage",
+  "llm.grade": "AI grades the answer against its passage",
 };
 const PII: Record<string, string> = { EMAIL: "e-mail address(es)", PHONE: "phone number(s)", CARD: "card number(s)", IBAN: "bank account(s)", PERSON: "name(s)" };
 const OUTCOME: Record<string, string> = {

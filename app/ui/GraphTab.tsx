@@ -25,9 +25,31 @@ type SearchResult = { hits: { id: string; text: string; score: number; rank: num
 
 const TRIPLE_GRADES = ["correct", "wrong", "unsupported"] as const;
 
-export function GraphTab({ sets, settings }: { sets: QuestionSet[]; settings: Settings | null }) {
-  const [set, setSet] = useState("kestrel");
+// V4 update: the graph of ANY documents. By default the tab works on the documents selected on the
+// left: it shows which of them already have a graph, builds the missing ones, lets the user explore
+// the result (entities, their relations, the passages behind them) and switch the graph retriever
+// on for the answers. The question sets (Kestrel, Vellora) stay available for the V3 evaluation.
+const SELECTED = "__selected__";
+
+export function GraphTab({
+  sets,
+  settings,
+  selected,
+  docInfo,
+  dev,
+  onUseGraph,
+}: {
+  sets: QuestionSet[];
+  settings: Settings | null;
+  selected: string[];
+  docInfo: { id: string; bytes: number; chunks: number | null }[];
+  dev: boolean;
+  onUseGraph: (on: boolean) => void;
+}) {
+  const [set, setSet] = useState(SELECTED);
   const [graph, setGraph] = useState<Graph | null>(null);
+  const [coverage, setCoverage] = useState<{ covered: string[]; missing: string[] } | null>(null);
+  const [focus, setFocus] = useState<string | null>(null);
   const [triples, setTriples] = useState<Triples>(null);
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -36,24 +58,39 @@ export function GraphTab({ sets, settings }: { sets: QuestionSet[]; settings: Se
   const [search, setSearch] = useState<SearchResult | null>(null);
   const { openChunk, modal } = useChunkModal();
 
+  const mine = set === SELECTED;
+  // passages of the documents without a graph (estimated from the size when not prepared yet)
+  const passages = coverage
+    ? coverage.missing.reduce((a, id) => {
+        const d = docInfo.find((x) => x.id === id);
+        return a + (d ? d.chunks ?? Math.ceil(d.bytes / 720) : 0);
+      }, 0)
+    : null;
+  const docsKey = selected.join(",");
   const load = useCallback(async () => {
     try {
-      setGraph((await call<{ graph: Graph | null }>(`/api/graph?set=${encodeURIComponent(set)}`)).graph);
-      setTriples((await call<{ triples: Triples }>("/api/graph/triples")).triples);
+      const r = await call<{ graph: Graph | null; coverage: { covered: string[]; missing: string[] } | null }>(
+        mine ? `/api/graph?docs=${encodeURIComponent(docsKey)}` : `/api/graph?set=${encodeURIComponent(set)}`,
+      );
+      setGraph(r.graph);
+      setCoverage(r.coverage);
+      setFocus(null);
+      if (!mine) setTriples((await call<{ triples: Triples }>("/api/graph/triples")).triples);
     } catch (e) {
       setError((e as Error).message);
     }
-  }, [set]);
+  }, [set, mine, docsKey]);
   useEffect(() => {
     load();
   }, [load]);
 
   async function build(opts: { rebuild?: boolean; retryFailed?: boolean }) {
-    if (opts.rebuild && !confirm("Rebuild from scratch? Every chunk is sent to the LLM again.")) return;
-    setBusy("Extracting triples: one LLM call per chunk (paced). Several minutes on a free tier; if it stops on a quota error, click Build again: it resumes.");
+    if (opts.rebuild && !confirm("Rebuild from scratch? Every passage is sent to the AI model again.")) return;
+    if (mine && !opts.rebuild && !opts.retryFailed && passages != null && passages > 60 && !confirm(`About ${passages} passages: one AI call each, several minutes and part of your daily quota. Continue?`)) return;
+    setBusy("The AI model reads every passage and extracts the concepts and their relations: one call per passage (paced). If it stops on a quota error, click Build again: it resumes where it stopped.");
     setError(null);
     try {
-      await call("/api/graph", json("POST", { set, ...opts }));
+      await call("/api/graph", json("POST", mine ? { docs: selected, ...opts } : { set, ...opts }));
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -82,7 +119,7 @@ export function GraphTab({ sets, settings }: { sets: QuestionSet[]; settings: Se
   }
 
   async function tryQuestion() {
-    const docs = sets.find((s) => s.id === set)?.docs ?? [];
+    const docs = mine ? selected : sets.find((s) => s.id === set)?.docs ?? [];
     try {
       setSearch(await call<SearchResult>("/api/search", json("POST", { question: q, docs })));
     } catch (e) {
@@ -112,26 +149,49 @@ export function GraphTab({ sets, settings }: { sets: QuestionSet[]; settings: Se
       <section className="panel">
         <h2>Concept graph</h2>
         <p className="small muted">
-          At indexing time an LLM reads every chunk and extracts (entity, relation, entity) triples with a fixed schema; the output is validated with Zod (an invalid output is retried once, then the
-          chunk is skipped and listed below). Every entity and edge keeps the chunks it came from. Entities with the same normalised name are merged (entity resolution). Same as{" "}
-          <code>npm run cli -- graph build --set {set}</code>.
+          The AI model reads every passage of your documents once and extracts the concepts (people, teams, products, places, error codes…) and how they are related. The graph is then used to find
+          passages that a word search would miss, by following the relations (e.g. error code → service → team that owns it). Every concept keeps the passages it comes from.
         </p>
         <div className="row">
           <select value={set} onChange={(e) => setSet(e.target.value)}>
-            {sets.map((x) => (
-              <option key={x.id} value={x.id}>{x.name}</option>
+            <option value={SELECTED}>The documents selected on the left ({selected.length})</option>
+            {dev && sets.map((x) => (
+              <option key={x.id} value={x.id}>Question set: {x.name}</option>
             ))}
           </select>
           <span>
-            <button onClick={() => build({})} disabled={!!busy}>{graph ? "Build (resume)" : "Build the graph"}</button>{" "}
-            {graph && graph.failed.length > 0 && <button onClick={() => build({ retryFailed: true })} disabled={!!busy}>Retry failed chunks</button>}{" "}
-            {graph && <button className="link danger" onClick={() => build({ rebuild: true })} disabled={!!busy}>rebuild from scratch</button>}
+            {mine ? (
+              <button onClick={() => build({})} disabled={!!busy || !selected.length || (coverage != null && coverage.missing.length === 0)}>
+                {coverage && coverage.missing.length && coverage.covered.length ? `Build the graph of the ${coverage.missing.length} new document(s)` : "Build the concept graph"}
+              </button>
+            ) : (
+              <button onClick={() => build({})} disabled={!!busy}>{graph ? "Build (resume)" : "Build the graph"}</button>
+            )}{" "}
+            {graph && graph.failed.length > 0 && <button onClick={() => build({ retryFailed: true })} disabled={!!busy}>Retry failed passages</button>}{" "}
+            {graph && dev && <button className="link danger" onClick={() => build({ rebuild: true })} disabled={!!busy}>rebuild from scratch</button>}
           </span>
         </div>
-        {settings && <p className="small muted">Chunk settings {settings.chunkSize} / {settings.overlapPercent} % / {settings.minParagraphLength}: the graph uses the same chunks as the other retrievers.</p>}
+        {mine && !selected.length && <p className="small warn">Select one or more documents on the left (you can add your own with “+ Add”).</p>}
+        {mine && coverage && selected.length > 0 && (
+          <p className="small">
+            {coverage.covered.length > 0 && <>Graph ready for: <strong>{coverage.covered.join(", ")}</strong>. </>}
+            {coverage.missing.length > 0 && (
+              <>
+                No graph yet for: <strong>{coverage.missing.join(", ")}</strong>
+                {passages != null && <span className="muted"> (about {passages} passage(s), one AI call each)</span>}.
+              </>
+            )}
+          </p>
+        )}
+        {settings && (
+          <label className="inline small">
+            <input type="checkbox" checked={!!settings.retrievers?.graph} onChange={(e) => onUseGraph(e.target.checked)} /> Use the graph when answering questions (combined with the word and meaning searches)
+          </label>
+        )}
+        {dev && settings && <p className="small muted">Chunk settings {settings.chunkSize} / {settings.overlapPercent} % / {settings.minParagraphLength}: the graph uses the same passages as the other retrievers. CLI: <code>npm run cli -- graph build {mine ? `--docs ${selected.join(",")}` : `--set ${set}`}</code></p>}
         {busy && <p className="notice busy small">{busy}</p>}
         {error && <p role="alert">{error}</p>}
-        {!graph && !busy && <p className="muted">No graph built for this set with the current chunk settings.</p>}
+        {!graph && !busy && <p className="muted">{mine ? "No graph yet for the selected documents." : "No graph built for this set with the current chunk settings."}</p>}
         {s && (
           <>
             <h3>The graph in numbers</h3>
@@ -155,10 +215,10 @@ export function GraphTab({ sets, settings }: { sets: QuestionSet[]; settings: Se
         <section className="panel">
           <h2>Try the graph retriever</h2>
           <div className="row">
-            <input type="text" className="note" value={q} onChange={(e) => setQ(e.target.value)} placeholder="e.g. Error KST-5031 on scheduled reports: which team?" />
+            <input type="text" className="note" value={q} onChange={(e) => setQ(e.target.value)} placeholder="e.g. a question that names a concept of the graph" />
             <button onClick={tryQuestion} disabled={!q.trim()}>Search</button>
           </div>
-          <p className="small muted">Uses the retrievers switched on in the settings, fused with RRF (switch the graph on there).</p>
+          <p className="small muted">Same search as the Ask tab, without the AI answer. {settings?.retrievers?.graph ? "The graph is on: the path it followed is shown." : "Tick “Use the graph when answering questions” above to include the graph."}</p>
           {search && (
             <>
               <GraphPathView graph={search.graph} openChunk={(id) => openChunk(id)} />
@@ -176,8 +236,9 @@ export function GraphTab({ sets, settings }: { sets: QuestionSet[]; settings: Se
 
       {graph && (
         <section className="panel">
-          <h2>Entity resolution</h2>
-          <p className="small muted">Each line = one entity that several surface names were merged into. Check them: find one correct merge and one wrong (or missed) merge for the report.</p>
+          <h2>Explore the graph</h2>
+          <h3>Merged names (entity resolution)</h3>
+          <p className="small muted">Each line = one concept that several spellings were merged into.</p>
           <ul className="small">
             {graph.merges.map((m) => (
               <li key={m.key}><strong>{m.key}</strong> ← {m.names.join(" | ")}</li>
@@ -197,14 +258,15 @@ export function GraphTab({ sets, settings }: { sets: QuestionSet[]; settings: Se
               </ul>
             </>
           )}
-          <h3>Entities</h3>
+          <h3>Concepts</h3>
+          <p className="small muted">Click a concept to see its relations and the passages they come from.</p>
           <input type="text" className="note" placeholder="filter (name, type)…" value={filter} onChange={(e) => setFilter(e.target.value)} />
           <table className="small">
             <thead><tr><th>Entity</th><th>Type</th><th>Names</th><th>Edges</th><th>Chunks (provenance)</th></tr></thead>
             <tbody>
               {nodes.map((n) => (
-                <tr key={n.key}>
-                  <td>{n.name}</td>
+                <tr key={n.key} className={focus === n.key ? "focus" : undefined}>
+                  <td><button className="link" onClick={() => setFocus(focus === n.key ? null : n.key)} title="show its relations">{n.name}</button></td>
                   <td>{n.type}</td>
                   <td>{n.names.join(" | ")}</td>
                   <td>{degree.get(n.key) ?? 0}</td>
@@ -214,10 +276,11 @@ export function GraphTab({ sets, settings }: { sets: QuestionSet[]; settings: Se
             </tbody>
           </table>
           {graph.nodes.length > nodes.length && <p className="small muted">{nodes.length} of {graph.nodes.length} shown: use the filter.</p>}
+          {focus && <Relations graph={graph} focus={focus} onFocus={setFocus} openChunk={openChunk} />}
         </section>
       )}
 
-      {graph && (
+      {graph && !mine && (
         <section className="panel">
           <h2>Extraction quality: 10 random triples</h2>
           <p className="small muted">
@@ -239,6 +302,29 @@ export function GraphTab({ sets, settings }: { sets: QuestionSet[]; settings: Se
       )}
       {modal}
     </>
+  );
+}
+
+function Relations({ graph, focus, onFocus, openChunk }: { graph: Graph; focus: string; onFocus: (k: string) => void; openChunk: (id: string) => void }) {
+  const name = (k: string) => graph.nodes.find((n) => n.key === k)?.name ?? k;
+  const rel = graph.edges.filter((e) => e.source === focus || e.target === focus);
+  return (
+    <div className="relations">
+      <h3>Relations of “{name(focus)}”</h3>
+      {!rel.length && <p className="small muted">No relation: this concept was only mentioned.</p>}
+      <ul className="small">
+        {rel.map((e) => (
+          <li key={`${e.source}|${e.relation}|${e.target}`}>
+            <button className="link" onClick={() => onFocus(e.source)}>{name(e.source)}</button> <span className="muted">—{e.relation}→</span>{" "}
+            <button className="link" onClick={() => onFocus(e.target)}>{name(e.target)}</button>{" "}
+            <span className="muted">
+              from {e.chunks.slice(0, 3).map((c) => <button key={c} className="link" onClick={() => openChunk(c)}>{c}</button>)}
+              {e.chunks.length > 3 && ` +${e.chunks.length - 3}`}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 

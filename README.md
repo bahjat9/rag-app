@@ -9,7 +9,8 @@ Design choices, results and known failures: [`REPORT.md`](./REPORT.md).
 
 ## Install and run (first time)
 
-You need **Node.js 20.9 or newer** (`node -v`) and a free **Gemini API key** (https://aistudio.google.com/apikey).
+You need **Node.js 20.9 or newer** (`node -v`) and an LLM: by default a free **Gemini API key**
+(https://aistudio.google.com/apikey), or **any OpenAI-compatible endpoint** (see *Use your own LLM* below).
 
 ```sh
 git clone https://github.com/bahjat9/rag-app
@@ -18,7 +19,7 @@ npm install
 cp .env.example .env.local        # Windows (PowerShell): Copy-Item .env.example .env.local
 ```
 
-Open `.env.local` and paste your key after `LLM_API_KEY=` (nothing else is required). Then:
+Open `.env.local` and paste your key after `LLM_API_KEY=` (nothing else is required for Gemini). Then:
 
 ```sh
 npm run dev
@@ -28,6 +29,22 @@ and open **http://localhost:3044**.
 
 The first time you prepare a document, the app downloads its small language model for embeddings (~25 MB, needs
 internet, once) into `.cache/`. Your API key stays in `.env.local`, which is never committed.
+
+### Use your own LLM (not Google)
+
+The app only talks to an **OpenAI-compatible chat endpoint**, configured by three variables in `.env.local`
+(or `.env`; `.env.local` wins):
+
+```sh
+LLM_URL=https://api.openai.com/v1        # base URL: the app calls <LLM_URL>/chat/completions
+LLM_API_KEY=sk-...                       # may stay empty for a server on localhost (Ollama, LM Studio…)
+LLM_MODEL=gpt-4o-mini                    # the model name that endpoint expects
+```
+
+Examples: Ollama `LLM_URL=http://localhost:11434/v1`, LM Studio `LLM_URL=http://localhost:1234/v1`. Restart the app
+after changing them. If the endpoint does not support JSON-schema output (`response_format`), the app notices the
+400/422 error and describes the format in the prompt instead (every answer is still checked with Zod). A local model
+is usually slower: raise `LLM_TIMEOUT_MS` if needed. (`LLM_BASE_URL`, the old name of `LLM_URL`, still works.)
 
 > Windows: if the folder path contains `&` (e.g. `AI Systems Integration & Operations`), `npm run …` fails.
 > Run `node node_modules/next/dist/bin/next dev --port 3044` instead (same for the other scripts: see `package.json`).
@@ -40,12 +57,25 @@ internet, once) into `.cache/`. Your API key stays in `.env.local`, which is nev
    If the documents do not contain the answer, the app says so instead of guessing.
 3. **What happened? (details)** under each answer: the steps of that request (search by meaning, by exact words, the
    AI call), with time, tokens and cost, and how much personal data was hidden.
-4. **Study**: a quiz (multiple choice, true/false, short answer) or flashcards from the selected documents, with a
-   number of items, a difficulty and an optional topic. Every item links to its source passage. Check your answers to get a score.
-5. **Activity**: every question, quiz and preparation run, with its trace, plus metrics (answered / not found / errors,
+4. **Concept graph**: for the selected documents (your own included), click **Build the concept graph**: the AI
+   reads each passage once and extracts the concepts and their relations (one AI call per passage: try a small
+   document first). Only the documents without a graph are sent. Then **explore** it (click a concept to see its
+   relations and the passages they come from), try the graph retriever, and tick **Use the graph when answering
+   questions** to combine it with the other searches in the Ask tab.
+5. **Study**: a quiz (multiple choice, true/false, short answer) or flashcards from the selected documents, with a
+   number of items, a difficulty and an optional topic. Every item links to its source passage.
+   - Every quiz and set of cards is saved in **My decks** (on your computer, `data/decks/`): open it again any time.
+   - **Check my answers**: short answers are graded by the AI against the passage (right / partly right / wrong, with
+     one sentence of feedback); the score of every attempt is kept; **Practise my mistakes** asks only the questions
+     you missed.
+   - **Flashcards** are reviewed with **spaced repetition** (Leitner boxes): flip the card, then *I knew it* (it comes
+     back later and later: 1, 2, 4, 8, 16 days) or *I didn't know* (back to tomorrow). "N cards to review today".
+   - **Export to Anki** (flashcards, tab-separated file) and **Print / PDF** (a quiz on paper, answer key on the last page).
+6. **Activity**: every question, quiz and preparation run, with its trace, plus metrics (answered / not found / errors,
    p50 / p95 latency, tokens and cost per question, per document, per day).
-6. **Privacy** (left): hiding personal data is on by default.
-7. **Developer tools** (top right): the evaluation, words analytics, concept graph and retrieval settings of V2 / V3.
+7. **Privacy** (left): hiding personal data is on by default.
+8. **Developer tools** (top right): the evaluation, words analytics and retrieval settings of V2 / V3 (and the graphs
+   of the question sets, in the Concept graph tab).
 
 ## V4 at a glance
 
@@ -56,6 +86,9 @@ internet, once) into `.cache/`. Your API key stays in `.env.local`, which is nev
 | **A.** From the answer to its trace | **What happened? (details)** button under every answer, quiz and error; `GET /api/traces?id=` |
 | **A.** Optional metrics page | **Activity** tab, `GET /api/metrics` (computed from the traces only) |
 | **B.** New feature: study artifacts | **Study** tab, `lib/study.ts`, `POST /api/study`, `cli study` |
+| **B.** pushed further (15 Nov): saved decks, scores, practise mistakes, AI grading of short answers, spaced repetition, export | `lib/decks.ts`, `GET/POST/DELETE /api/decks`, `POST /api/study/grade`, `cli grade-check` (grader vs our hand grades, `eval/grading-cases.jsonl`) |
+| Concept graph of **any** added document, explorable, used as a retriever (update of 15 Nov) | **Concept graph** tab; `POST /api/graph { docs }`, `GET /api/graph?docs=`; `lib/graph.ts` (`buildGraphForDocs`, `graphForDocs`); `cli graph build --docs a.md,b.txt` |
+| Any LLM through `LLM_URL`, `LLM_API_KEY`, `LLM_MODEL` (update of 15 Nov) | `lib/llm.ts`, `.env.example`, *Use your own LLM* above |
 | **C.** Responsible AI: personal data redaction | `lib/redact.ts`; applied to every LLM call (answers, quizzes, graph build, no-context test) and to the traces; **Privacy** switch; test cases `eval/redaction-cases.jsonl`, `cli redact-check` |
 
 ### Traces
@@ -71,6 +104,7 @@ invalid / error). The question and answer are stored **after** redaction; docume
 npm run cli -- study --set kestrel --kind quiz --count 5 --difficulty medium --types multiple_choice,true_false
 npm run cli -- study --set kestrel --kind flashcards --count 5 --topic "refunds"
 npm run cli -- redact-check
+npm run cli -- grade-check     # short-answer grader vs our hand grades -> eval/grading-results.json
 ```
 
 `study` prints the items and saves them to `eval/study/` for checking by hand. All V2 / V3 commands still work (below).
@@ -80,14 +114,14 @@ npm run cli -- redact-check
 | V3 requirement | Where |
 |---|---|
 | BM25 keyword retriever, both corpora | `lib/bm25.ts`; index `data/index/<doc>__bm25__<size>_<overlap>_<minpara>.json` (built with the same chunks as the dense index, rebuilt when the document changes) |
-| Concept graph on Kestrel: LLM extraction of (entity, relation, entity) triples at indexing time, fixed schema, Zod validation, provenance, entity resolution, cost | `lib/graph.ts`; graph file `data/graph/graph__<docs>__<size>_<overlap>_<minpara>.json`; *Graph* tab; `cli graph build / stats` |
+| Concept graph on Kestrel: LLM extraction of (entity, relation, entity) triples at indexing time, fixed schema, Zod validation, provenance, entity resolution, cost | `lib/graph.ts`; graph file `data/graph/graph__<docs>__<size>_<overlap>_<minpara>.json`; *Concept graph* tab; `cli graph build / stats` |
 | Graph retriever returns a ranked list of chunks | `graphSearch` in `lib/graph.ts` |
 | RRF fusion of the retrievers switched on, from the UI **and** the eval command | `lib/retrieve.ts`; *Retrieval settings → Retrievers* and the *Evaluation* form; `cli eval --retrievers dense,bm25,graph` |
 | Each reference shows which retriever(s) found it and at what rank | *Ask* tab: “found by dense #3 · bm25 #1”; eval rows: rank of each quote in each retriever's own list |
-| Graph path in the UI: entities found in the question, edges followed, chunks they came from | *Ask* tab (*Graph path*), *Graph* tab (*Try the graph retriever*) |
+| Graph path in the UI: entities found in the question, edges followed, chunks they came from | *Ask* tab (*Graph path*), *Concept graph* tab (*Try the graph retriever*) |
 | Configurations dense / dense+BM25 (both corpora) / dense+BM25+graph (Kestrel), hit@k and recall@k for k = 1, 3, 5, 10, overall and per type | `eval/runs/*-dense.json`, `*-dense-bm25.json`, `*-dense-bm25-graph.json`; `eval/RESULTS.md` |
 | Two new two_hop questions on Kestrel (q11, q12), added, nothing edited | `eval/kestrel.questions.jsonl` |
-| Extraction quality: 10 random triples graded correct / wrong / unsupported | *Graph* tab → *Extraction quality*, `cli graph sample`; `eval/graph-triples.json` |
+| Extraction quality: 10 random triples graded correct / wrong / unsupported | *Concept graph* tab → *Extraction quality*, `cli graph sample`; `eval/graph-triples.json` |
 | Cost per question per configuration (LLM calls, tokens, latency) | `cost` in every run summary; printed by `cli eval`; graph build cost in `cli graph stats` |
 
 ### Switch the retrievers
@@ -100,7 +134,7 @@ With one retriever on, the order is that retriever's order. With several, each r
 fused with Reciprocal Rank Fusion: `score = Σ 1 / (60 + rank)`. The graph needs a built graph for the selected documents
 (otherwise it returns nothing and the Ask tab says so).
 
-### Build the graph (Kestrel)
+### Build the graph (Kestrel, or any documents)
 
 ```sh
 node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts graph build --set kestrel
@@ -109,7 +143,10 @@ node --env-file-if-exists=.env.local --conditions=react-server --import tsx scri
 node --env-file-if-exists=.env.local --conditions=react-server --import tsx scripts/cli.ts graph sample --set kestrel    # 10 random triples to grade
 ```
 
-or the *Graph* tab → *Build the graph*. One LLM call per chunk (42 chunks with 800 / 10 % / 20), paced with
+or the *Concept graph* tab → *Build the concept graph*. For documents you added:
+`… scripts/cli.ts graph build --docs my-notes.md` (then `graph stats --docs my-notes.md`, `graph ask --docs my-notes.md "…"`).
+Each group of documents built together gets its own graph file in `data/graph/`; at question time every graph that
+covers a selected document is used (merged in memory). One LLM call per chunk (42 chunks with 800 / 10 % / 20), paced with
 `LLM_BATCH_DELAY_MS`. Each chunk's extraction is saved as soon as it returns: after a quota error, run the same
 command again and it resumes. `--retry-failed` re-runs the chunks whose output failed validation twice; `--rebuild`
 starts from scratch. The graph is tied to the chunk settings: after changing chunk size / overlap / min paragraph, re-index and rebuild.
@@ -172,7 +209,7 @@ Requires Node.js 20.9+.
 
 ```sh
 npm install
-cp .env.example .env.local     # put your Gemini key in LLM_API_KEY
+cp .env.example .env.local     # put your key in LLM_API_KEY (and LLM_URL / LLM_MODEL for another provider)
 npm run dev                     # http://localhost:3044
 ```
 
@@ -223,7 +260,7 @@ Retrieval is run once with k = 10 and read at k = 1, 3, 5, 10:
 Unanswerable questions (`answerable: false`) are left out of these numbers; their best similarity score is kept to compare
 with answerable questions. Defined on text, not on chunk ids, so runs with different chunk sizes stay comparable.
 
-Offline test without any key: `node scripts/mock-llm.mjs` and in `.env.local` set `LLM_BASE_URL=http://localhost:4011/v1`,
+Offline test without any key: `node scripts/mock-llm.mjs` and in `.env.local` set `LLM_URL=http://localhost:4011/v1`,
 `LLM_API_KEY=mock`, `LLM_MODEL=mock-llm`, `EMBEDDINGS=mock` (numbers are meaningless in mock mode).
 `EMBEDDINGS_MODEL_DIR=<folder>` loads the embedding model from a local folder (`<folder>/Xenova/all-MiniLM-L6-v2/…`)
 instead of downloading it.
